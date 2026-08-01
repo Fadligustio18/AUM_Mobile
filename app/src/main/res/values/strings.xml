@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">BkNova</string>
+    <string name="name_page">Welcome to\nBk Nova!</string>
+    <string name="email">Enter your Email</string>
+    <string name="password">Enter your Password</string>
+    <string name="login">Login</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="profil">Profile</string>
+    <string name="home">Home</string>
+    <string name="ex_name">Fadli Gustio</string>
+    <string name="ex_school">SMK 4 PAYAKUMBUH</string>
+    <string name="instrument_title">Instrumen Konseling</string>
+    <string name="instrument_count">3 Tersedia</string>
+    <string name="aum_title">Alat Ungkap Masalah (AUM)</string>
+    <string name="aum_desc">Evaluasi kondisi dan kendala yang sedang kamu hadapi saat ini untuk mendapatkan bimbingan yang tepat.</string>
+    <string name="sosiografik_title">Kuesioner Sosiografik</string>
+    <string name="sosiografik_desc">Data lingkungan sosial dan latar belakang untuk mendukung perkembangan belajarmu.</string>
+    <string name="gaya_belajar_title">Inventori Gaya Belajar</string>
+    <string name="gaya_belajar_desc">Ketahui cara belajar yang paling efektif dan sesuai dengan karaktermu.</string>
+    <string name="status_belum_isi">Belum Isi</string>
+    <string name="status_selesai">Selesai</string>
+    <string name="btn_mulai_isi">Mulai Isi</string>
+    <string name="btn_lihat_hasil">Lihat Hasil</string>
+    <string name="nisn_label">NISN: 0041234567</string>
+    <string name="ex_kelas">XII PPLG 2</string>
+    <string name="account_settings">PENGATURAN AKUN</string>
+    <string name="edit_profile">Ubah Profil</string>
+    <string name="change_password">Ganti Kata Sandi</string>
+    <string name="notifications">Notifikasi</string>
+    <string name="logout">Keluar</string>
 </resources>

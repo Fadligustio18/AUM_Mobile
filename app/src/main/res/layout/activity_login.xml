@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:gravity="center"
-        android:text="Welcome to\nBk Nova!"
+        android:text="@string/name_page"
         android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -53,31 +53,30 @@
     <!-- 3. Login Form Card Container -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/login_card"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="24dp"
-
-
+        app:layout_constraintWidth_max="488dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_welcome">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"            android:orientation="vertical"
             android:background="@color/white"
             android:padding="24dp">
 
-            <!-- Email Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_email"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter your Email"
+                android:hint="@string/email"
+                app:maxWidth="488dp"
+                android:layout_gravity="center_horizontal"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusBottomStart="15dp"
                 app:boxCornerRadiusTopEnd="15dp"
@@ -89,14 +88,15 @@
                     android:inputType="textEmailAddress" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Password Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_password"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:hint="Enter your Password"
+                android:hint="@string/password"
+                app:maxWidth="488dp"
+                android:layout_gravity="center_horizontal"
                 app:boxCornerRadiusBottomEnd="15dp"
                 app:boxCornerRadiusBottomStart="15dp"
                 app:boxCornerRadiusTopEnd="15dp"
@@ -112,11 +112,14 @@
             <!-- Login Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_login"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="55dp"
                 android:layout_marginTop="32dp"
+                android:layout_gravity="center_horizontal"
+                android:minWidth="280dp"
+                android:maxWidth="320dp"
                 android:backgroundTint="#1E63FD"
-                android:text="Login"
+                android:text="@string/login"
                 android:textAllCaps="false"
                 android:textSize="18sp"
                 app:cornerRadius="12dp" />
