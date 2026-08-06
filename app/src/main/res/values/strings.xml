@@ -4,8 +4,6 @@
     <string name="email">Enter your Email</string>
     <string name="password">Enter your Password</string>
     <string name="login">Login</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="profil">Profile</string>
     <string name="home">Home</string>
     <string name="ex_name">Fadli Gustio</string>
@@ -25,9 +23,36 @@
     <string name="nisn_label">NISN: 0041234567</string>
     <string name="ex_kelas">XII PPLG 2</string>
     <string name="account_settings">PENGATURAN AKUN</string>
-    <string name="edit_profile">Ubah Profil</string>
     <string name="change_password">Ganti Kata Sandi</string>
     <string name="notifications">Notifikasi</string>
     <string name="logout">Keluar</string>
     <string name="bk">Bimbingan Konseling</string>
+
+    <!-- Splash -->
+    <string name="splash_footer">©Tefa Company</string>
+
+    <!-- Navigasi form -->
+    <string name="btn_kembali">Kembali</string>
+    <string name="btn_selanjutnya">Selanjutnya</string>
+    <string name="progress_percent_25">25%</string>
+
+    <!-- Content description -->
+    <string name="cd_tutup">Tutup</string>
+    <string name="cd_buka">Buka</string>
+
+    <!-- Form AUM -->
+    <string name="aum_q1_label">Pertanyaan 1</string>
+    <string name="aum_q1_text">Apakah Anda merasa kesulitan dalam mengatur waktu belajar di rumah?</string>
+    <string name="aum_q1_opt1">Ya, seringkali merasa kesulitan</string>
+    <string name="aum_q1_opt2">Kadang-kadang saja</string>
+    <string name="aum_q1_opt3">Tidak, saya bisa mengatur dengan baik</string>
+
+    <!-- Form Gaya Belajar -->
+    <string name="gaya_belajar_intro">Mari temukan cara belajar yang paling pas untukmu. Pilih jawaban yang paling menggambarkan dirimu.</string>
+    <string name="gaya_belajar_bagian_1">Bagian 1 dari 4: Akademik</string>
+    <string name="gaya_belajar_q3_label">Pertanyaan 3</string>
+    <string name="gaya_belajar_q3_text">Ketika sedang mengingat suatu informasi baru, kamu biasanya...</string>
+    <string name="gaya_belajar_q3_opt1">Membayangkan bentuk, warna, atau letaknya di buku</string>
+    <string name="gaya_belajar_q3_opt2">Mengingat suara penjelasan guru atau suara sendiri</string>
+    <string name="gaya_belajar_q3_opt3">Mengingat apa yang kamu lakukan atau praktekkan</string>
 </resources>

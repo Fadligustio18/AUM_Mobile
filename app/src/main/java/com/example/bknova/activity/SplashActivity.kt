@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.example.bknova.R
+import com.example.bknova.service.SessionManager
 
 class SplashActivity : AppCompatActivity() {
 
@@ -41,7 +42,16 @@ class SplashActivity : AppCompatActivity() {
 
         // Pindah ke screen berikutnya setelah animasi selesai
         loadingCat.postDelayed({
-            startActivity(Intent(this, LoginActivity::class.java))
+            val sessionManager = SessionManager(this)
+            if (sessionManager.isLoggedIn()) {
+                val intent = when (sessionManager.getRole()?.lowercase()) {
+                    "admin" -> Intent(this, halaman_siswa_Activity::class.java) // Ganti ke AdminActivity jika ada
+                    else -> Intent(this, halaman_siswa_Activity::class.java)
+                }
+                startActivity(intent)
+            } else {
+                startActivity(Intent(this, LoginActivity::class.java))
+            }
             finish()
         }, 3200)
     }

@@ -35,7 +35,7 @@ class formGayaBelajarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_form_gaya_belajar, container, false)
+        return inflater.inflate(R.layout.fragment_gaya_belajar, container, false)
     }
 
     companion object {

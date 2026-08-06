@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background_gray"
-    tools:context=".fragment.profilFragment">
+    tools:context=".fragment.profilFragment"
+    tools:ignore="Overdraw">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -176,7 +177,7 @@
                             android:layout_centerVertical="true"
                             android:src="@drawable/ic_chevron_right"
                             app:tint="@color/divider_color"
-                            android:contentDescription="Next" />
+                            android:contentDescription="@string/cd_buka" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -224,7 +225,7 @@
                             android:layout_centerVertical="true"
                             android:src="@drawable/ic_chevron_right"
                             app:tint="@color/divider_color"
-                            android:contentDescription="Next" />
+                            android:contentDescription="@string/cd_buka" />
 
                         <TextView
                             android:layout_width="match_parent"

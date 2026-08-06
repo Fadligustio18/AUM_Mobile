@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     tools:context=".fragment.formAumFragment">
 
     <!-- Header -->
@@ -19,6 +18,7 @@
             android:id="@+id/btn_close"
             android:layout_width="24dp"
             android:layout_height="24dp"
+            android:contentDescription="@string/cd_tutup"
             android:src="@drawable/ic_close"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:text="Bimbingan Konseling"
+            android:text="@string/bk"
             android:textColor="@color/blue_primary"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -65,7 +65,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
-                android:text="25%"
+                android:text="@string/progress_percent_25"
                 android:textColor="@color/blue_primary"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -103,7 +103,7 @@
                 android:background="@drawable/bg_badge_green"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="4dp"
-                android:text="Pertanyaan 1"
+                android:text="@string/aum_q1_label"
                 android:textColor="@color/green_text"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:text="Apakah Anda merasa kesulitan dalam mengatur waktu belajar di rumah?"
+                android:text="@string/aum_q1_text"
                 android:textColor="@color/text_color_primary"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -143,7 +143,7 @@
                         android:drawableStart="@drawable/ic_radio_selector"
                         android:drawablePadding="16dp"
                         android:padding="16dp"
-                        android:text="Ya, seringkali merasa kesulitan"
+                        android:text="@string/aum_q1_opt1"
                         android:textColor="@color/text_color_primary"
                         android:textSize="16sp" />
                 </com.google.android.material.card.MaterialCardView>
@@ -169,7 +169,7 @@
                         android:drawableStart="@drawable/ic_radio_selector"
                         android:drawablePadding="16dp"
                         android:padding="16dp"
-                        android:text="Kadang-kadang saja"
+                        android:text="@string/aum_q1_opt2"
                         android:textColor="@color/text_color_primary"
                         android:textSize="16sp" />
                 </com.google.android.material.card.MaterialCardView>
@@ -194,7 +194,7 @@
                         android:drawableStart="@drawable/ic_radio_selector"
                         android:drawablePadding="16dp"
                         android:padding="16dp"
-                        android:text="Tidak, saya bisa mengatur dengan baik"
+                        android:text="@string/aum_q1_opt3"
                         android:textColor="@color/text_color_primary"
                         android:textSize="16sp" />
                 </com.google.android.material.card.MaterialCardView>
@@ -222,7 +222,7 @@
             android:layout_height="56dp"
             android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:text="Kembali"
+            android:text="@string/btn_kembali"
             android:textAllCaps="false"
             android:textColor="@color/blue_primary"
             app:cornerRadius="12dp"
@@ -238,7 +238,7 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:backgroundTint="@color/blue_primary"
-            android:text="Selanjutnya"
+            android:text="@string/btn_selanjutnya"
             android:textAllCaps="false"
             android:textColor="@color/white"
             app:cornerRadius="12dp"

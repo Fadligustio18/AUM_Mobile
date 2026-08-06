@@ -11,6 +11,7 @@ import com.example.bknova.R
 import com.example.bknova.model.Login
 import com.example.bknova.model.LoginFeedback
 import com.example.bknova.service.Aktor
+import com.example.bknova.service.SessionManager
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 import retrofit2.Call
@@ -42,19 +43,37 @@ class LoginActivity : AppCompatActivity() {
             }
 
             val loginRequest = Login(email, password)
+            val sessionManager = SessionManager(this@LoginActivity)
             
             Aktor.auth.Login_Services(loginRequest).enqueue(object : Callback<LoginFeedback> {
                 override fun onResponse(call: Call<LoginFeedback>, response: Response<LoginFeedback>) {
                     if (response.isSuccessful) {
                         val user = response.body()
-                        Toast.makeText(this@LoginActivity, "Selamat datang ${user?.nama}", Toast.LENGTH_SHORT).show()
-                        
-                        // Pindah ke halaman utama
-                        val intent = Intent(this@LoginActivity, halaman_siswa_Activity::class.java)
-                        startActivity(intent)
-                        finish()
+                        if (user != null) {
+                            // Simpan sesi login
+                            sessionManager.saveSession(user.token, user.role, user.nama)
+
+                            Toast.makeText(this@LoginActivity, "Selamat datang ${user.nama}", Toast.LENGTH_SHORT).show()
+
+                            // Arahkan berdasarkan role
+                            val intent = when (user.role.lowercase()) {
+                                "admin" -> {
+                                    // Ganti dengan AdminActivity jika sudah dibuat
+                                    // Intent(this@LoginActivity, AdminActivity::class.java)
+                                    Intent(this@LoginActivity, halaman_siswa_Activity::class.java) 
+                                }
+                                "siswa", "user" -> {
+                                    Intent(this@LoginActivity, halaman_siswa_Activity::class.java)
+                                }
+                                else -> {
+                                    Intent(this@LoginActivity, halaman_siswa_Activity::class.java)
+                                }
+                            }
+                            startActivity(intent)
+                            finish()
+                        }
                     } else {
-                        Toast.makeText(this@LoginActivity, "Login gagal: ${response.message()}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@LoginActivity, "Login gagal: Periksa kembali akun Anda", Toast.LENGTH_SHORT).show()
                     }
                 }
 
