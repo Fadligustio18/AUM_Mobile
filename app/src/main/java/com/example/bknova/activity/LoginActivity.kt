@@ -50,27 +50,26 @@ class LoginActivity : AppCompatActivity() {
                     if (response.isSuccessful) {
                         val user = response.body()
                         if (user != null) {
-                            // Simpan sesi login
-                            sessionManager.saveSession(user.token, user.role, user.nama)
+                            // Cek role terlebih dahulu sebelum simpan session
+                            val role = user.role.lowercase()
+                            
+                            if (role == "siswa" || role == "guru bk") {
+                                // Simpan sesi login jika role valid
+                                sessionManager.saveSession(user.token, user.role, user.nama)
+                                Toast.makeText(this@LoginActivity, "Selamat datang ${user.nama}", Toast.LENGTH_SHORT).show()
 
-                            Toast.makeText(this@LoginActivity, "Selamat datang ${user.nama}", Toast.LENGTH_SHORT).show()
-
-                            // Arahkan berdasarkan role
-                            val intent = when (user.role.lowercase()) {
-                                "admin" -> {
-                                    // Ganti dengan AdminActivity jika sudah dibuat
-                                    // Intent(this@LoginActivity, AdminActivity::class.java)
-                                    Intent(this@LoginActivity, halaman_siswa_Activity::class.java) 
+                                // Arahkan berdasarkan role
+                                val intent = when (role) {
+                                    "siswa" -> Intent(this@LoginActivity, halaman_siswa_Activity::class.java)
+                                    "guru bk" -> Intent(this@LoginActivity, guruBkActivity::class.java)
+                                    else -> Intent(this@LoginActivity, LoginActivity::class.java)
                                 }
-                                "siswa", "user" -> {
-                                    Intent(this@LoginActivity, halaman_siswa_Activity::class.java)
-                                }
-                                else -> {
-                                    Intent(this@LoginActivity, halaman_siswa_Activity::class.java)
-                                }
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                // Jika role tidak dikenali, jangan simpan session
+                                Toast.makeText(this@LoginActivity, "Akun Tidak Valid: Role tidak dikenali", Toast.LENGTH_SHORT).show()
                             }
-                            startActivity(intent)
-                            finish()
                         }
                     } else {
                         Toast.makeText(this@LoginActivity, "Login gagal: Periksa kembali akun Anda", Toast.LENGTH_SHORT).show()

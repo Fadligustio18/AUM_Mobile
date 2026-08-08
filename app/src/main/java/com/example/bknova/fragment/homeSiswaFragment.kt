@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import com.example.bknova.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -35,7 +36,17 @@ class homeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home_siswa, container, false)
+        
+        val btnMulaiAum = view.findViewById<Button>(R.id.btn_mulai_aum)
+        
+        btnMulaiAum.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, formAumFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+        return view 
     }
 
     companion object {
