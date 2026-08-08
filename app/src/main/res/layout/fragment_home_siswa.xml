@@ -171,7 +171,8 @@
                         app:icon="@drawable/ic_edit"
                         android:backgroundTint="@color/blue_primary"
                         android:textColor="@color/white"
-                        app:iconTint="@color/white"/>
+                        app:iconTint="@color/white"
+                        android:id="@+id/btn_mulai_aum"/>
 
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

@@ -27,6 +27,7 @@
     <string name="notifications">Notifikasi</string>
     <string name="logout">Keluar</string>
     <string name="bk">Bimbingan Konseling</string>
+    <string name="navsiswa">Siswa</string>
 
     <!-- Splash -->
     <string name="splash_footer">©Tefa Company</string>
