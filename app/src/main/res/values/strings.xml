@@ -43,10 +43,10 @@
 
     <!-- Form AUM -->
     <string name="aum_q1_label">Pertanyaan 1</string>
-    <string name="aum_q1_text">Apakah Anda merasa kesulitan dalam mengatur waktu belajar di rumah?</string>
-    <string name="aum_q1_opt1">Ya, seringkali merasa kesulitan</string>
-    <string name="aum_q1_opt2">Kadang-kadang saja</string>
-    <string name="aum_q1_opt3">Tidak, saya bisa mengatur dengan baik</string>
+    <string name="aum_q1_text">Tolong isi data ini dengan benar</string>
+    <string name="aum_q1_opt1">Merasa diperhatikan atau dibicarakan atau di perolokkan orang lain</string>
+    <string name="aum_q1_opt2">Tidak menyukai atau disukai seseorang</string>
+    <string name="aum_q1_opt3">tidak mempunyai kawan akrab hubungan sosial terbatas atau terisolir</string>
 
     <!-- Form Gaya Belajar -->
     <string name="gaya_belajar_intro">Mari temukan cara belajar yang paling pas untukmu. Pilih jawaban yang paling menggambarkan dirimu.</string>

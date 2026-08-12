@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
+import android.content.Context
 import com.example.bknova.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -38,11 +40,17 @@ class homeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home_siswa, container, false)
         
+        val tvName = view.findViewById<TextView>(R.id.tv_name_home)
         val btnMulaiAum = view.findViewById<Button>(R.id.btn_mulai_aum)
         
+        // Ambil nama dari SharedPreferences
+        val sharedPref = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE)
+        val name = sharedPref.getString("name", "User")
+        tvName.text = name
+
         btnMulaiAum.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, formAumFragment())
+                .replace(R.id.fragment_container, FormAumFragment())
                 .addToBackStack(null)
                 .commit()
         }

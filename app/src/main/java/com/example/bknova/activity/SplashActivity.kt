@@ -1,6 +1,7 @@
 package com.example.bknova.activity
 
 import android.animation.ValueAnimator
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.LinearInterpolator
@@ -9,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.airbnb.lottie.LottieAnimationView
 import com.example.bknova.R
-import com.example.bknova.service.SessionManager
 
 class SplashActivity : AppCompatActivity() {
 
@@ -42,11 +42,15 @@ class SplashActivity : AppCompatActivity() {
 
         // Pindah ke screen berikutnya setelah animasi selesai
         loadingCat.postDelayed({
-            val sessionManager = SessionManager(this)
-            if (sessionManager.isLoggedIn()) {
-                val intent = when (sessionManager.getRole()?.lowercase()) {
-                    "admin" -> Intent(this, halaman_siswa_Activity::class.java) // Ganti ke AdminActivity jika ada
-                    else -> Intent(this, halaman_siswa_Activity::class.java)
+            val sharedPref = getSharedPreferences("user_session", Context.MODE_PRIVATE)
+            val isLoggedIn = sharedPref.getBoolean("is_logged_in", false)
+            val role = sharedPref.getString("role", null)
+
+            if (isLoggedIn) {
+                val intent = when (role?.lowercase()) {
+                    "siswa" -> Intent(this, halaman_siswa_Activity::class.java)
+                    "guru bk" -> Intent(this, guruBkActivity::class.java)
+                    else -> Intent(this, LoginActivity::class.java)
                 }
                 startActivity(intent)
             } else {
