@@ -1,15 +1,18 @@
 package com.example.bknova.fragment
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import com.example.bknova.R
 import com.example.bknova.activity.LoginActivity
+import com.example.bknova.controller.AuthController
+import com.example.bknova.model.UserResponse
 import com.google.android.material.button.MaterialButton
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,16 +26,30 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class profilFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var authController: AuthController
+
+    // Views
+    private lateinit var tvName: TextView
+    private lateinit var tvRole: TextView
+    private lateinit var tvBadgeKelas: TextView
+    private lateinit var tvBadgeSchool: TextView
+    private lateinit var tvNisn: TextView
+    private lateinit var tvNis: TextView
+    private lateinit var tvGender: TextView
+    private lateinit var tvTtl: TextView
+    private lateinit var tvJurusan: TextView
+    private lateinit var tvTahunAjaran: TextView
+
+    private lateinit var layoutNisn: LinearLayout
+    private lateinit var layoutNis: LinearLayout
+    private lateinit var layoutGender: LinearLayout
+    private lateinit var layoutTtl: LinearLayout
+    private lateinit var layoutJurusan: LinearLayout
+    private lateinit var layoutTahunAjaran: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+        authController = AuthController(requireContext())
     }
 
     override fun onCreateView(
@@ -46,25 +63,83 @@ class profilFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val tvName = view.findViewById<TextView>(R.id.tv_name_profil)
+        // Initialize Views
+        tvName = view.findViewById(R.id.tv_name_profil)
+        tvRole = view.findViewById(R.id.tv_role_profil)
+        tvBadgeKelas = view.findViewById(R.id.tv_badge_kelas)
+        tvBadgeSchool = view.findViewById(R.id.tv_badge_school)
+        tvNisn = view.findViewById(R.id.tv_nisn)
+        tvNis = view.findViewById(R.id.tv_nis)
+        tvGender = view.findViewById(R.id.tv_gender)
+        tvTtl = view.findViewById(R.id.tv_ttl)
+        tvJurusan = view.findViewById(R.id.tv_jurusan)
+        tvTahunAjaran = view.findViewById(R.id.tv_tahun_ajaran)
+
+        layoutNisn = view.findViewById(R.id.layout_nisn)
+        layoutNis = view.findViewById(R.id.layout_nis)
+        layoutGender = view.findViewById(R.id.layout_gender)
+        layoutTtl = view.findViewById(R.id.layout_ttl)
+        layoutJurusan = view.findViewById(R.id.layout_jurusan)
+        layoutTahunAjaran = view.findViewById(R.id.layout_tahun_ajaran)
+
         val btnLogout = view.findViewById<MaterialButton>(R.id.btn_logout)
 
-        // Ambil nama dari SharedPreferences
-        val sharedPref = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE)
-        val name = sharedPref.getString("name", "User")
-        tvName.text = name
+        fetchUserProfile()
 
         btnLogout.setOnClickListener {
             logout()
         }
     }
 
-    private fun logout() {
-        val sharedPref = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE)
-        val editor = sharedPref.edit()
-        editor.clear()
-        editor.apply()
+    private fun fetchUserProfile() {
+        authController.getUserProfile(object : AuthController.UserCallback {
+            override fun onSuccess(user: UserResponse) {
+                updateUI(user)
+            }
 
+            override fun onError(message: String) {
+                Toast.makeText(context, "Gagal memuat profil: $message", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    private fun updateUI(user: UserResponse) {
+        tvName.text = user.nama
+        tvRole.text = user.role
+        
+        val tingkat = user.profile.tingkat ?: ""
+        val kelas = user.profile.kelas ?: ""
+        val fullKelas = if (tingkat.isNotEmpty() && kelas.isNotEmpty()) "$tingkat $kelas" else (tingkat + kelas).ifEmpty { "-" }
+        
+        tvBadgeKelas.text = fullKelas
+        
+        if (user.role == "Siswa") {
+            layoutNisn.visibility = View.VISIBLE
+            layoutNis.visibility = View.VISIBLE
+            layoutGender.visibility = View.VISIBLE
+            layoutTtl.visibility = View.VISIBLE
+            layoutJurusan.visibility = View.VISIBLE
+            layoutTahunAjaran.visibility = View.GONE
+
+            tvNisn.text = user.profile.nisn ?: "-"
+            tvNis.text = user.profile.nis ?: "-"
+            tvGender.text = user.profile.jenisKelamin ?: "-"
+            tvTtl.text = user.profile.tempatTanggalLahir ?: "-"
+            tvJurusan.text = user.profile.jurusan ?: "-"
+        } else {
+            layoutNisn.visibility = View.GONE
+            layoutNis.visibility = View.GONE
+            layoutGender.visibility = View.GONE
+            layoutTtl.visibility = View.GONE
+            layoutJurusan.visibility = View.GONE
+            layoutTahunAjaran.visibility = View.VISIBLE
+
+            tvTahunAjaran.text = user.profile.tahunAjaran ?: "-"
+        }
+    }
+
+    private fun logout() {
+        authController.logout()
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         startActivity(intent)

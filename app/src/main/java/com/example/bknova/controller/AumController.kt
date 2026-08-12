@@ -3,6 +3,8 @@ package com.example.bknova.controller
 import com.example.bknova.model.BidangMasalah
 import com.example.bknova.model.HasilAum
 import com.example.bknova.model.SoalMasalah
+import com.example.bknova.model.AumSubmitRequest
+import com.example.bknova.model.AumResponse
 import com.example.bknova.service.Aktor
 import retrofit2.Call
 import retrofit2.Callback
@@ -50,6 +52,33 @@ class AumController {
             }
 
             override fun onFailure(call: Call<HasilAum>, t: Throwable) {
+                callback.onError("Kesalahan jaringan: ${t.message}")
+            }
+        })
+    }
+
+    fun submitAum(token: String, request: AumSubmitRequest, callback: AumCallback<String>) {
+        val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
+        
+        Aktor.aum.submitAum(bearerToken, request).enqueue(object : Callback<AumResponse<String>> {
+            override fun onResponse(
+                call: Call<AumResponse<String>>,
+                response: Response<AumResponse<String>>
+            ) {
+                if (response.isSuccessful) {
+                    val body = response.body()
+                    if (body != null && body.status == "success") {
+                        callback.onSuccess(body.message)
+                    } else {
+                        callback.onError(body?.message ?: "Gagal submit AUM")
+                    }
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    callback.onError("Error ${response.code()}: $errorBody")
+                }
+            }
+
+            override fun onFailure(call: Call<AumResponse<String>>, t: Throwable) {
                 callback.onError("Kesalahan jaringan: ${t.message}")
             }
         })

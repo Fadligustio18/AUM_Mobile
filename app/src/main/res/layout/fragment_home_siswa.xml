@@ -34,6 +34,7 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
+            android:id="@+id/linear_container_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -105,6 +106,7 @@
 
             <!-- Card 1: AUM -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_aum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -115,12 +117,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
+                    <!-- Header -->
                     <RelativeLayout
+                        android:id="@+id/header_aum"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_aum"
@@ -135,53 +142,83 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/icon_aum"
-                            android:layout_toStartOf="@id/badge_aum"
+                            android:layout_centerVertical="true"
                             android:layout_marginStart="12dp"
+                            android:layout_toEndOf="@id/icon_aum"
+                            android:layout_toStartOf="@id/arrow_aum"
                             android:text="@string/aum_title"
                             android:textColor="@color/text_color_primary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/arrow_aum"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/blue_light"
+                            android:padding="8dp"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/blue_primary"
+                            android:rotation="90" />
+                    </RelativeLayout>
+
+                    <!-- Expandable Content -->
+                    <LinearLayout
+                        android:id="@+id/expandable_aum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp"
+                        android:paddingBottom="16dp"
+                        android:visibility="gone">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider_color"
+                            android:layout_marginBottom="12dp"/>
+
                         <TextView
                             android:id="@+id/badge_aum"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
                             android:background="@drawable/bg_badge_blue"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
                             android:text="@string/status_belum_isi"
                             android:textColor="@color/blue_primary"
-                            android:textSize="12sp" />
-                    </RelativeLayout>
+                            android:textSize="12sp"
+                            android:layout_marginBottom="8dp"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/aum_desc"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/aum_desc"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/btn_mulai_isi"
-                        android:textAllCaps="false"
-                        app:cornerRadius="12dp"
-                        app:icon="@drawable/ic_edit"
-                        android:backgroundTint="@color/blue_primary"
-                        android:textColor="@color/white"
-                        app:iconTint="@color/white"
-                        android:id="@+id/btn_mulai_aum"/>
-
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_mulai_aum"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/btn_mulai_isi"
+                            android:textAllCaps="false"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_edit"
+                            android:backgroundTint="@color/blue_primary"
+                            android:textColor="@color/white"
+                            app:iconTint="@color/white"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Card 2: Sosiografik -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_sosio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -192,12 +229,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
+                    <!-- Header -->
                     <RelativeLayout
+                        android:id="@+id/header_sosio"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_sosio"
@@ -212,53 +254,84 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/icon_sosio"
-                            android:layout_toStartOf="@id/badge_sosio"
+                            android:layout_centerVertical="true"
                             android:layout_marginStart="12dp"
+                            android:layout_toEndOf="@id/icon_sosio"
+                            android:layout_toStartOf="@id/arrow_sosio"
                             android:text="@string/sosiografik_title"
                             android:textColor="@color/text_color_primary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/arrow_sosio"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/green_light"
+                            android:padding="8dp"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/green_text"
+                            android:rotation="90" />
+                    </RelativeLayout>
+
+                    <!-- Expandable Content -->
+                    <LinearLayout
+                        android:id="@+id/expandable_sosio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp"
+                        android:paddingBottom="16dp"
+                        android:visibility="gone">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider_color"
+                            android:layout_marginBottom="12dp"/>
+
                         <TextView
                             android:id="@+id/badge_sosio"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
                             android:background="@drawable/bg_badge_green"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
                             android:text="@string/status_selesai"
                             android:textColor="@color/green_text"
-                            android:textSize="12sp" />
-                    </RelativeLayout>
+                            android:textSize="12sp"
+                            android:layout_marginBottom="8dp"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/sosiografik_desc"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/sosiografik_desc"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/btn_lihat_hasil"
-                        android:textAllCaps="false"
-                        app:cornerRadius="12dp"
-                        app:icon="@drawable/ic_eye"
-                        app:strokeColor="@color/blue_primary"
-                        android:textColor="@color/blue_primary"
-                        app:iconTint="@color/blue_primary"/>
-
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_lihat_sosio"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/btn_lihat_hasil"
+                            android:textAllCaps="false"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_eye"
+                            app:strokeColor="@color/blue_primary"
+                            android:textColor="@color/blue_primary"
+                            app:iconTint="@color/blue_primary"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Card 3: Gaya Belajar -->
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_gaya"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -269,12 +342,17 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:orientation="vertical">
 
+                    <!-- Header -->
                     <RelativeLayout
+                        android:id="@+id/header_gaya"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:padding="16dp"
+                        android:background="?attr/selectableItemBackground">
 
                         <com.google.android.material.imageview.ShapeableImageView
                             android:id="@+id/icon_gaya"
@@ -289,47 +367,77 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/icon_gaya"
-                            android:layout_toStartOf="@id/badge_gaya"
+                            android:layout_centerVertical="true"
                             android:layout_marginStart="12dp"
+                            android:layout_toEndOf="@id/icon_gaya"
+                            android:layout_toStartOf="@id/arrow_gaya"
                             android:text="@string/gaya_belajar_title"
                             android:textColor="@color/text_color_primary"
                             android:textSize="16sp"
                             android:textStyle="bold" />
 
+                        <com.google.android.material.imageview.ShapeableImageView
+                            android:id="@+id/arrow_gaya"
+                            android:layout_width="32dp"
+                            android:layout_height="32dp"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:background="@color/blue_light"
+                            android:padding="8dp"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+                            android:src="@drawable/ic_chevron_right"
+                            app:tint="@color/blue_primary"
+                            android:rotation="90" />
+                    </RelativeLayout>
+
+                    <!-- Expandable Content -->
+                    <LinearLayout
+                        android:id="@+id/expandable_gaya"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingHorizontal="16dp"
+                        android:paddingBottom="16dp"
+                        android:visibility="gone">
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider_color"
+                            android:layout_marginBottom="12dp"/>
+
                         <TextView
                             android:id="@+id/badge_gaya"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
                             android:background="@drawable/bg_badge_blue"
                             android:paddingHorizontal="8dp"
                             android:paddingVertical="4dp"
                             android:text="@string/status_belum_isi"
                             android:textColor="@color/blue_primary"
-                            android:textSize="12sp" />
-                    </RelativeLayout>
+                            android:textSize="12sp"
+                            android:layout_marginBottom="8dp"/>
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
-                        android:text="@string/gaya_belajar_desc"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="14sp" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/gaya_belajar_desc"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/btn_mulai_isi"
-                        android:textAllCaps="false"
-                        app:cornerRadius="12dp"
-                        app:icon="@drawable/ic_edit"
-                        android:backgroundTint="@color/blue_primary"
-                        android:textColor="@color/white"
-                        app:iconTint="@color/white"/>
-
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/btn_mulai_gaya"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:text="@string/btn_mulai_isi"
+                            android:textAllCaps="false"
+                            app:cornerRadius="12dp"
+                            app:icon="@drawable/ic_edit"
+                            android:backgroundTint="@color/blue_primary"
+                            android:textColor="@color/white"
+                            app:iconTint="@color/white"/>
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

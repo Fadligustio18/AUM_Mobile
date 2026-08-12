@@ -17,11 +17,15 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
 import com.example.bknova.controller.AumController
+import com.example.bknova.controller.AuthController
+import com.example.bknova.model.AumSubmitRequest
 import com.example.bknova.model.SoalMasalah
 
 class FormAumFragment : Fragment() {
     private lateinit var aumController: AumController
+    private lateinit var authController: AuthController
     private var listSoal: List<SoalMasalah> = listOf()
+    private var btnNext: Button? = null
     
     // Map untuk menyimpan jawaban siswa (Soal ID -> Boolean)
     private val selectedAnswers = mutableMapOf<Int, Boolean>()
@@ -29,6 +33,10 @@ class FormAumFragment : Fragment() {
     // Variabel untuk pagination
     private var currentBidangId = 1
     private val maxBidangId = 10
+
+    private lateinit var tvProgressLabel: TextView
+    private lateinit var tvProgressPercent: TextView
+    private lateinit var tvSelectedCount: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,17 +49,19 @@ class FormAumFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         
         aumController = AumController()
+        authController = AuthController(requireContext())
         
         val btnClose = view.findViewById<ImageView>(R.id.btn_close)
         val containerOptions = view.findViewById<LinearLayout>(R.id.container_options)
         val tvQuestionTitle = view.findViewById<TextView>(R.id.tv_question_title)
-        val btnNext = view.findViewById<Button>(R.id.btn_next)
+        btnNext = view.findViewById<Button>(R.id.btn_next)
         val btnBack = view.findViewById<Button>(R.id.btn_back)
         val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_content)
         
         val progressIndicator = view.findViewById<LinearLayout>(R.id.container_progress_bars)
-        val tvProgressLabel = view.findViewById<TextView>(R.id.tv_progress_label)
-        val tvProgressPercent = view.findViewById<TextView>(R.id.tv_progress_percent)
+        tvProgressLabel = view.findViewById(R.id.tv_progress_label)
+        tvProgressPercent = view.findViewById(R.id.tv_progress_percent)
+        tvSelectedCount = view.findViewById(R.id.tv_selected_count)
 
         // Sembunyikan Bottom Navigation secara aman
         activity?.findViewById<View>(R.id.bottom_nav_container)?.visibility = View.GONE
@@ -60,7 +70,7 @@ class FormAumFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        btnNext.setOnClickListener {
+        btnNext?.setOnClickListener {
             if (currentBidangId < maxBidangId) {
                 currentBidangId++
                 updateSegmentedProgress(view, tvProgressLabel, tvProgressPercent)
@@ -68,18 +78,17 @@ class FormAumFragment : Fragment() {
                 scrollView.scrollTo(0, 0)
                 
                 if (currentBidangId == maxBidangId) {
-                    btnNext.text = "Submit"
+                    btnNext?.text = "Submit"
                 }
             } else {
-                Toast.makeText(context, "Berhasil Submit AUM!", Toast.LENGTH_LONG).show()
-                parentFragmentManager.popBackStack()
+                submitAum()
             }
         }
 
         btnBack.setOnClickListener {
             if (currentBidangId > 1) {
                 currentBidangId--
-                btnNext.text = getString(R.string.btn_selanjutnya)
+                btnNext?.text = getString(R.string.btn_selanjutnya)
                 updateSegmentedProgress(view, tvProgressLabel, tvProgressPercent)
                 loadSoal(containerOptions, tvQuestionTitle)
                 scrollView.scrollTo(0, 0)
@@ -89,7 +98,60 @@ class FormAumFragment : Fragment() {
         }
 
         updateSegmentedProgress(view, tvProgressLabel, tvProgressPercent)
+        updateSelectedCount()
         loadSoal(containerOptions, tvQuestionTitle)
+    }
+
+    private fun updateSelectedCount() {
+        val count = selectedAnswers.filter { it.value }.size
+        tvSelectedCount.text = "$count Terpilih"
+    }
+
+    private fun submitAum() {
+        val userId = authController.getUserId()
+        val token = authController.getToken()
+        
+        Log.d("AUM_SUBMIT", "UserId: $userId")
+        Log.d("AUM_SUBMIT", "Token: ${token?.take(10)}...")
+
+        if (userId == -1 || token == null) {
+            Toast.makeText(context, "Sesi habis atau User ID tidak ditemukan. Silakan Login ulang.", Toast.LENGTH_LONG).show()
+            return
+        }
+
+        val selectedSoalIds = selectedAnswers.filter { it.value }.keys.toList()
+        
+        if (selectedSoalIds.isEmpty()) {
+            Toast.makeText(context, "Silakan pilih minimal satu masalah sebelum submit", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val idTahunAjaran = 1 
+        val request = AumSubmitRequest(
+            idUser = userId,
+            idTahunAjaran = idTahunAjaran,
+            idSoalMasalahTerpilih = selectedSoalIds
+        )
+
+        Log.d("AUM_SUBMIT", "JSON Request: $request")
+
+        btnNext?.isEnabled = false // Mencegah double click
+        
+        aumController.submitAum(token, request, object : AumController.AumCallback<String> {
+            override fun onSuccess(data: String) {
+                if (isAdded) {
+                    Toast.makeText(context, data, Toast.LENGTH_LONG).show()
+                    parentFragmentManager.popBackStack()
+                }
+            }
+
+            override fun onError(message: String) {
+                if (isAdded) {
+                    btnNext?.isEnabled = true
+                    Toast.makeText(context, "Gagal submit: $message", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     private fun updateSegmentedProgress(root: View, label: TextView, percent: TextView) {
@@ -167,6 +229,7 @@ class FormAumFragment : Fragment() {
             // Simpan jawaban setiap kali dicentang
             checkBox.setOnCheckedChangeListener { _, isChecked ->
                 selectedAnswers[soal.id] = isChecked
+                updateSelectedCount()
                 Log.d("AUM_DEBUG", "Soal ${soal.id} diubah ke: $isChecked")
             }
 

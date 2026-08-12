@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
+
+    <!-- ===== Netral ===== -->
     <color name="white">#FFFFFFFF</color>
+    <color name="black">#FF000000</color>
+
+    <!-- ===== Brand ===== -->
+    <!-- Satu-satunya biru utama. #1E63FD & #0D47A1 lama sudah dibuang. -->
     <color name="blue_primary">#4A69E2</color>
     <color name="blue_light">#EBF0FF</color>
+    <!-- Biru 8% untuk item AUM terpilih (bg_item_aum) -->
+    <color name="blue_overlay">#144A69E2</color>
+
+    <!-- ===== Status ===== -->
     <color name="green_light">#D1FAE5</color>
     <color name="green_text">#059669</color>
+    <color name="red_light">#FEE2E2</color>
+    <color name="red_text">#DC2626</color>
+
+    <!-- ===== Teks & permukaan ===== -->
     <color name="text_color_primary">#1E293B</color>
     <color name="text_color_secondary">#64748B</color>
     <color name="background_gray">#F8FAFC</color>
-    <color name="red_light">#FEE2E2</color>
-    <color name="red_text">#DC2626</color>
+    <!-- Dipakai juga sebagai garis/stroke default (dulu #E0E0E0 & #F0F0F0) -->
     <color name="divider_color">#E2E8F0</color>
+    <!-- Kartu logo di splash -->
+    <color name="surface_dark">#1A1A1A</color>
+
 </resources>

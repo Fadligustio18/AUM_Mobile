@@ -11,6 +11,7 @@ import com.example.bknova.R
 import com.example.bknova.controller.AuthController
 import com.example.bknova.model.Login
 import com.example.bknova.model.LoginFeedback
+import com.example.bknova.model.UserResponse
 import com.example.bknova.service.Aktor
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
@@ -48,16 +49,31 @@ class LoginActivity : AppCompatActivity() {
             
             authController.login(loginRequest, object : AuthController.LoginCallback {
                 override fun onSuccess(user: LoginFeedback) {
-                    val role = user.role.lowercase()
-                    Toast.makeText(this@LoginActivity, "Selamat datang ${user.nama}", Toast.LENGTH_SHORT).show()
+                    authController.getUserProfile(object : AuthController.UserCallback {
+                        override fun onSuccess(userResponse: UserResponse) {
+                            authController.saveUserProfile(userResponse)
+                            val role = userResponse.role
+                            Toast.makeText(this@LoginActivity, "Selamat datang ${userResponse.nama}", Toast.LENGTH_SHORT).show()
 
-                    val intent = when (role) {
-                        "siswa" -> Intent(this@LoginActivity, halaman_siswa_Activity::class.java)
-                        "guru bk" -> Intent(this@LoginActivity, guruBkActivity::class.java)
-                        else -> Intent(this@LoginActivity, LoginActivity::class.java)
-                    }
-                    startActivity(intent)
-                    finish()
+                            val intent = when (role) {
+                                "Siswa" -> Intent(this@LoginActivity, halaman_siswa_Activity::class.java)
+                                "Guru BK", "Wali Kelas" -> Intent(this@LoginActivity, guruBkActivity::class.java)
+                                else -> {
+                                    Toast.makeText(this@LoginActivity, "Role tidak dikenali: $role", Toast.LENGTH_SHORT).show()
+                                    null
+                                }
+                            }
+                            
+                            intent?.let {
+                                startActivity(it)
+                                finish()
+                            }
+                        }
+
+                        override fun onError(message: String) {
+                            Toast.makeText(this@LoginActivity, "Gagal memuat profil: $message", Toast.LENGTH_SHORT).show()
+                        }
+                    })
                 }
 
                 override fun onError(message: String) {

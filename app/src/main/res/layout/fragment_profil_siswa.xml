@@ -82,10 +82,11 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_role_profil"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
-                        android:text="@string/nisn_label"
+                        android:text="Role User"
                         android:textColor="@color/text_color_secondary"
                         android:textSize="14sp" />
 
@@ -96,6 +97,7 @@
                         android:layout_marginTop="20dp">
 
                         <TextView
+                            android:id="@+id/tv_badge_kelas"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_badge_green"
@@ -107,6 +109,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/tv_badge_school"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="12dp"
@@ -118,6 +121,172 @@
                             android:textSize="12sp"
                             android:textStyle="bold" />
                     </LinearLayout>
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Personal Information Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="2dp"
+                app:strokeWidth="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="INFORMASI PERSONAL"
+                        android:textColor="@color/text_color_secondary"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="16dp"/>
+
+                    <!-- NISN Field (For Student) -->
+                    <LinearLayout
+                        android:id="@+id/layout_nisn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="NISN"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_nisn"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- NIS Field (For Student) -->
+                    <LinearLayout
+                        android:id="@+id/layout_nis"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="NIS"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_nis"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Gender Field -->
+                    <LinearLayout
+                        android:id="@+id/layout_gender"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="Jenis Kelamin"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_gender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Place/Date of Birth -->
+                    <LinearLayout
+                        android:id="@+id/layout_ttl"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="TTL"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_ttl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Jurusan (For Student) -->
+                    <LinearLayout
+                        android:id="@+id/layout_jurusan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="Jurusan"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_jurusan"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <!-- Tahun Ajaran (For Wali Kelas) -->
+                    <LinearLayout
+                        android:id="@+id/layout_tahun_ajaran"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp"
+                        android:visibility="gone">
+                        <TextView
+                            android:layout_width="120dp"
+                            android:layout_height="wrap_content"
+                            android:text="Tahun Ajaran"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
+                        <TextView
+                            android:id="@+id/tv_tahun_ajaran"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 

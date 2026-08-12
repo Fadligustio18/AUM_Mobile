@@ -32,3 +32,10 @@ data class AumResponse<T>(
     @SerializedName("message") val message: String,
     @SerializedName("data") val data: T
 )
+
+// Request for AUM Submission
+data class AumSubmitRequest(
+    @SerializedName("Id_User") val idUser: Int,
+    @SerializedName("Id_Tahun_Ajaran") val idTahunAjaran: Int,
+    @SerializedName("Id_Soal_Masalah_Terpilih") val idSoalMasalahTerpilih: List<Int>
+)

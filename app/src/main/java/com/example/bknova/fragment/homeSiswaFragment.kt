@@ -8,6 +8,11 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.content.Context
+import android.transition.TransitionManager
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import android.widget.Toast
 import com.example.bknova.R
 
 // TODO: Rename parameter arguments, choose names that match
@@ -42,6 +47,10 @@ class homeFragment : Fragment() {
         
         val tvName = view.findViewById<TextView>(R.id.tv_name_home)
         val btnMulaiAum = view.findViewById<Button>(R.id.btn_mulai_aum)
+        val btnLihatSosio = view.findViewById<Button>(R.id.btn_lihat_sosio)
+        val btnMulaiGaya = view.findViewById<Button>(R.id.btn_mulai_gaya)
+        
+        setupExpandableCards(view)
         
         // Ambil nama dari SharedPreferences
         val sharedPref = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE)
@@ -54,7 +63,64 @@ class homeFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        btnLihatSosio.setOnClickListener {
+            Toast.makeText(context, "Fitur Sosiografik akan segera hadir", Toast.LENGTH_SHORT).show()
+        }
+
+        btnMulaiGaya.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, formGayaBelajarFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
         return view 
+    }
+
+    private fun setupExpandableCards(view: View) {
+        val rootLayout = view.findViewById<ViewGroup>(R.id.linear_container_home)
+
+        // Card AUM
+        val headerAum = view.findViewById<RelativeLayout>(R.id.header_aum)
+        val expandableAum = view.findViewById<LinearLayout>(R.id.expandable_aum)
+        val arrowAum = view.findViewById<ImageView>(R.id.arrow_aum)
+        
+        headerAum.setOnClickListener {
+            toggleCard(expandableAum, arrowAum, rootLayout)
+        }
+
+        // Card Sosio
+        val headerSosio = view.findViewById<RelativeLayout>(R.id.header_sosio)
+        val expandableSosio = view.findViewById<LinearLayout>(R.id.expandable_sosio)
+        val arrowSosio = view.findViewById<ImageView>(R.id.arrow_sosio)
+
+        headerSosio.setOnClickListener {
+            toggleCard(expandableSosio, arrowSosio, rootLayout)
+        }
+
+        // Card Gaya
+        val headerGaya = view.findViewById<RelativeLayout>(R.id.header_gaya)
+        val expandableGaya = view.findViewById<LinearLayout>(R.id.expandable_gaya)
+        val arrowGaya = view.findViewById<ImageView>(R.id.arrow_gaya)
+
+        headerGaya.setOnClickListener {
+            toggleCard(expandableGaya, arrowGaya, rootLayout)
+        }
+    }
+
+    private fun toggleCard(expandableLayout: View, arrow: ImageView, root: ViewGroup) {
+        val isVisible = expandableLayout.visibility == View.VISIBLE
+        
+        TransitionManager.beginDelayedTransition(root)
+        
+        if (isVisible) {
+            expandableLayout.visibility = View.GONE
+            arrow.animate().rotation(90f).start()
+        } else {
+            expandableLayout.visibility = View.VISIBLE
+            arrow.animate().rotation(270f).start()
+        }
     }
 
     companion object {

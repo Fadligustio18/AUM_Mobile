@@ -3,6 +3,8 @@ package com.example.bknova.service
 import com.example.bknova.model.BidangMasalah
 import com.example.bknova.model.HasilAum
 import com.example.bknova.model.SoalMasalah
+import com.example.bknova.model.AumSubmitRequest
+import com.example.bknova.model.AumResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -24,4 +26,10 @@ interface AumServices {
 
     @GET("/api/v1/hasil")
     fun getHasilAum(): Call<List<HasilAum>>
+
+    @POST("/api/v1/aum/submit")
+    fun submitAum(
+        @Header("Authorization") token: String,
+        @Body request: AumSubmitRequest
+    ): Call<AumResponse<String>>
 }
