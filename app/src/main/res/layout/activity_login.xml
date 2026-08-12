@@ -26,8 +26,8 @@
             app:cardElevation="8dp">
 
             <ImageView
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="85dp"
+                android:layout_height="85dp"
                 android:layout_gravity="center"
                 android:src="@drawable/logo"
                 tools:ignore="ContentDescription" />

@@ -16,4 +16,16 @@ object Aktor {
     val auth: AuthServices by lazy {
         http.create(AuthServices::class.java)
     }
+
+    val aum: AumServices by lazy {
+        http.create(AumServices::class.java)
+    }
+
+    val dynamics: DynamicsServices by lazy {
+        http.create(DynamicsServices::class.java)
+    }
+
+    val academic: AcademicServices by lazy {
+        http.create(AcademicServices::class.java)
+    }
 }
