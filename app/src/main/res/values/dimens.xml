@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ===== Spacing: grid 4dp. Jangan pakai angka di luar daftar ini. ===== -->
+    <dimen name="space_xs">4dp</dimen>
+    <dimen name="space_sm">8dp</dimen>
+    <dimen name="space_md">12dp</dimen>
+    <dimen name="space_lg">16dp</dimen>
+    <dimen name="space_xl">20dp</dimen>
+    <dimen name="space_2xl">24dp</dimen>
+    <dimen name="space_3xl">32dp</dimen>
+
+    <!-- ===== Padding standar ===== -->
+    <dimen name="screen_padding">20dp</dimen>
+    <dimen name="card_padding">16dp</dimen>
+
+    <!-- ===== Radius ===== -->
+    <dimen name="radius_sm">8dp</dimen>
+    <dimen name="radius_md">12dp</dimen>
+    <dimen name="radius_lg">16dp</dimen>
+    <dimen name="radius_xl">24dp</dimen>
+    <dimen name="radius_pill">100dp</dimen>
+
+    <!-- ===== Elevation ===== -->
+    <dimen name="elevation_card">2dp</dimen>
+    <dimen name="elevation_bar">8dp</dimen>
+
+    <!-- ===== Garis ===== -->
+    <dimen name="stroke_width">1dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
+
+    <!-- ===== Ikon & avatar ===== -->
+    <dimen name="icon_sm">24dp</dimen>
+    <dimen name="icon_md">40dp</dimen>
+    <dimen name="avatar_sm">32dp</dimen>
+    <dimen name="avatar_md">60dp</dimen>
+    <dimen name="avatar_lg">100dp</dimen>
+
+    <!-- ===== Komponen ===== -->
+    <dimen name="button_height">56dp</dimen>
+    <dimen name="bottom_nav_height">80dp</dimen>
+    <!-- Ruang bawah scroll biar tidak ketutup bottom nav mengapung -->
+    <dimen name="bottom_nav_clearance">80dp</dimen>
+    <dimen name="progress_track_height">8dp</dimen>
+
+</resources>
