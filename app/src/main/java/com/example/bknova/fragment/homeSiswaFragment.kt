@@ -9,11 +9,16 @@ import android.widget.Button
 import android.widget.TextView
 import android.content.Context
 import android.transition.TransitionManager
+import android.content.res.ColorStateList
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import com.example.bknova.R
+import com.example.bknova.controller.AumController
+import com.example.bknova.controller.AuthController
+import com.google.android.material.button.MaterialButton
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +31,10 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 class homeFragment : Fragment() {
-    // TODO: Rename and change types of parameters
+    private lateinit var aumController: AumController
+    private lateinit var authController: AuthController
+
+    // TODO: Rename parameter arguments, choose names that match
     private var param1: String? = null
     private var param2: String? = null
 
@@ -45,23 +53,33 @@ class homeFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_home_siswa, container, false)
         
+        aumController = AumController()
+        authController = AuthController(requireContext())
+
         val tvName = view.findViewById<TextView>(R.id.tv_name_home)
-        val btnMulaiAum = view.findViewById<Button>(R.id.btn_mulai_aum)
-        val btnLihatSosio = view.findViewById<Button>(R.id.btn_lihat_sosio)
-        val btnMulaiGaya = view.findViewById<Button>(R.id.btn_mulai_gaya)
+        val btnMulaiAum = view.findViewById<MaterialButton>(R.id.btn_mulai_aum)
+        val btnLihatSosio = view.findViewById<MaterialButton>(R.id.btn_lihat_sosio)
+        val btnMulaiGaya = view.findViewById<MaterialButton>(R.id.btn_mulai_gaya)
+        val badgeAum = view.findViewById<TextView>(R.id.badge_aum)
         
         setupExpandableCards(view)
         
         // Ambil nama dari SharedPreferences
-        val sharedPref = requireActivity().getSharedPreferences("user_session", Context.MODE_PRIVATE)
-        val name = sharedPref.getString("name", "User")
+        val name = authController.getName()
         tvName.text = name
 
+        fetchAumStatus(badgeAum, btnMulaiAum)
+
         btnMulaiAum.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, FormAumFragment())
-                .addToBackStack(null)
-                .commit()
+            // Cek status lagi sebelum masuk atau andalkan UI yang sudah di-update
+            if (badgeAum.text == "Sudah Diisi") {
+                Toast.makeText(context, "Anda sudah mengisi instrumen ini", Toast.LENGTH_SHORT).show()
+            } else {
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, FormAumFragment())
+                    .addToBackStack(null)
+                    .commit()
+            }
         }
 
         btnLihatSosio.setOnClickListener {
@@ -76,6 +94,49 @@ class homeFragment : Fragment() {
         }
 
         return view 
+    }
+
+    private fun fetchAumStatus(badge: TextView, button: MaterialButton) {
+        val token = authController.getToken()
+        val userId = authController.getUserId()
+
+        if (token != null && userId != -1) {
+            aumController.checkAumStatus(token, userId, object : AumController.AumCallback<Boolean> {
+                override fun onSuccess(data: Boolean) {
+                    if (isAdded) {
+                        if (data) {
+                            badge.text = "Selesai"
+                            badge.setBackgroundResource(R.drawable.bg_badge_green)
+                            badge.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_text))
+                            
+                            button.visibility = View.VISIBLE
+                            button.isEnabled = false
+                            button.text = "100%"
+                            button.setIconResource(R.drawable.ic_assignment) // Menggunakan ikon tugas/selesai
+                            button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.divider_color))
+                            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color_secondary))
+                            button.iconTint = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_color_secondary))
+                        } else {
+                            badge.text = getString(R.string.status_belum_isi)
+                            badge.setBackgroundResource(R.drawable.bg_badge_blue)
+                            badge.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue_primary))
+                            
+                            button.visibility = View.VISIBLE
+                            button.isEnabled = true
+                            button.text = getString(R.string.btn_mulai_isi)
+                            button.setIconResource(R.drawable.ic_edit)
+                            button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue_primary))
+                            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
+                            button.iconTint = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+                        }
+                    }
+                }
+
+                override fun onError(message: String) {
+                    // Silent error for status check
+                }
+            })
+        }
     }
 
     private fun setupExpandableCards(view: View) {

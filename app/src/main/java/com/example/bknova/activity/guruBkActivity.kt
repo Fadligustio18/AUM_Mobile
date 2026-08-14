@@ -8,8 +8,8 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.bknova.R
 
 import androidx.fragment.app.Fragment
-import com.example.bknova.fragment.homeFragment
-import com.example.bknova.fragment.profilFragment
+import com.example.bknova.fragment.homeBkFragment
+import com.example.bknova.fragment.profilBkFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class guruBkActivity : AppCompatActivity() {
@@ -26,16 +26,16 @@ class guruBkActivity : AppCompatActivity() {
         val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation_bk)
 
         // Set fragment default
-        replaceFragment(homeFragment()) // Placeholder
+        replaceFragment(homeBkFragment())
 
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.navHomeBk -> {
-                    replaceFragment(homeFragment())
+                    replaceFragment(homeBkFragment())
                     true
                 }
                 R.id.navProfilBk -> {
-                    replaceFragment(profilFragment())
+                    replaceFragment(profilBkFragment())
                     true
                 }
                 // Handle navSiswaBk later

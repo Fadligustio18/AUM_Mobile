@@ -56,4 +56,6 @@
     <string name="gaya_belajar_q3_opt1">Membayangkan bentuk, warna, atau letaknya di buku</string>
     <string name="gaya_belajar_q3_opt2">Mengingat suara penjelasan guru atau suara sendiri</string>
     <string name="gaya_belajar_q3_opt3">Mengingat apa yang kamu lakukan atau praktekkan</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

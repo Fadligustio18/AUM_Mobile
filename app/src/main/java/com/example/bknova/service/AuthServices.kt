@@ -13,6 +13,9 @@ interface AuthServices {
     @POST("/api/v1/auth/login")
     fun Login_Services(@Body login: Login): Call<LoginFeedback>
 
+    @POST("/api/v1/auth/refresh")
+    fun refreshToken(@Header("Authorization") refreshToken: String): Call<LoginFeedback>
+
     @GET("/api/v1/auth/me")
     fun getMe(@Header("Authorization") token: String): Call<UserResponse>
 }

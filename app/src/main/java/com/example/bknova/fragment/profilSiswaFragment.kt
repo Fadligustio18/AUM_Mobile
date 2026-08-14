@@ -107,8 +107,9 @@ class profilFragment : Fragment() {
         tvName.text = user.nama
         tvRole.text = user.role
         
-        val tingkat = user.profile.tingkat ?: ""
-        val kelas = user.profile.kelas ?: ""
+        val profile = user.profile
+        val tingkat = profile?.tingkat ?: ""
+        val kelas = profile?.kelas ?: ""
         val fullKelas = if (tingkat.isNotEmpty() && kelas.isNotEmpty()) "$tingkat $kelas" else (tingkat + kelas).ifEmpty { "-" }
         
         tvBadgeKelas.text = fullKelas
@@ -121,11 +122,11 @@ class profilFragment : Fragment() {
             layoutJurusan.visibility = View.VISIBLE
             layoutTahunAjaran.visibility = View.GONE
 
-            tvNisn.text = user.profile.nisn ?: "-"
-            tvNis.text = user.profile.nis ?: "-"
-            tvGender.text = user.profile.jenisKelamin ?: "-"
-            tvTtl.text = user.profile.tempatTanggalLahir ?: "-"
-            tvJurusan.text = user.profile.jurusan ?: "-"
+            tvNisn.text = profile?.nisn ?: "-"
+            tvNis.text = profile?.nis ?: "-"
+            tvGender.text = profile?.jenisKelamin ?: "-"
+            tvTtl.text = profile?.tempatTanggalLahir ?: "-"
+            tvJurusan.text = profile?.jurusan ?: "-"
         } else {
             layoutNisn.visibility = View.GONE
             layoutNis.visibility = View.GONE
@@ -134,7 +135,7 @@ class profilFragment : Fragment() {
             layoutJurusan.visibility = View.GONE
             layoutTahunAjaran.visibility = View.VISIBLE
 
-            tvTahunAjaran.text = user.profile.tahunAjaran ?: "-"
+            tvTahunAjaran.text = profile?.tahunAjaran ?: "-"
         }
     }
 

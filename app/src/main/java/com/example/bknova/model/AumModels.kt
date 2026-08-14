@@ -39,3 +39,7 @@ data class AumSubmitRequest(
     @SerializedName("Id_Tahun_Ajaran") val idTahunAjaran: Int,
     @SerializedName("Id_Soal_Masalah_Terpilih") val idSoalMasalahTerpilih: List<Int>
 )
+
+data class AumStatusResponse(
+    @SerializedName("submitted") val submitted: Boolean
+)

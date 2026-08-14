@@ -4,9 +4,7 @@
     android:icon="@drawable/home_icon"
     android:title="@string/home"/>
 
-    <item android:id="@+id/navSiswaBk"
-        android:icon="@drawable/img_2"
-        android:title="@string/navsiswa"/>
+
 
 
     <item android:id="@+id/navProfilBk"

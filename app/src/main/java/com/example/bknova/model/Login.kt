@@ -19,7 +19,7 @@ data class UserResponse(
     @SerializedName("nama") val nama: String,
     @SerializedName("is_Active") val isActive: Boolean,
     @SerializedName("role") val role: String,
-    @SerializedName("profile") val profile: UserProfile
+    @SerializedName("profile") val profile: UserProfile?
 )
 
 data class UserProfile(

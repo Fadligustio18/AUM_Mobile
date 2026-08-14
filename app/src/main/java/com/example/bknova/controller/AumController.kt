@@ -5,6 +5,7 @@ import com.example.bknova.model.HasilAum
 import com.example.bknova.model.SoalMasalah
 import com.example.bknova.model.AumSubmitRequest
 import com.example.bknova.model.AumResponse
+import com.example.bknova.model.AumStatusResponse
 import com.example.bknova.service.Aktor
 import retrofit2.Call
 import retrofit2.Callback
@@ -79,6 +80,24 @@ class AumController {
             }
 
             override fun onFailure(call: Call<AumResponse<String>>, t: Throwable) {
+                callback.onError("Kesalahan jaringan: ${t.message}")
+            }
+        })
+    }
+
+    fun checkAumStatus(token: String, userId: Int, callback: AumCallback<Boolean>) {
+        val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
+        
+        Aktor.aum.getAumStatus(bearerToken, userId).enqueue(object : Callback<AumStatusResponse> {
+            override fun onResponse(call: Call<AumStatusResponse>, response: Response<AumStatusResponse>) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(response.body()?.submitted ?: false)
+                } else {
+                    callback.onError("Gagal cek status: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<AumStatusResponse>, t: Throwable) {
                 callback.onError("Kesalahan jaringan: ${t.message}")
             }
         })

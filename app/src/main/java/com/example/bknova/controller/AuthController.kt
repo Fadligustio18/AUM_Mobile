@@ -77,11 +77,42 @@ class AuthController(private val context: Context) {
         })
     }
 
+    fun refreshToken(callback: LoginCallback) {
+        val refreshToken = getRefreshToken()
+        if (refreshToken == null) {
+            callback.onError("Refresh token tidak ditemukan")
+            return
+        }
+
+        val bearerToken = if (refreshToken.startsWith("Bearer ")) refreshToken else "Bearer $refreshToken"
+
+        Aktor.auth.refreshToken(bearerToken).enqueue(object : Callback<LoginFeedback> {
+            override fun onResponse(call: Call<LoginFeedback>, response: Response<LoginFeedback>) {
+                if (response.isSuccessful) {
+                    val user = response.body()
+                    if (user != null) {
+                        saveSession(user)
+                        callback.onSuccess(user)
+                    } else {
+                        callback.onError("Response body is null")
+                    }
+                } else {
+                    callback.onError("Gagal memperbarui sesi: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<LoginFeedback>, t: Throwable) {
+                callback.onError("Terjadi kesalahan: ${t.message}")
+            }
+        })
+    }
+
     private fun saveSession(user: LoginFeedback) {
         val editor = sharedPref.edit()
         editor.putString("token", user.token)
         editor.putString("role", user.role)
         editor.putString("name", user.nama)
+        editor.putString("refresh_token", user.refreshToken)
         editor.putBoolean("is_logged_in", true)
         editor.apply()
     }
@@ -91,13 +122,19 @@ class AuthController(private val context: Context) {
         editor.putInt("user_id", user.id)
         editor.putString("name", user.nama)
         editor.putString("role", user.role)
-        // You can save more if needed
+        // Refresh token is already saved during login, but we can update other fields here
         editor.apply()
     }
 
     fun getUserId(): Int = sharedPref.getInt("user_id", -1)
 
+    fun getName(): String? = sharedPref.getString("name", "User")
+
+    fun getRole(): String? = sharedPref.getString("role", null)
+
     fun getToken(): String? = sharedPref.getString("token", null)
+
+    fun getRefreshToken(): String? = sharedPref.getString("refresh_token", null)
 
     fun isLoggedIn(): Boolean {
         return sharedPref.getBoolean("is_logged_in", false)
