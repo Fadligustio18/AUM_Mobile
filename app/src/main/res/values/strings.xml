@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BkNova</string>
     <string name="name_page">Welcome to\nBk Nova!</string>
-    <string name="email">Enter your Email</string>
+    <string name="name">Enter your Name</string>
     <string name="password">Enter your Password</string>
     <string name="login">Login</string>
     <string name="profil">Profile</string>

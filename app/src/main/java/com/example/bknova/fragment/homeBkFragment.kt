@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.example.bknova.R
+import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.controller.AuthController
 import com.google.android.material.card.MaterialCardView
 
@@ -17,6 +18,11 @@ class homeBkFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         authController = AuthController(requireContext())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? guruBkActivity)?.setBottomNavigationVisibility(true)
     }
 
     override fun onCreateView(
@@ -36,10 +42,16 @@ class homeBkFragment : Fragment() {
 
         // Set click listeners
         cardSiswa.setOnClickListener {
-            Toast.makeText(context, "Membuka Kelola Data Siswa", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_bk, DaftarKelasBkFragment())
+                .addToBackStack(null)
+                .commit()
         }
         cardAum.setOnClickListener {
-            Toast.makeText(context, "Membuka Kelola Data AUM", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_bk, DaftarKelasAumBkFragment())
+                .addToBackStack(null)
+                .commit()
         }
         cardSosio.setOnClickListener {
             Toast.makeText(context, "Membuka CRUD Sosiografik", Toast.LENGTH_SHORT).show()

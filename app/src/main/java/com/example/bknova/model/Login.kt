@@ -34,3 +34,12 @@ data class UserProfile(
     @SerializedName("tempat_Tanggal_Lahir") val tempatTanggalLahir: String? = null,
     @SerializedName("jurusan") val jurusan: String? = null
 )
+
+data class ChangePasswordRequest(
+    @SerializedName("old_Password") val oldPassword: String,
+    @SerializedName("new_Password") val newPassword: String
+)
+
+data class ChangePasswordResponse(
+    @SerializedName("message") val message: String
+)

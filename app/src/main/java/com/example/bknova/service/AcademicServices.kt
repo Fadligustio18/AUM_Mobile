@@ -1,5 +1,6 @@
 package com.example.bknova.service
 
+import com.example.bknova.model.BkTask
 import com.example.bknova.model.Jurusan
 import com.example.bknova.model.Kelas
 import com.example.bknova.model.TahunAjaran
@@ -18,4 +19,8 @@ interface AcademicServices {
     // Tahun Ajaran
     @GET("/api/v1/tahun-ajaran")
     fun getTahunAjaran(): Call<List<TahunAjaran>>
+
+    // BK Tasks
+    @GET("/api/v1/bk/tugas/me")
+    fun getMyTasks(@Header("Authorization") token: String): Call<List<BkTask>>
 }

@@ -6,6 +6,7 @@ import com.example.bknova.model.SoalMasalah
 import com.example.bknova.model.AumSubmitRequest
 import com.example.bknova.model.AumResponse
 import com.example.bknova.model.AumStatusResponse
+import com.example.bknova.model.AumHasilSiswa
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -39,4 +40,10 @@ interface AumServices {
         @Header("Authorization") token: String,
         @Path("idUser") idUser: Int
     ): Call<AumStatusResponse>
+
+    @GET("/api/v1/aum/hasil/{idGuru}")
+    fun getHasilAumByGuru(
+        @Header("Authorization") token: String,
+        @Path("idGuru") idGuru: Int
+    ): Call<List<AumHasilSiswa>>
 }

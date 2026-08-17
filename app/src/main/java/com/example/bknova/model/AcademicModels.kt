@@ -21,3 +21,16 @@ data class TahunAjaran(
     @SerializedName("tahun") val tahun: String,
     @SerializedName("semester") val semester: String
 )
+
+data class BkTask(
+    @SerializedName("id") val id: Int,
+    @SerializedName("id_User_BK") val idUserBk: Int,
+    @SerializedName("nama_BK") val namaBk: String,
+    @SerializedName("id_Kelas") val idKelas: Int,
+    @SerializedName("nama_Kelas") val namaKelas: String,
+    @SerializedName("tingkat") val tingkat: String,
+    @SerializedName("id_Tahun_Ajaran") val idTahunAjaran: Int,
+    @SerializedName("tahunAjaran") val tahunAjaran: String,
+    @SerializedName("is_Active") val isActive: Boolean,
+    @SerializedName("assigned_At") val assignedAt: String
+)

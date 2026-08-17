@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_gray"
+    android:background="#F8F9FA"
     tools:context=".fragment.profilFragment"
     tools:ignore="Overdraw">
 
@@ -18,18 +18,17 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:navigationIcon="@drawable/ic_menu"
-            app:title="@string/bk"
+            app:title="Profil Saya"
             app:titleTextAppearance="@style/ToolbarTitleBold"
             app:titleTextColor="@color/blue_primary"
-            app:titleCentered="false" />
+            app:titleCentered="true" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-        android:paddingBottom="80dp"
+        android:paddingBottom="100dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <LinearLayout
@@ -38,396 +37,364 @@
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Profile Header Card -->
-            <com.google.android.material.card.MaterialCardView
+            <!-- Profile Header Section -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="24dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:layout_marginBottom="32dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:gravity="center_horizontal"
-                    android:paddingBottom="24dp">
-
-                    <View
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    app:cardCornerRadius="50dp"
+                    app:cardElevation="4dp"
+                    app:strokeColor="@color/white"
+                    app:strokeWidth="4dp">
+                    <ImageView
                         android:layout_width="match_parent"
-                        android:layout_height="120dp"
-                        android:background="@color/blue_light" />
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:layout_width="100dp"
-                        android:layout_height="100dp"
-                        android:layout_marginTop="-50dp"
-                        android:padding="4dp"
-                        android:background="@color/white"
-                        app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+                        android:layout_height="match_parent"
                         android:src="@drawable/person_icon"
                         android:scaleType="centerCrop"
-                        app:strokeColor="@color/white"
-                        app:strokeWidth="4dp" />
+                        android:contentDescription="Foto Profil" />
+                </com.google.android.material.card.MaterialCardView>
 
-                    <TextView
-                        android:id="@+id/tv_name_profil"
+                <TextView
+                    android:id="@+id/tv_name_profil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/ex_name"
+                    android:textColor="#1A1C1E"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_role_profil"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Siswa Aktif"
+                    android:textColor="#65676B"
+                    android:textSize="14sp" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/tv_badge_kelas"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:text="@string/ex_name"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="22sp"
-                        android:textStyle="bold" />
+                        android:text="@string/ex_kelas"
+                        android:textColor="@color/blue_primary"
+                        app:chipBackgroundColor="#E3F2FD"
+                        app:chipCornerRadius="8dp"
+                        app:chipIconEnabled="false"
+                        app:chipStrokeWidth="0dp"/>
 
-                    <TextView
-                        android:id="@+id/tv_role_profil"
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/tv_badge_school"
+                        style="@style/Widget.MaterialComponents.Chip.Action"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="4dp"
-                        android:text="Role User"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="14sp" />
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginTop="20dp">
-
-                        <TextView
-                            android:id="@+id/tv_badge_kelas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_badge_green"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="8dp"
-                            android:text="@string/ex_kelas"
-                            android:textColor="@color/green_text"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:id="@+id/tv_badge_school"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="12dp"
-                            android:background="@drawable/bg_badge_blue"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="8dp"
-                            android:text="@string/ex_school"
-                            android:textColor="@color/blue_primary"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                        android:layout_marginStart="8dp"
+                        android:text="@string/ex_school"
+                        android:textColor="@color/blue_primary"
+                        app:chipBackgroundColor="#E3F2FD"
+                        app:chipCornerRadius="8dp"
+                        app:chipIconEnabled="false"
+                        app:chipStrokeWidth="0dp"/>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
-            <!-- Personal Information Card -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Informasi Akademik"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#1A1C1E"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Personal Info Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="24dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
+                    android:padding="8dp">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="INFORMASI PERSONAL"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="16dp"/>
-
-                    <!-- NISN Field (For Student) -->
+                    <!-- NISN & NIS Satuan -->
                     <LinearLayout
-                        android:id="@+id/layout_nisn"
+                        android:id="@+id/layout_nisn_nis"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingVertical="8dp">
-                        <TextView
-                            android:layout_width="120dp"
+                        android:padding="12dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_people"
+                            app:tint="#9E9E9E" />
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="NISN"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tv_nisn"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="-"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="NISN / NIS"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E"/>
+                            <TextView
+                                android:id="@+id/tv_nisn_nis"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="#1A1C1E"
+                                android:textSize="14sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!-- NIS Field (For Student) -->
-                    <LinearLayout
-                        android:id="@+id/layout_nis"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:paddingVertical="8dp">
-                        <TextView
-                            android:layout_width="120dp"
-                            android:layout_height="wrap_content"
-                            android:text="NIS"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tv_nis"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="-"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
-                    </LinearLayout>
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginStart="48dp" />
 
-                    <!-- Gender Field -->
+                    <!-- Jenis Kelamin -->
                     <LinearLayout
                         android:id="@+id/layout_gender"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingVertical="8dp">
-                        <TextView
-                            android:layout_width="120dp"
+                        android:padding="12dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_people"
+                            app:tint="#9E9E9E" />
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Jenis Kelamin"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tv_gender"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="-"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Jenis Kelamin"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E"/>
+                            <TextView
+                                android:id="@+id/tv_gender"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="#1A1C1E"
+                                android:textSize="14sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Place/Date of Birth -->
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginStart="48dp" />
+
+                    <!-- TTL -->
                     <LinearLayout
                         android:id="@+id/layout_ttl"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingVertical="8dp">
-                        <TextView
-                            android:layout_width="120dp"
+                        android:padding="12dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_notifications"
+                            app:tint="#9E9E9E" />
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="TTL"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tv_ttl"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="-"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="TTL"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E"/>
+                            <TextView
+                                android:id="@+id/tv_ttl"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="#1A1C1E"
+                                android:textSize="14sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Jurusan (For Student) -->
+                    <View android:layout_width="match_parent" android:layout_height="1dp" android:background="#F0F0F0" android:layout_marginStart="48dp" />
+
+                    <!-- Jurusan -->
                     <LinearLayout
                         android:id="@+id/layout_jurusan"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingVertical="8dp">
-                        <TextView
-                            android:layout_width="120dp"
+                        android:padding="12dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_psychology"
+                            app:tint="#9E9E9E" />
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Jurusan"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tv_jurusan"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="-"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Jurusan"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E"/>
+                            <TextView
+                                android:id="@+id/tv_jurusan"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="#1A1C1E"
+                                android:textSize="14sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
                     </LinearLayout>
 
-                    <!-- Tahun Ajaran (For Wali Kelas) -->
+                    <!-- Tahun Ajaran (Visible for Wali Kelas/Hidden for Siswa normally but kept for compatibility) -->
                     <LinearLayout
                         android:id="@+id/layout_tahun_ajaran"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:paddingVertical="8dp"
+                        android:padding="12dp"
+                        android:gravity="center_vertical"
                         android:visibility="gone">
-                        <TextView
-                            android:layout_width="120dp"
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:src="@drawable/ic_assignment"
+                            app:tint="#9E9E9E" />
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:text="Tahun Ajaran"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
-                        <TextView
-                            android:id="@+id/tv_tahun_ajaran"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="-"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:layout_weight="1"
+                            android:layout_marginStart="16dp"
+                            android:orientation="vertical">
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Tahun Ajaran"
+                                android:textSize="11sp"
+                                android:textColor="#9E9E9E"/>
+                            <TextView
+                                android:id="@+id/tv_tahun_ajaran"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="-"
+                                android:textColor="#1A1C1E"
+                                android:textSize="14sp"
+                                android:textStyle="bold"/>
+                        </LinearLayout>
                     </LinearLayout>
-
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Account Settings Card -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pengaturan Akun"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:textColor="#1A1C1E"
+                android:layout_marginBottom="12dp"/>
+
+            <!-- Settings Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
+                android:layout_marginBottom="32dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="2dp"
-                app:strokeWidth="0dp">
+                app:cardElevation="0dp"
+                app:strokeColor="#F0F0F0"
+                app:strokeWidth="1dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/account_settings"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="16dp"/>
-
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_color"
-                        android:layout_marginStart="56dp"
-                        android:layout_marginVertical="8dp"/>
+                    android:padding="8dp">
 
                     <!-- Ganti Kata Sandi -->
-                    <RelativeLayout
+                    <LinearLayout
+                        android:id="@+id/btn_change_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:clickable="true"
                         android:focusable="true"
-                        android:paddingVertical="8dp">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/icon_password"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:padding="8dp"
-                            android:background="@color/blue_light"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
+                        android:foreground="?attr/selectableItemBackground"
+                        android:padding="12dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/ic_lock"
-                            app:tint="@color/blue_primary" />
-
-                        <ImageView
-                            android:id="@+id/arrow2"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/divider_color"
-                            android:contentDescription="@string/cd_buka" />
-
+                            app:tint="#9E9E9E" />
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
+                            android:layout_weight="1"
                             android:layout_marginStart="16dp"
-                            android:layout_toEndOf="@id/icon_password"
-                            android:layout_toStartOf="@id/arrow2"
                             android:text="@string/change_password"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="16sp" />
-
-                    </RelativeLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_color"
-                        android:layout_marginStart="56dp"
-                        android:layout_marginVertical="8dp"/>
-
-                    <!-- Notifikasi -->
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:paddingVertical="8dp">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/icon_notif"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:padding="8dp"
-                            android:background="@color/blue_light"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                            android:src="@drawable/ic_notifications"
-                            app:tint="@color/blue_primary" />
-
+                            android:textColor="#1A1C1E"
+                            android:textSize="14sp" />
                         <ImageView
-                            android:id="@+id/arrow3"
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/divider_color"
-                            android:contentDescription="@string/cd_buka" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="16dp"
-                            android:layout_toEndOf="@id/icon_notif"
-                            android:layout_toStartOf="@id/arrow3"
-                            android:text="@string/notifications"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="16sp" />
-
-                    </RelativeLayout>
-
+                            app:tint="#9E9E9E" />
+                    </LinearLayout>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <!-- Logout Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_logout"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/logout"
                 android:textAllCaps="false"
-                android:textColor="@color/red_text"
-                app:backgroundTint="@color/red_light"
-                app:cornerRadius="12dp"
+                android:textColor="#E53935"
                 app:icon="@drawable/ic_logout"
-                app:iconGravity="textStart"
-                app:iconTint="@color/red_text"
+                app:iconTint="#E53935"
+                app:rippleColor="#FFEBEE"
                 android:paddingVertical="12dp" />
 
         </LinearLayout>

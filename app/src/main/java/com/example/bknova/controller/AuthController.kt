@@ -2,6 +2,8 @@ package com.example.bknova.controller
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.bknova.model.ChangePasswordRequest
+import com.example.bknova.model.ChangePasswordResponse
 import com.example.bknova.model.Login
 import com.example.bknova.model.LoginFeedback
 import com.example.bknova.model.UserResponse
@@ -22,6 +24,11 @@ class AuthController(private val context: Context) {
 
     interface UserCallback {
         fun onSuccess(user: UserResponse)
+        fun onError(message: String)
+    }
+
+    interface ChangePasswordCallback {
+        fun onSuccess(message: String)
         fun onError(message: String)
     }
 
@@ -142,5 +149,32 @@ class AuthController(private val context: Context) {
 
     fun logout() {
         sharedPref.edit().clear().apply()
+    }
+
+    fun changePassword(request: ChangePasswordRequest, callback: ChangePasswordCallback) {
+        val token = getToken()
+        if (token == null) {
+            callback.onError("Token tidak ditemukan")
+            return
+        }
+
+        val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
+
+        Aktor.auth.changePassword(bearerToken, request).enqueue(object : Callback<ChangePasswordResponse> {
+            override fun onResponse(
+                call: Call<ChangePasswordResponse>,
+                response: Response<ChangePasswordResponse>
+            ) {
+                if (response.isSuccessful) {
+                    callback.onSuccess(response.body()?.message ?: "Password berhasil diubah")
+                } else {
+                    callback.onError("Gagal mengubah password: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ChangePasswordResponse>, t: Throwable) {
+                callback.onError("Terjadi kesalahan: ${t.message}")
+            }
+        })
     }
 }

@@ -95,17 +95,6 @@
                         android:orientation="horizontal"
                         android:layout_marginTop="20dp">
 
-                        <TextView
-                            android:id="@+id/tv_badge_kelas"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_badge_green"
-                            android:paddingHorizontal="16dp"
-                            android:paddingVertical="8dp"
-                            android:text="Kelas"
-                            android:textColor="@color/green_text"
-                            android:textSize="12sp"
-                            android:textStyle="bold" />
 
                         <TextView
                             android:id="@+id/tv_badge_school"
@@ -141,11 +130,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="INFORMASI PERSONAL"
                         android:textColor="@color/text_color_secondary"
                         android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:layout_marginBottom="16dp"/>
+                        android:textStyle="bold" />
 
                     <!-- Tahun Ajaran -->
                     <LinearLayout
@@ -153,12 +142,14 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingVertical="8dp">
+
                         <TextView
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
                             android:text="Tahun Ajaran"
                             android:textColor="@color/text_color_secondary"
                             android:textSize="14sp" />
+
                         <TextView
                             android:id="@+id/tv_tahun_ajaran"
                             android:layout_width="match_parent"
@@ -169,20 +160,22 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- Tingkat -->
+                    <!-- Kelas Diampu -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:paddingVertical="8dp">
+
                         <TextView
                             android:layout_width="120dp"
                             android:layout_height="wrap_content"
-                            android:text="Tingkat"
+                            android:text="Kelas "
                             android:textColor="@color/text_color_secondary"
                             android:textSize="14sp" />
+
                         <TextView
-                            android:id="@+id/tv_tingkat"
+                            android:id="@+id/tv_kelas_diampu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="-"

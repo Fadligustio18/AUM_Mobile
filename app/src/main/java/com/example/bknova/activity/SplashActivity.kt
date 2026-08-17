@@ -4,6 +4,8 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.animation.LinearInterpolator
 import android.widget.ProgressBar
 import androidx.appcompat.app.AppCompatActivity
@@ -17,8 +19,6 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        val loadingCat = findViewById<LottieAnimationView>(R.id.loading_cat)
-        val progressBar = findViewById<ProgressBar>(R.id.loading_progress)
 
         // Animasi Sinkron: Bar Loading & Kucing Berjalan
         val animator = ValueAnimator.ofFloat(0f, 1f)
@@ -28,20 +28,14 @@ class SplashActivity : AppCompatActivity() {
         animator.addUpdateListener { animation ->
             val progress = animation.animatedValue as Float
             
-            // 1. Update Progress Bar (0 - 100) secara halus
-            progressBar.progress = (progress * 100).toInt()
 
-            // 2. Update Posisi Kucing menggunakan Horizontal Bias
-            // Offset 0.13f untuk menyesuaikan titik tengah kucing agar pas di ujung bar (240dp vs 65dp)
-            val params = loadingCat.layoutParams as ConstraintLayout.LayoutParams
-            params.horizontalBias = progress
-            loadingCat.layoutParams = params
+
         }
 
         animator.start()
 
         // Pindah ke screen berikutnya setelah animasi selesai
-        loadingCat.postDelayed({
+        Handler(Looper.getMainLooper()).postDelayed({
             val sharedPref = getSharedPreferences("user_session", Context.MODE_PRIVATE)
             val isLoggedIn = sharedPref.getBoolean("is_logged_in", false)
             val role = sharedPref.getString("role", null)

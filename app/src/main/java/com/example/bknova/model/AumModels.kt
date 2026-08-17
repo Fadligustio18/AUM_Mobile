@@ -43,3 +43,21 @@ data class AumSubmitRequest(
 data class AumStatusResponse(
     @SerializedName("submitted") val submitted: Boolean
 )
+
+// Detailed AUM Result for BK
+data class AumHasilSiswa(
+    @SerializedName("idSiswa") val idSiswa: Int,
+    @SerializedName("nama") val nama: String,
+    @SerializedName("kelas") val kelas: String,
+    @SerializedName("tingkat") val tingkat: String,
+    @SerializedName("nis") val nis: String,
+    @SerializedName("nisn") val nisn: String,
+    @SerializedName("waktuMengisi") val waktuMengisi: String,
+    @SerializedName("bidang") val bidang: List<AumBidangHasil>
+)
+
+data class AumBidangHasil(
+    @SerializedName("kode_Bidang") val kodeBidang: String,
+    @SerializedName("nama_Bidang") val namaBidang: String,
+    @SerializedName("pilihan") val pilihan: List<String>
+)

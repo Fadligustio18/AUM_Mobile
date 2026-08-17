@@ -11,8 +11,14 @@ import android.widget.Toast
 import com.example.bknova.R
 import com.example.bknova.activity.LoginActivity
 import com.example.bknova.controller.AuthController
+import com.example.bknova.model.BkTask
 import com.example.bknova.model.UserResponse
+import com.example.bknova.service.Aktor
+import com.example.bknova.activity.guruBkActivity
 import com.google.android.material.button.MaterialButton
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class profilBkFragment : Fragment() {
     private lateinit var authController: AuthController
@@ -20,13 +26,17 @@ class profilBkFragment : Fragment() {
     // Views
     private lateinit var tvName: TextView
     private lateinit var tvRole: TextView
-    private lateinit var tvBadgeKelas: TextView
     private lateinit var tvTahunAjaran: TextView
-    private lateinit var tvTingkat: TextView
+    private lateinit var tvKelasDiampu: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         authController = AuthController(requireContext())
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as? guruBkActivity)?.setBottomNavigationVisibility(true)
     }
 
     override fun onCreateView(
@@ -42,13 +52,13 @@ class profilBkFragment : Fragment() {
         // Initialize Views
         tvName = view.findViewById(R.id.tv_name_profil)
         tvRole = view.findViewById(R.id.tv_role_profil)
-        tvBadgeKelas = view.findViewById(R.id.tv_badge_kelas)
         tvTahunAjaran = view.findViewById(R.id.tv_tahun_ajaran)
-        tvTingkat = view.findViewById(R.id.tv_tingkat)
+        tvKelasDiampu = view.findViewById(R.id.tv_kelas_diampu)
         
         val btnLogout = view.findViewById<MaterialButton>(R.id.btn_logout)
 
         fetchUserProfile()
+        fetchBkTasks()
 
         btnLogout.setOnClickListener {
             logout()
@@ -59,7 +69,8 @@ class profilBkFragment : Fragment() {
         authController.getUserProfile(object : AuthController.UserCallback {
             override fun onSuccess(user: UserResponse) {
                 if (isAdded) {
-                    updateUI(user)
+                    tvName.text = user.nama
+                    tvRole.text = user.role
                 }
             }
 
@@ -71,18 +82,35 @@ class profilBkFragment : Fragment() {
         })
     }
 
-    private fun updateUI(user: UserResponse) {
-        tvName.text = user.nama
-        tvRole.text = user.role
+    private fun fetchBkTasks() {
+        val token = authController.getToken() ?: return
+        val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
+
+        Aktor.academic.getMyTasks(bearerToken).enqueue(object : Callback<List<BkTask>> {
+            override fun onResponse(call: Call<List<BkTask>>, response: Response<List<BkTask>>) {
+                if (isAdded && response.isSuccessful) {
+                    val tasks = response.body()
+                    if (!tasks.isNullOrEmpty()) {
+                        updateTaskUI(tasks)
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<BkTask>>, t: Throwable) {
+                if (isAdded) {
+                    Toast.makeText(context, "Gagal memuat data tugas: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
+    }
+
+    private fun updateTaskUI(tasks: List<BkTask>) {
+        val firstTask = tasks[0]
+        tvTahunAjaran.text = firstTask.tahunAjaran
         
-        val profile = user.profile
-        val tingkat = profile?.tingkat ?: ""
-        val kelas = profile?.kelas ?: ""
-        val fullKelas = if (tingkat.isNotEmpty() && kelas.isNotEmpty()) "$tingkat $kelas" else (tingkat + kelas).ifEmpty { "-" }
-        
-        tvBadgeKelas.text = fullKelas
-        tvTahunAjaran.text = profile?.tahunAjaran ?: "-"
-        tvTingkat.text = profile?.tingkat ?: "-"
+        // Combine Tingkat and Nama Kelas (e.g., "X DKV 1, X DKV 2")
+        val combinedClassList = tasks.joinToString(", ") { "${it.tingkat} ${it.namaKelas}" }
+        tvKelasDiampu.text = combinedClassList
     }
 
     private fun logout() {
@@ -93,44 +121,3 @@ class profilBkFragment : Fragment() {
         requireActivity().finish()
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//Radot was here

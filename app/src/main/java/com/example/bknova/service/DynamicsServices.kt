@@ -21,4 +21,11 @@ interface DynamicsServices {
     // Wali Kelas
     @GET("/api/v1/wali-kelas")
     fun getWaliKelas(): Call<List<WaliKelas>>
+
+    // Get students by Class ID
+    @GET("/api/v1/siswa/kelas/{id_kelas}")
+    fun getSiswaByKelas(
+        @Header("Authorization") token: String,
+        @Path("id_kelas") idKelas: Int
+    ): Call<List<Siswa>>
 }

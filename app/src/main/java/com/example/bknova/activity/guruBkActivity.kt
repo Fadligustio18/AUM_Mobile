@@ -13,6 +13,8 @@ import com.example.bknova.fragment.profilBkFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class guruBkActivity : AppCompatActivity() {
+    private lateinit var bottomNavigation: BottomNavigationView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,7 +25,7 @@ class guruBkActivity : AppCompatActivity() {
             insets
         }
 
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation_bk)
+        bottomNavigation = findViewById(R.id.bottom_navigation_bk)
 
         // Set fragment default
         replaceFragment(homeBkFragment())
@@ -38,9 +40,14 @@ class guruBkActivity : AppCompatActivity() {
                     replaceFragment(profilBkFragment())
                     true
                 }
-                // Handle navSiswaBk later
                 else -> false
             }
+        }
+    }
+
+    fun setBottomNavigationVisibility(isVisible: Boolean) {
+        if (::bottomNavigation.isInitialized) {
+            bottomNavigation.visibility = if (isVisible) android.view.View.VISIBLE else android.view.View.GONE
         }
     }
 
