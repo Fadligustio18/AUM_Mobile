@@ -7,7 +7,7 @@
     app:cardCornerRadius="16dp"
     app:cardElevation="0dp"
     app:cardBackgroundColor="@color/white"
-    app:strokeColor="#F0F0F0"
+    app:strokeColor="@color/divider_color"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="0"
-            android:textColor="@color/blue_primary"
+            android:textColor="@color/brand_primary"
             android:textSize="24sp"
             android:textStyle="bold" />
 
@@ -32,7 +32,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
             android:text="Bidang"
-            android:textColor="#65676B"
+            android:textColor="@color/text_color_secondary"
             android:textSize="11sp"
             android:textAlignment="center"
             android:maxLines="2"

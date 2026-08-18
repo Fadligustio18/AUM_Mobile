@@ -28,9 +28,9 @@ data class HasilAum(
 
 // Response Wrappers (Opsional, tergantung format JSON backend)
 data class AumResponse<T>(
-    @SerializedName("status") val status: String,
-    @SerializedName("message") val message: String,
-    @SerializedName("data") val data: T
+    @SerializedName("status") val status: String = "",
+    @SerializedName("message") val message: String = "",
+    @SerializedName("data") val data: T? = null
 )
 
 // Request for AUM Submission

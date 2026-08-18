@@ -23,14 +23,14 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue_primary" />
+            app:tint="@color/brand_primary" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:text="@string/bk"
-            android:textColor="@color/blue_primary"
+            android:textColor="@color/brand_primary"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -77,7 +77,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/gaya_belajar_title"
-                android:textColor="@color/blue_primary"
+                android:textColor="@color/brand_primary"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -109,7 +109,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:text="@string/progress_percent_25"
-                        android:textColor="@color/blue_primary"
+                        android:textColor="@color/brand_primary"
                         android:textSize="14sp"
                         android:textStyle="bold" />
                 </RelativeLayout>
@@ -118,8 +118,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:progress="25"
-                    app:indicatorColor="@color/blue_primary"
-                    app:trackColor="@color/blue_light"
+                    app:indicatorColor="@color/brand_primary"
+                    app:trackColor="@color/brand_soft"
                     app:trackCornerRadius="4dp"
                     app:trackThickness="8dp" />
             </LinearLayout>
@@ -131,7 +131,7 @@
                 app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
-                app:strokeColor="@color/blue_light"
+                app:strokeColor="@color/brand_soft"
                 app:strokeWidth="1dp">
 
                 <LinearLayout
@@ -195,10 +195,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginBottom="12dp"
-                            app:cardBackgroundColor="@color/blue_light"
+                            app:cardBackgroundColor="@color/brand_soft"
                             app:cardCornerRadius="12dp"
                             app:cardElevation="0dp"
-                            app:strokeColor="@color/blue_primary"
+                            app:strokeColor="@color/brand_primary"
                             app:strokeWidth="2dp">
 
                             <RadioButton
@@ -264,12 +264,12 @@
             android:layout_weight="1"
             android:text="@string/btn_kembali"
             android:textAllCaps="false"
-            android:textColor="@color/blue_primary"
+            android:textColor="@color/brand_primary"
             app:cornerRadius="12dp"
             app:icon="@drawable/ic_arrow_back"
             app:iconGravity="textStart"
-            app:iconTint="@color/blue_primary"
-            app:strokeColor="@color/blue_primary" />
+            app:iconTint="@color/brand_primary"
+            app:strokeColor="@color/brand_primary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
@@ -277,7 +277,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/blue_primary"
+            android:backgroundTint="@color/brand_primary"
             android:text="@string/btn_selanjutnya"
             android:textAllCaps="false"
             android:textColor="@color/white"

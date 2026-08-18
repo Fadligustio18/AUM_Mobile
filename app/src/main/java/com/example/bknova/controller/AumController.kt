@@ -68,18 +68,41 @@ class AumController {
             ) {
                 if (response.isSuccessful) {
                     val body = response.body()
-                    if (body != null && body.status == "success") {
-                        callback.onSuccess(body.message)
+                    // Jika body null tapi HTTP OK (200/201), anggap sukses
+                    if (body == null) {
+                        callback.onSuccess("Data berhasil dikirim")
+                        return
+                    }
+
+                    // Backend ASP.NET mungkin mengirim status success atau Success (case insensitive)
+                    // Atau mungkin hanya message tanpa status
+                    val isStatusSuccess = body.status.equals("success", ignoreCase = true)
+                    
+                    if (isStatusSuccess || body.status.isEmpty()) {
+                        callback.onSuccess(body.message.ifEmpty { "Berhasil submit AUM" })
                     } else {
-                        callback.onError(body?.message ?: "Gagal submit AUM")
+                        callback.onError(body.message.ifEmpty { "Gagal submit AUM" })
                     }
                 } else {
-                    val errorBody = response.errorBody()?.string()
-                    callback.onError("Error ${response.code()}: $errorBody")
+                    val errorBody = response.errorBody()?.string() ?: ""
+                    android.util.Log.e("AUM_SUBMIT", "Error Response: $errorBody")
+                    
+                    // Terkadang server mengembalikan JSON error, terkadang teks biasa
+                    val message = if (errorBody.contains("message")) {
+                        try {
+                            com.google.gson.Gson().fromJson(errorBody, AumResponse::class.java).message
+                        } catch (e: Exception) {
+                            "Terjadi kesalahan pada server (${response.code()})"
+                        }
+                    } else {
+                        "Gagal menyimpan data (${response.code()})"
+                    }
+                    callback.onError(message)
                 }
             }
 
             override fun onFailure(call: Call<AumResponse<String>>, t: Throwable) {
+                android.util.Log.e("AUM_SUBMIT", "Network failure", t)
                 callback.onError("Kesalahan jaringan: ${t.message}")
             }
         })

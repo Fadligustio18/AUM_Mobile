@@ -5,26 +5,50 @@
     <color name="white">#FFFFFFFF</color>
     <color name="black">#FF000000</color>
 
-    <!-- ===== Brand ===== -->
-    <!-- Satu-satunya biru utama. #1E63FD & #0D47A1 lama sudah dibuang. -->
-    <color name="blue_primary">#4A69E2</color>
-    <color name="blue_light">#EBF0FF</color>
-    <!-- Biru 8% untuk item AUM terpilih (bg_item_aum) -->
-    <color name="blue_overlay">#144A69E2</color>
+    <!-- =====================================================================
+         PALET INTI (4 warna yang diminta). Semua token di bawah diturunkan
+         dari empat ini — ganti nilai di sini, seluruh app ikut berubah.
+           #8333EA ungu    -> brand_primary
+           #FF7FAF pink    -> accent_pink
+           #FFC6BF peach   -> accent_peach
+           #F8F7F2 krem    -> background_cream
+         ===================================================================== -->
 
-    <!-- ===== Status ===== -->
+    <!-- ===== Brand: ungu ===== -->
+    <color name="brand_primary">#8333EA</color>
+    <!-- Shade 20% untuk gradient & state pressed -->
+    <color name="brand_dark">#6929BB</color>
+    <!-- Tint 12% di atas putih: bg lingkaran ikon, chip, item nav terpilih -->
+    <color name="brand_soft">#F0E6FC</color>
+    <!-- Ungu 8% untuk item AUM terpilih (bg_item_aum) -->
+    <color name="brand_overlay">#148333EA</color>
+
+    <!-- ===== Accent: pink ===== -->
+    <color name="accent_pink">#FF7FAF</color>
+    <color name="accent_pink_soft">#FFECF3</color>
+    <!-- #FF7FAF hanya 2.4:1 di atas putih -> tidak boleh jadi warna teks.
+         Versi gelap ini 5.7:1, dipakai kalau pink perlu muncul sebagai teks. -->
+    <color name="accent_pink_text">#B8306A</color>
+
+    <!-- ===== Accent: peach ===== -->
+    <color name="accent_peach">#FFC6BF</color>
+    <color name="accent_peach_soft">#FFE8E5</color>
+    <!-- Terracotta 5.5:1, untuk ikon/teks di atas peach -->
+    <color name="accent_peach_text">#B4453A</color>
+
+    <!-- ===== Status (tetap semantik, bukan warna brand) ===== -->
     <color name="green_light">#D1FAE5</color>
     <color name="green_text">#059669</color>
     <color name="red_light">#FEE2E2</color>
     <color name="red_text">#DC2626</color>
 
-    <!-- ===== Teks & permukaan ===== -->
-    <color name="text_color_primary">#1E293B</color>
-    <color name="text_color_secondary">#64748B</color>
-    <color name="background_gray">#F8FAFC</color>
-    <!-- Dipakai juga sebagai garis/stroke default (dulu #E0E0E0 & #F0F0F0) -->
-    <color name="divider_color">#E2E8F0</color>
-    <!-- Kartu logo di splash -->
-    <color name="surface_dark">#1A1A1A</color>
+    <!-- ===== Teks & permukaan =====
+         Ink dihangatkan (bukan slate biru lagi) supaya duduk di atas krem.
+         Kontras di atas background_cream: primary 14.7:1, secondary 5.6:1. -->
+    <color name="text_color_primary">#2A1E33</color>
+    <color name="text_color_secondary">#6B5E75</color>
+    <color name="background_cream">#F8F7F2</color>
+    <!-- Dipakai juga sebagai garis/stroke default -->
+    <color name="divider_color">#E8E3DC</color>
 
 </resources>

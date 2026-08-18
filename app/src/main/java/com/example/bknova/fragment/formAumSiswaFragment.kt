@@ -162,7 +162,7 @@ class FormAumFragment : Fragment() {
 
         for (i in stepIds.indices) {
             val stepView = root.findViewById<View>(stepIds[i])
-            val colorRes = if (i < currentBidangId) R.color.blue_primary else R.color.blue_light
+            val colorRes = if (i < currentBidangId) R.color.brand_primary else R.color.brand_soft
             stepView.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), colorRes))
         }
         
@@ -218,7 +218,7 @@ class FormAumFragment : Fragment() {
             checkBox.text = soal.pertanyaan
             checkBox.textSize = 16f
             checkBox.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color_primary))
-            checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue_primary))
+            checkBox.buttonTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.brand_primary))
             
             // Set Background Selector
             checkBox.background = ContextCompat.getDrawable(requireContext(), R.drawable.bg_item_aum)

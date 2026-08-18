@@ -25,7 +25,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/blue_primary" />
+            app:tint="@color/brand_primary" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="10dp"
             android:text="@string/bk"
-            android:textColor="@color/blue_primary"
+            android:textColor="@color/brand_primary"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -112,7 +112,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginTop="4dp"
                 android:text="0 Terpilih"
-                android:textColor="@color/blue_primary"
+                android:textColor="@color/brand_primary"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -179,12 +179,12 @@
             android:layout_weight="1"
             android:text="@string/btn_kembali"
             android:textAllCaps="false"
-            android:textColor="@color/blue_primary"
+            android:textColor="@color/brand_primary"
             app:cornerRadius="12dp"
             app:icon="@drawable/ic_arrow_back"
             app:iconGravity="textStart"
-            app:iconTint="@color/blue_primary"
-            app:strokeColor="@color/blue_primary" />
+            app:iconTint="@color/brand_primary"
+            app:strokeColor="@color/brand_primary" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
@@ -192,7 +192,7 @@
             android:layout_height="56dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/blue_primary"
+            android:backgroundTint="@color/brand_primary"
             android:text="@string/btn_selanjutnya"
             android:textAllCaps="false"
             android:textColor="@color/white"

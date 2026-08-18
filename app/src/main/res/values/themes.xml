@@ -1,9 +1,49 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. App ini light-only: semua warna teks di layout di-hardcode gelap. -->
+    <!-- Base application theme. App ini light-only. -->
     <style name="Base.Theme.BkNova" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:windowBackground">@color/white</item>
+
+        <!-- Peran warna Material3. Diisi supaya MaterialButton, Chip,
+             TextInputLayout, CheckBox, Switch, ripple, dll ikut brand
+             tanpa perlu di-set per layout. -->
+        <item name="colorPrimary">@color/brand_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/brand_soft</item>
+        <item name="colorOnPrimaryContainer">@color/text_color_primary</item>
+
+        <item name="colorSecondary">@color/accent_pink</item>
+        <!-- Teks putih gagal kontras di atas #FF7FAF, jadi pakai ink gelap. -->
+        <item name="colorOnSecondary">@color/text_color_primary</item>
+        <item name="colorSecondaryContainer">@color/accent_pink_soft</item>
+        <item name="colorOnSecondaryContainer">@color/text_color_primary</item>
+
+        <item name="colorTertiary">@color/accent_peach</item>
+        <item name="colorOnTertiary">@color/text_color_primary</item>
+        <item name="colorTertiaryContainer">@color/accent_peach_soft</item>
+        <item name="colorOnTertiaryContainer">@color/text_color_primary</item>
+
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/text_color_primary</item>
+        <item name="colorSurfaceVariant">@color/background_cream</item>
+        <item name="colorOnSurfaceVariant">@color/text_color_secondary</item>
+        <item name="android:colorBackground">@color/background_cream</item>
+        <item name="colorOnBackground">@color/text_color_primary</item>
+
+        <item name="colorOutline">@color/divider_color</item>
+        <item name="colorOutlineVariant">@color/divider_color</item>
+
+        <item name="colorError">@color/red_text</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorErrorContainer">@color/red_light</item>
+        <item name="colorOnErrorContainer">@color/red_text</item>
+
+        <item name="android:windowBackground">@color/background_cream</item>
+
+        <!-- App bar di semua halaman berwarna putih, jadi status bar dibuat
+             terang dengan ikon gelap supaya menyatu. -->
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
     </style>
 
     <style name="Theme.BkNova" parent="Base.Theme.BkNova" />

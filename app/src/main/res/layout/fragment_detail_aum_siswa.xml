@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F8F9FA">
+    android:background="@color/background_cream">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -17,10 +17,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/blue_primary"
+            app:navigationIconTint="@color/brand_primary"
             app:title="Laporan AUM"
             app:titleTextAppearance="@style/ToolbarTitleBold"
-            app:titleTextColor="@color/blue_primary" />
+            app:titleTextColor="@color/brand_primary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -49,13 +49,13 @@
                     android:layout_height="60dp"
                     app:cardCornerRadius="30dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="#E3F2FD">
+                    app:cardBackgroundColor="@color/brand_soft">
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/person_icon"
                         android:padding="12dp"
-                        app:tint="@color/blue_primary" />
+                        app:tint="@color/brand_primary" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout
@@ -72,14 +72,14 @@
                         android:text="Nama Siswa"
                         android:textSize="20sp"
                         android:textStyle="bold"
-                        android:textColor="#1A1C1E"/>
+                        android:textColor="@color/text_color_primary"/>
 
                     <TextView
                         android:id="@+id/tv_detail_kelas"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="X DKV 1"
-                        android:textColor="#65676B"
+                        android:textColor="@color/text_color_secondary"
                         android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
@@ -102,7 +102,7 @@
                         android:layout_height="wrap_content"
                         android:text="NIS / NISN"
                         android:textSize="11sp"
-                        android:textColor="#9E9E9E"
+                        android:textColor="@color/text_color_secondary"
                         android:textAllCaps="true"
                         android:letterSpacing="0.05"/>
                     <TextView
@@ -110,7 +110,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="1111 / 1111"
-                        android:textColor="#1A1C1E"
+                        android:textColor="@color/text_color_primary"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"/>
                 </LinearLayout>
@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:text="Tgl Pengisian"
                         android:textSize="11sp"
-                        android:textColor="#9E9E9E"
+                        android:textColor="@color/text_color_secondary"
                         android:textAllCaps="true"
                         android:letterSpacing="0.05"/>
                     <TextView
@@ -133,7 +133,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="17 Agt 2026"
-                        android:textColor="#1A1C1E"
+                        android:textColor="@color/text_color_primary"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"/>
                 </LinearLayout>
@@ -142,7 +142,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="#EEEEEE"
+                android:background="@color/divider_color"
                 android:layout_marginBottom="24dp"/>
 
             <!-- Statistics Section -->
@@ -152,7 +152,7 @@
                 android:text="Ringkasan Masalah"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#1A1C1E"
+                android:textColor="@color/text_color_primary"
                 android:layout_marginBottom="16dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -174,7 +174,7 @@
                 android:text="Daftar Masalah Terpilih"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:textColor="#1A1C1E"
+                android:textColor="@color/text_color_primary"
                 android:layout_marginBottom="16dp"/>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -199,7 +199,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:text="Belum ada data AUM"
-                android:textColor="#9E9E9E"
+                android:textColor="@color/text_color_secondary"
                 android:visibility="gone"/>
 
         </LinearLayout>

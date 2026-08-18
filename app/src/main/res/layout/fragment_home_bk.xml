@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_gray"
+    android:background="@color/background_cream"
     tools:context=".fragment.homeBkFragment">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -19,7 +19,7 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Dashboard Guru BK"
             app:titleTextAppearance="@style/ToolbarTitleBold"
-            app:titleTextColor="@color/blue_primary"
+            app:titleTextColor="@color/brand_primary"
             app:titleCentered="false" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -47,10 +47,10 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="12dp"
-                    android:background="@color/blue_light"
+                    android:background="@color/brand_soft"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
                     android:src="@drawable/person_icon"
-                    app:tint="@color/blue_primary" />
+                    app:tint="@color/brand_primary" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -123,11 +123,11 @@
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
-                                android:background="@color/blue_light"
+                                android:background="@color/brand_soft"
                                 android:padding="10dp"
                                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                                android:src="@drawable/ic_people"
-                                app:tint="@color/blue_primary" />
+                                android:src="@drawable/img_2"
+                                app:tint="@color/brand_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -165,11 +165,11 @@
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
-                                android:background="@color/green_light"
+                                android:background="@color/accent_pink_soft"
                                 android:padding="10dp"
                                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                                android:src="@drawable/ic_assignment"
-                                app:tint="@color/green_text" />
+                                android:src="@drawable/img_9"
+                                app:tint="@color/accent_pink_text" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -215,11 +215,11 @@
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
-                                android:background="@color/blue_light"
+                                android:background="@color/accent_peach_soft"
                                 android:padding="10dp"
                                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                                android:src="@drawable/ic_menu"
-                                app:tint="@color/blue_primary" />
+                                android:src="@drawable/img_8"
+                                app:tint="@color/accent_peach_text" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -257,11 +257,11 @@
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
-                                android:background="@color/blue_light"
+                                android:background="@color/brand_soft"
                                 android:padding="10dp"
                                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                                android:src="@drawable/ic_psychology"
-                                app:tint="@color/blue_primary" />
+                                android:src="@drawable/img_10"
+                                app:tint="@color/brand_primary" />
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -326,7 +326,7 @@
                                 android:text="120"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
-                                android:textColor="@color/blue_primary"/>
+                                android:textColor="@color/brand_primary"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -368,7 +368,7 @@
                                 android:text="12"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
-                                android:textColor="@color/blue_primary"/>
+                                android:textColor="@color/brand_primary"/>
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"

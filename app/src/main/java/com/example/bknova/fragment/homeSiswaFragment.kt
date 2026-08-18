@@ -118,14 +118,14 @@ class homeFragment : Fragment() {
                             button.iconTint = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_color_secondary))
                         } else {
                             badge.text = getString(R.string.status_belum_isi)
-                            badge.setBackgroundResource(R.drawable.bg_badge_blue)
-                            badge.setTextColor(ContextCompat.getColor(requireContext(), R.color.blue_primary))
+                            badge.setBackgroundResource(R.drawable.bg_badge_brand)
+                            badge.setTextColor(ContextCompat.getColor(requireContext(), R.color.brand_primary))
                             
                             button.visibility = View.VISIBLE
                             button.isEnabled = true
                             button.text = getString(R.string.btn_mulai_isi)
                             button.setIconResource(R.drawable.ic_edit)
-                            button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.blue_primary))
+                            button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.brand_primary))
                             button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
                             button.iconTint = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
                         }

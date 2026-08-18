@@ -7,7 +7,7 @@
     app:cardCornerRadius="16dp"
     app:cardElevation="0dp"
     app:cardBackgroundColor="@color/white"
-    app:strokeColor="#F0F0F0"
+    app:strokeColor="@color/divider_color"
     app:strokeWidth="1dp">
 
     <LinearLayout
@@ -25,7 +25,7 @@
             <View
                 android:layout_width="4dp"
                 android:layout_height="16dp"
-                android:background="@color/blue_primary"/>
+                android:background="@color/brand_primary"/>
 
             <TextView
                 android:id="@+id/tv_nama_bidang"
@@ -34,7 +34,7 @@
                 android:layout_marginStart="8dp"
                 android:text="Nama Bidang"
                 android:textStyle="bold"
-                android:textColor="#1A1C1E"
+                android:textColor="@color/text_color_primary"
                 android:textSize="15sp"/>
         </LinearLayout>
 
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="Daftar masalah..."
-            android:textColor="#4A4C4E"
+            android:textColor="@color/text_color_secondary"
             android:textSize="14sp"
             android:lineSpacingExtra="6dp"/>
     </LinearLayout>

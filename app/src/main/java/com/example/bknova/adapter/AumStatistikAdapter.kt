@@ -31,9 +31,9 @@ class AumStatistikAdapter(
         
         // Memberi warna berbeda jika jumlah masalah tinggi (opsional)
         if (count > 5) {
-            holder.tvCount.setTextColor(holder.itemView.context.getColor(android.R.color.holo_red_dark))
+            holder.tvCount.setTextColor(holder.itemView.context.getColor(R.color.red_text))
         } else {
-            holder.tvCount.setTextColor(holder.itemView.context.getColor(R.color.blue_primary))
+            holder.tvCount.setTextColor(holder.itemView.context.getColor(R.color.brand_primary))
         }
     }
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_gray">
+    android:background="@color/background_cream">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -18,9 +18,9 @@
             android:layout_height="?attr/actionBarSize"
             app:title="Data AUM Siswa"
             app:titleTextAppearance="@style/ToolbarTitleBold"
-            app:titleTextColor="@color/blue_primary"
+            app:titleTextColor="@color/brand_primary"
             app:navigationIcon="@drawable/ic_arrow_back"
-            app:navigationIconTint="@color/blue_primary" />
+            app:navigationIconTint="@color/brand_primary" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
