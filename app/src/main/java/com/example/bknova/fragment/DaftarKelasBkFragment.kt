@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bknova.R
@@ -51,6 +53,14 @@ class DaftarKelasBkFragment : Fragment() {
         progressBar = view.findViewById(R.id.pb_loading)
 
         rvKelas.layoutManager = LinearLayoutManager(context)
+
+        // Handle Window Insets for bottom padding
+        val initialPaddingBottom = rvKelas.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(rvKelas) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, initialPaddingBottom + systemBars.bottom)
+            insets
+        }
 
         toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()

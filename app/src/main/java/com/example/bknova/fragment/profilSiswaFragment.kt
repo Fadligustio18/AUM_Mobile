@@ -9,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
 import com.example.bknova.activity.LoginActivity
 import com.example.bknova.controller.AuthController
@@ -73,11 +76,20 @@ class profilFragment : Fragment() {
 
             val btnLogout = view.findViewById<MaterialButton>(R.id.btn_logout)
             val btnChangePassword = view.findViewById<LinearLayout>(R.id.btn_change_password)
+            
+            // Handle Window Insets for bottom padding
+            val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_profil_siswa)
+            val initialPaddingBottom = scrollView.paddingBottom
+            ViewCompat.setOnApplyWindowInsetsListener(scrollView) { v, insets ->
+                val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, initialPaddingBottom + systemBars.bottom)
+                insets
+            }
 
             fetchUserProfile()
 
             btnLogout?.setOnClickListener {
-                logout()
+                showLogoutConfirmation()
             }
 
             btnChangePassword?.setOnClickListener {
@@ -171,6 +183,17 @@ class profilFragment : Fragment() {
 
             tvTahunAjaran.text = profile?.tahunAjaran ?: "-"
         }
+    }
+
+    private fun showLogoutConfirmation() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Logout")
+            .setMessage("Apakah Anda yakin ingin keluar dari aplikasi?")
+            .setPositiveButton("Keluar") { _, _ ->
+                logout()
+            }
+            .setNegativeButton("Batal", null)
+            .show()
     }
 
     private fun logout() {

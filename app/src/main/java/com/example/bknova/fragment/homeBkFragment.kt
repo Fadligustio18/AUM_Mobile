@@ -7,6 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.controller.AuthController
@@ -36,6 +39,15 @@ class homeBkFragment : Fragment() {
         val cardAum = view.findViewById<MaterialCardView>(R.id.card_data_aum)
         val cardSosio = view.findViewById<MaterialCardView>(R.id.card_sosio_bk)
         val cardGaya = view.findViewById<MaterialCardView>(R.id.card_gaya_belajar_bk)
+        
+        // Handle Window Insets for bottom padding
+        val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_home_bk)
+        val initialPaddingBottom = scrollView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, initialPaddingBottom + systemBars.bottom)
+            insets
+        }
 
         // Set name from session
         tvName.text = authController.getName()

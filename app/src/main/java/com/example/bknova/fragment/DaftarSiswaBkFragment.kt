@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bknova.R
@@ -67,6 +69,14 @@ class DaftarSiswaBkFragment : Fragment() {
         }
 
         rvSiswa.layoutManager = LinearLayoutManager(context)
+
+        // Handle Window Insets for bottom padding
+        val initialPaddingBottom = rvSiswa.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(rvSiswa) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, initialPaddingBottom + systemBars.bottom)
+            insets
+        }
 
         toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()

@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
 import com.example.bknova.activity.LoginActivity
 import com.example.bknova.controller.AuthController
@@ -16,6 +19,7 @@ import com.example.bknova.model.UserResponse
 import com.example.bknova.service.Aktor
 import com.example.bknova.activity.guruBkActivity
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -57,12 +61,32 @@ class profilBkFragment : Fragment() {
         
         val btnLogout = view.findViewById<MaterialButton>(R.id.btn_logout)
 
+        // Handle Window Insets for bottom padding
+        val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_profil_bk)
+        val initialPaddingBottom = scrollView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, initialPaddingBottom + systemBars.bottom)
+            insets
+        }
+
         fetchUserProfile()
         fetchBkTasks()
 
         btnLogout.setOnClickListener {
-            logout()
+            showLogoutConfirmation()
         }
+    }
+
+    private fun showLogoutConfirmation() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Logout")
+            .setMessage("Apakah Anda yakin ingin keluar dari aplikasi?")
+            .setPositiveButton("Keluar") { _, _ ->
+                logout()
+            }
+            .setNegativeButton("Batal", null)
+            .show()
     }
 
     private fun fetchUserProfile() {

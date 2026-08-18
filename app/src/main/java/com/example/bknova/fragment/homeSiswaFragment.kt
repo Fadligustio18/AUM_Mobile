@@ -15,6 +15,9 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
 import com.example.bknova.controller.AumController
 import com.example.bknova.controller.AuthController
@@ -58,6 +61,15 @@ class homeFragment : Fragment() {
 
         val tvName = view.findViewById<TextView>(R.id.tv_name_home)
         val btnMulaiAum = view.findViewById<MaterialButton>(R.id.btn_mulai_aum)
+        
+        // Handle Window Insets for bottom padding
+        val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_home_siswa)
+        val initialPaddingBottom = scrollView.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(scrollView) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, initialPaddingBottom + systemBars.bottom)
+            insets
+        }
         val btnLihatSosio = view.findViewById<MaterialButton>(R.id.btn_lihat_sosio)
         val btnMulaiGaya = view.findViewById<MaterialButton>(R.id.btn_mulai_gaya)
         val badgeAum = view.findViewById<TextView>(R.id.badge_aum)

@@ -1,6 +1,8 @@
 package com.example.bknova.activity
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -19,13 +21,25 @@ class guruBkActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_guru_bk)
+        
+        bottomNavigation = findViewById(R.id.bottom_navigation_bk)
+        val bottomNavContainer = findViewById<View>(R.id.bottom_nav_container_bk)
+        
+        // Initial bottom margin from layout (20dp)
+        val initialBottomMargin = (bottomNavContainer.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin
+        
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            // Pad the root for status bar and side notches
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            
+            // Apply bottom inset to the floating container margin
+            val params = bottomNavContainer.layoutParams as ViewGroup.MarginLayoutParams
+            params.bottomMargin = initialBottomMargin + systemBars.bottom
+            bottomNavContainer.layoutParams = params
+            
             insets
         }
-
-        bottomNavigation = findViewById(R.id.bottom_navigation_bk)
 
         // Set fragment default
         replaceFragment(homeBkFragment())
