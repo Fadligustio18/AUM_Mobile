@@ -10,7 +10,7 @@ import com.example.bknova.model.BkTask
 
 class DaftarKelasBkAdapter(
     private val tasks: List<BkTask>,
-    private val onClick: (BkTask) -> Unit
+    private val onClick: (View, BkTask) -> Unit
 ) : RecyclerView.Adapter<DaftarKelasBkAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -30,7 +30,7 @@ class DaftarKelasBkAdapter(
         holder.tvTingkatJurusan.text = "${task.tingkat} - ${task.tahunAjaran}"
         
         holder.itemView.setOnClickListener {
-            onClick(task)
+            onClick(it, task)
         }
     }
 

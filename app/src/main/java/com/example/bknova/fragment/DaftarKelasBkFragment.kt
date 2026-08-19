@@ -101,7 +101,7 @@ class DaftarKelasBkFragment : Fragment() {
     }
 
     private fun setupRecyclerView(tasks: List<BkTask>) {
-        val adapter = DaftarKelasBkAdapter(tasks) { task ->
+        val adapter = DaftarKelasBkAdapter(tasks) { _, task ->
             // Navigate to student list for this class
             val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, task.namaKelas)
             parentFragmentManager.beginTransaction()

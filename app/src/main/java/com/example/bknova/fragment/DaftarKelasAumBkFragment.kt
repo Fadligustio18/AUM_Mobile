@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -96,14 +97,45 @@ class DaftarKelasAumBkFragment : Fragment() {
     }
 
     private fun setupRecyclerView(tasks: List<BkTask>) {
-        val adapter = DaftarKelasBkAdapter(tasks) { task ->
-            // Navigasi ke daftar siswa dengan mode AUM
-            val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, task.namaKelas, true)
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_bk, fragment)
-                .addToBackStack(null)
-                .commit()
+        val adapter = DaftarKelasBkAdapter(tasks) { view, task ->
+            showOptionsDropdown(view, task)
         }
         rvKelas.adapter = adapter
+    }
+
+    private fun showOptionsDropdown(view: View, task: BkTask) {
+        val popup = PopupMenu(requireContext(), view)
+        popup.menuInflater.inflate(R.menu.menu_aum_class_options, popup.menu)
+        
+        popup.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.menu_view_statistics -> {
+                    navigateToStatistik(task)
+                    true
+                }
+                R.id.menu_view_students -> {
+                    navigateToDaftarSiswa(task)
+                    true
+                }
+                else -> false
+            }
+        }
+        popup.show()
+    }
+
+    private fun navigateToStatistik(task: BkTask) {
+        val fragment = StatistikAumFragment.newInstance(task.namaKelas, task.idKelas)
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_bk, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun navigateToDaftarSiswa(task: BkTask) {
+        val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, task.namaKelas, true)
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_bk, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
