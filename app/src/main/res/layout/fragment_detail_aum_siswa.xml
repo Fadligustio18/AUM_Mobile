@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream">
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/bg_header"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -48,14 +48,14 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     app:cardCornerRadius="30dp"
-                    app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/brand_soft">
+                    app:cardBackgroundColor="@color/white">
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/person_icon"
                         android:padding="12dp"
-                        app:tint="@color/brand_primary" />
+
+                        app:tint="@color/black" />
                 </com.google.android.material.card.MaterialCardView>
 
                 <LinearLayout

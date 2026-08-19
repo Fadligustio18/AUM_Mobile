@@ -12,7 +12,8 @@
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:paddingHorizontal="18dp"
+        android:paddingHorizontal="20dp"
+        android:background="@drawable/bg_header"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -21,7 +22,6 @@
             android:layout_height="24dp"
             android:contentDescription="@string/cd_tutup"
             android:src="@drawable/ic_close"
-            android:layout_marginTop="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -31,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="10dp"
             android:text="@string/bk"
             android:textColor="@color/brand_primary"
             android:textSize="18sp"
@@ -159,27 +158,33 @@
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
-    <!-- Bottom Buttons -->
+    <!-- Bottom Buttons Container -->
     <LinearLayout
         android:id="@+id/bottom_nav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:elevation="8dp"
+        android:elevation="16dp"
         android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:padding="20dp"
+        android:gravity="center"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_back"
             style="@style/Widget.Material3.Button.OutlinedButton"
             android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="50dp"
+            android:layout_marginEnd="4dp"
             android:layout_weight="1"
             android:text="@string/btn_kembali"
             android:textAllCaps="false"
             android:textColor="@color/brand_primary"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             app:cornerRadius="12dp"
             app:icon="@drawable/ic_arrow_back"
             app:iconGravity="textStart"
@@ -189,13 +194,15 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_next"
             android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_marginStart="8dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="4dp"
             android:layout_weight="1"
             android:backgroundTint="@color/brand_primary"
             android:text="@string/btn_selanjutnya"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             app:cornerRadius="12dp"
             app:icon="@drawable/ic_arrow_forward"
             app:iconGravity="textEnd"

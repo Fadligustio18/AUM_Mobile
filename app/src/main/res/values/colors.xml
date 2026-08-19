@@ -15,7 +15,7 @@
          ===================================================================== -->
 
     <!-- ===== Brand: ungu ===== -->
-    <color name="brand_primary">#8333EA</color>
+    <color name="brand_primary">#5561F4</color>
     <!-- Shade 20% untuk gradient & state pressed -->
     <color name="brand_dark">#6929BB</color>
     <!-- Tint 12% di atas putih: bg lingkaran ikon, chip, item nav terpilih -->

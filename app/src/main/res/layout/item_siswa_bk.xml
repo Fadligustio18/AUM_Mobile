@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="8dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="1dp"
+    app:cardElevation="2dp"
     app:strokeWidth="0dp"
     android:clickable="true"
     android:focusable="true"
@@ -16,13 +16,14 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@drawable/bg_grid_shadow"
         android:padding="12dp">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/iv_siswa_photo"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:background="@color/divider_color"
+            android:background="@color/accent_pink_soft"
             android:padding="8dp"
             app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
             android:src="@drawable/person_icon"
@@ -58,7 +59,7 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@drawable/ic_chevron_right"
-            app:tint="@color/divider_color" />
+            app:tint="@color/brand_primary" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

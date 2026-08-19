@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream"
+    android:background="@color/white"
     tools:context=".fragment.DaftarSiswaBkFragment">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/bg_header"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -20,6 +21,7 @@
             app:navigationIcon="@drawable/ic_arrow_back"
             app:title="Daftar Siswa"
             app:titleTextAppearance="@style/ToolbarTitleBold"
+            app:navigationIconTint="@color/brand_primary"
             app:titleTextColor="@color/brand_primary" />
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -16,14 +16,14 @@
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:background="@drawable/bg_grid_shadow"
         android:padding="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:background="@color/brand_soft"
-            android:padding="12dp"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
+            android:layout_width="20dp"
+            android:layout_height="30dp"
+            android:background="@color/accent_pink_soft"
+            app:shapeAppearance="@style/ShapeAppearance.Circle"
             android:src="@drawable/img_7"
             app:tint="@color/brand_primary" />
 
@@ -57,7 +57,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_chevron_right"
-            app:tint="@color/divider_color" />
+            app:tint="@color/brand_primary" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

@@ -27,9 +27,9 @@
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
-                app:cardBackgroundColor="@android:color/white"
+                app:cardBackgroundColor="@color/white"
                 app:cardCornerRadius="50dp"
-                app:cardElevation="8dp">
+               >
 
                 <ImageView
                     android:layout_width="85dp"
@@ -75,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:background="@color/white"
+                android:background="@drawable/bg_grid_shadow"
                 android:padding="24dp">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -129,7 +129,7 @@
                     android:layout_gravity="center_horizontal"
                     android:minWidth="280dp"
                     android:maxWidth="320dp"
-                    android:backgroundTint="@color/brand_primary"
+                    android:backgroundTint="#4968E0"
                     android:text="@string/login"
                     android:textAllCaps="false"
                     android:textSize="18sp"

@@ -4,21 +4,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream"
+    android:background="@color/white"
     tools:context=".fragment.profilFragment"
     tools:ignore="Overdraw">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:elevation="0dp">
+        android:background="@drawable/bg_header"
+        app:elevation="2dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Profil Saya"
+            app:title="Profil"
             app:titleTextAppearance="@style/ToolbarTitleBold"
             app:titleTextColor="@color/brand_primary"
             app:titleCentered="true" />
@@ -44,14 +44,16 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:gravity="center_horizontal"
-                android:layout_marginBottom="32dp">
+                android:layout_marginBottom="32dp"
+                android:padding="18dp"
+                android:background="@drawable/bg_badge_brand">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     app:cardCornerRadius="50dp"
-                    app:cardElevation="4dp"
-                    app:strokeColor="@color/white"
+                    app:cardElevation="2dp"
+                    app:strokeColor="@color/brand_soft"
                     app:strokeWidth="4dp">
                     <ImageView
                         android:layout_width="match_parent"
@@ -128,7 +130,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
                 app:strokeColor="@color/divider_color"
                 app:strokeWidth="1dp">
 
@@ -136,6 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:background="@drawable/bg_grid_shadow"
                     android:padding="8dp">
 
                     <!-- NISN & NIS Satuan -->
@@ -168,9 +170,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="-"
-                                android:textColor="@color/text_color_primary"
-                                android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -206,9 +207,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="-"
-                                android:textColor="@color/text_color_primary"
-                                android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -244,9 +244,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="-"
-                                android:textColor="@color/text_color_primary"
-                                android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -282,9 +281,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="-"
-                                android:textColor="@color/text_color_primary"
-                                android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -319,9 +317,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="-"
-                                android:textColor="@color/text_color_primary"
-                                android:textSize="14sp"
-                                android:textStyle="bold"/>
+                                android:textColor="@color/text_color_secondary"
+                                android:textSize="14sp" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -342,7 +339,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="32dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
                 app:strokeColor="@color/divider_color"
                 app:strokeWidth="1dp">
 
@@ -350,6 +346,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:background="@drawable/bg_grid_shadow"
                     android:padding="8dp">
 
                     <!-- Ganti Kata Sandi -->
@@ -373,7 +370,7 @@
                             android:layout_weight="1"
                             android:layout_marginStart="16dp"
                             android:text="@string/change_password"
-                            android:textColor="@color/text_color_primary"
+                            android:textColor="@color/text_color_secondary"
                             android:textSize="14sp" />
                         <ImageView
                             android:layout_width="20dp"

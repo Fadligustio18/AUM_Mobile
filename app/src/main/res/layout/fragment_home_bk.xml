@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream"
+    android:background="@color/white"
     tools:context=".fragment.homeBkFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/bg_header"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
@@ -50,10 +50,9 @@
                     android:layout_width="60dp"
                     android:layout_height="60dp"
                     android:padding="12dp"
-                    android:background="@color/brand_soft"
+                    android:background="@color/white"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
-                    android:src="@drawable/person_icon"
-                    app:tint="@color/brand_primary" />
+                    android:src="@drawable/person_icon"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -110,17 +109,20 @@
                         android:layout_weight="1"
                         android:layout_margin="8dp"
                         app:cardCornerRadius="16dp"
-                        app:cardElevation="2dp"
+
                         app:strokeWidth="0dp"
                         android:clickable="true"
                         android:focusable="true"
+
                         android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
+
                             android:padding="16dp"
+                            android:background="@drawable/bg_grid_shadow"
                             android:gravity="center">
 
                             <com.google.android.material.imageview.ShapeableImageView
@@ -152,7 +154,7 @@
                         android:layout_weight="1"
                         android:layout_margin="8dp"
                         app:cardCornerRadius="16dp"
-                        app:cardElevation="2dp"
+
                         app:strokeWidth="0dp"
                         android:clickable="true"
                         android:focusable="true"
@@ -163,6 +165,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="16dp"
+                            android:background="@drawable/bg_grid_shadow"
                             android:gravity="center">
 
                             <com.google.android.material.imageview.ShapeableImageView
@@ -202,7 +205,7 @@
                         android:layout_weight="1"
                         android:layout_margin="8dp"
                         app:cardCornerRadius="16dp"
-                        app:cardElevation="2dp"
+
                         app:strokeWidth="0dp"
                         android:clickable="true"
                         android:focusable="true"
@@ -213,6 +216,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="16dp"
+                            android:background="@drawable/bg_grid_shadow"
                             android:gravity="center">
 
                             <com.google.android.material.imageview.ShapeableImageView
@@ -244,7 +248,7 @@
                         android:layout_weight="1"
                         android:layout_margin="8dp"
                         app:cardCornerRadius="16dp"
-                        app:cardElevation="2dp"
+
                         app:strokeWidth="0dp"
                         android:clickable="true"
                         android:focusable="true"
@@ -255,6 +259,7 @@
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
                             android:padding="16dp"
+                            android:background="@drawable/bg_grid_shadow"
                             android:gravity="center">
 
                             <com.google.android.material.imageview.ShapeableImageView
@@ -286,7 +291,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="16dp"
-                app:cardElevation="0dp"
+                app:cardElevation="1dp"
                 app:strokeColor="@color/divider_color"
                 app:strokeWidth="1dp">
 
@@ -294,6 +299,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
+                    android:background="@drawable/bg_grid_shadow"
                     android:padding="16dp">
 
                     <TextView

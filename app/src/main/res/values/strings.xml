@@ -34,7 +34,7 @@
 
     <!-- Navigasi form -->
     <string name="btn_kembali">Kembali</string>
-    <string name="btn_selanjutnya">Selanjutnya</string>
+    <string name="btn_selanjutnya">Berikutnya</string>
     <string name="progress_percent_25">25%</string>
 
     <!-- Content description -->

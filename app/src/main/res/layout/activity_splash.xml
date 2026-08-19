@@ -11,7 +11,7 @@
         android:id="@+id/logo_container"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:cardBackgroundColor="#FFFFFF"
+        app:cardBackgroundColor="#000000"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,6 @@
         android:layout_marginBottom="32dp"
         android:text="©Tefa Company"
         android:textColor="@android:color/black"
-        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

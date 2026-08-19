@@ -4,20 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream"
+    android:background="@color/white"
     tools:context=".fragment.DaftarKelasBkFragment">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/bg_header"
         app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar_kelas"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:layout_anchor="@+id/appBarLayout3"
+            app:layout_anchorGravity="center"
             app:navigationIcon="@drawable/ic_arrow_back"
+            app:navigationIconTint="@color/brand_primary"
             app:title="Daftar Kelas"
             app:titleTextAppearance="@style/ToolbarTitleBold"
             app:titleTextColor="@color/brand_primary" />
