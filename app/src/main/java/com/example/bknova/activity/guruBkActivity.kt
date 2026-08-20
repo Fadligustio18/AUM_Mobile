@@ -60,8 +60,11 @@ class guruBkActivity : AppCompatActivity() {
     }
 
     fun setBottomNavigationVisibility(isVisible: Boolean) {
-        if (::bottomNavigation.isInitialized) {
-            bottomNavigation.visibility = if (isVisible) android.view.View.VISIBLE else android.view.View.GONE
+        val bottomNavContainer = findViewById<View>(R.id.bottom_nav_container_bk)
+        if (::bottomNavigation.isInitialized && bottomNavContainer != null) {
+            val visibility = if (isVisible) android.view.View.VISIBLE else android.view.View.GONE
+            bottomNavigation.visibility = visibility
+            bottomNavContainer.visibility = visibility
         }
     }
 

@@ -20,10 +20,10 @@
         android:padding="16dp">
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:layout_width="20dp"
+            android:layout_width="25dp"
             android:layout_height="30dp"
             android:background="@color/accent_pink_soft"
-            app:shapeAppearance="@style/ShapeAppearance.Circle"
+            app:shapeAppearance="@style/ShapeAppearanceOverlay.Material3.Chip"
             android:src="@drawable/img_7"
             app:tint="@color/brand_primary" />
 

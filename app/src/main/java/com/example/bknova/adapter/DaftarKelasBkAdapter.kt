@@ -26,8 +26,8 @@ class DaftarKelasBkAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val task = tasks[position]
-        holder.tvNamaKelas.text = task.namaKelas
-        holder.tvTingkatJurusan.text = "${task.tingkat} - ${task.tahunAjaran}"
+        holder.tvNamaKelas.text = "${task.tingkat} ${task.namaKelas}"
+        holder.tvTingkatJurusan.text = task.tahunAjaran
         
         holder.itemView.setOnClickListener {
             onClick(it, task)

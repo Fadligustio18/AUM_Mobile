@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.PopupMenu
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
@@ -18,6 +17,7 @@ import com.example.bknova.controller.AuthController
 import com.example.bknova.model.BkTask
 import com.example.bknova.service.Aktor
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -97,30 +97,28 @@ class DaftarKelasAumBkFragment : Fragment() {
     }
 
     private fun setupRecyclerView(tasks: List<BkTask>) {
-        val adapter = DaftarKelasBkAdapter(tasks) { view, task ->
-            showOptionsDropdown(view, task)
+        val adapter = DaftarKelasBkAdapter(tasks) { _, task ->
+            showOptionsBottomSheet(task)
         }
         rvKelas.adapter = adapter
     }
 
-    private fun showOptionsDropdown(view: View, task: BkTask) {
-        val popup = PopupMenu(requireContext(), view)
-        popup.menuInflater.inflate(R.menu.menu_aum_class_options, popup.menu)
-        
-        popup.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.menu_view_statistics -> {
-                    navigateToStatistik(task)
-                    true
-                }
-                R.id.menu_view_students -> {
-                    navigateToDaftarSiswa(task)
-                    true
-                }
-                else -> false
-            }
+    private fun showOptionsBottomSheet(task: BkTask) {
+        val bottomSheet = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.layout_popup_aum_options, null)
+
+        view.findViewById<View>(R.id.btn_popup_statistik).setOnClickListener {
+            bottomSheet.dismiss()
+            navigateToStatistik(task)
         }
-        popup.show()
+
+        view.findViewById<View>(R.id.btn_popup_siswa).setOnClickListener {
+            bottomSheet.dismiss()
+            navigateToDaftarSiswa(task)
+        }
+
+        bottomSheet.setContentView(view)
+        bottomSheet.show()
     }
 
     private fun navigateToStatistik(task: BkTask) {

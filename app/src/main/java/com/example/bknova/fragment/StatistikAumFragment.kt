@@ -1,12 +1,25 @@
 package com.example.bknova.fragment
 
 import android.graphics.Color
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.pdf.PdfDocument
+import android.content.ContentValues
+import android.os.Build
+import android.os.Environment
+import android.provider.MediaStore
 import android.os.Bundle
+import android.util.TypedValue
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TableRow
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bknova.adapter.AumStatistikAdapter
 import com.example.bknova.controller.AuthController
@@ -14,6 +27,7 @@ import com.example.bknova.databinding.FragmentStatistikAumBinding
 import com.example.bknova.model.AumBidangHasil
 import com.example.bknova.model.AumHasilSiswa
 import com.example.bknova.service.Aktor
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
@@ -21,6 +35,7 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.OutputStream
 
 class StatistikAumFragment : Fragment() {
 
@@ -63,17 +78,94 @@ class StatistikAumFragment : Fragment() {
         authController = AuthController(requireContext())
         
         if (filterKelas != null) {
-            binding.tvTitleStatistik.text = "Statistik AUM - $filterKelas"
+            binding.tvTitleStatistik.text = "Statistik AUM $filterKelas"
             binding.tvSubtitleStatistik.text = "Distribusi Bidang Masalah Kelas $filterKelas"
+        }
+
+        binding.btnBack.setOnClickListener {
+            parentFragmentManager.popBackStack()
         }
 
         setupRecyclerView()
         fetchData()
+
+        binding.btnActionHeader.setOnClickListener {
+            exportToPdf()
+        }
+    }
+
+    private fun exportToPdf() {
+        val nsv = binding.nsvContent
+        val child = nsv.getChildAt(0) ?: return
+
+        val height = child.height
+        val width = child.width
+
+        if (height <= 0 || width <= 0) {
+            Toast.makeText(context, "Data belum siap", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        Toast.makeText(context, "Mengekspor PDF...", Toast.LENGTH_SHORT).show()
+
+        try {
+            val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+            val canvas = Canvas(bitmap)
+            child.draw(canvas)
+
+            val pdfDocument = PdfDocument()
+            val pageInfo = PdfDocument.PageInfo.Builder(width, height, 1).create()
+            val page = pdfDocument.startPage(pageInfo)
+            
+            page.canvas.drawBitmap(bitmap, 0f, 0f, null)
+            pdfDocument.finishPage(page)
+
+            savePdfToDownloads(pdfDocument)
+            
+            pdfDocument.close()
+            bitmap.recycle()
+        } catch (e: Exception) {
+            Toast.makeText(context, "Gagal ekspor: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun savePdfToDownloads(pdfDocument: PdfDocument) {
+        val fileName = "Statistik_AUM_${System.currentTimeMillis()}.pdf"
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                val contentValues = ContentValues().apply {
+                    put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
+                    put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
+                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
+                }
+                
+                val uri = requireContext().contentResolver.insert(
+                    MediaStore.Downloads.EXTERNAL_CONTENT_URI, 
+                    contentValues
+                )
+                
+                uri?.let {
+                    requireContext().contentResolver.openOutputStream(it)?.use { outputStream ->
+                        pdfDocument.writeTo(outputStream)
+                        Toast.makeText(context, "PDF tersimpan di folder Download", Toast.LENGTH_LONG).show()
+                    }
+                } ?: throw Exception("Gagal membuat URI MediaStore")
+            } else {
+                val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                val file = java.io.File(downloadDir, fileName)
+                java.io.FileOutputStream(file).use { outputStream ->
+                    pdfDocument.writeTo(outputStream)
+                    Toast.makeText(context, "PDF tersimpan di: ${file.absolutePath}", Toast.LENGTH_LONG).show()
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            Toast.makeText(context, "Gagal menyimpan: ${e.message}", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupRecyclerView() {
-        binding.rvSummaryStats.layoutManager = 
-            LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        binding.rvSummaryStats.layoutManager = GridLayoutManager(requireContext(), 2)
     }
 
     private fun fetchData() {
@@ -139,6 +231,93 @@ class StatistikAumFragment : Fragment() {
 
         // 3. Bar Chart
         setupBarChart(data)
+
+        // 4. Line Chart
+        setupLineChart(data)
+
+        // 5. Data Table
+        setupDataTable(data)
+    }
+
+    private fun setupLineChart(data: List<AumBidangHasil>) {
+        val entries = data.mapIndexed { index, bidang ->
+            Entry(index.toFloat(), bidang.pilihan.size.toFloat())
+        }
+
+        val dataSet = LineDataSet(entries, "Tren Masalah")
+        dataSet.color = Color.parseColor("#5561F4")
+        dataSet.setCircleColor(Color.parseColor("#5561F4"))
+        dataSet.lineWidth = 2f
+        dataSet.circleRadius = 4f
+        dataSet.setDrawCircleHole(true)
+        dataSet.valueTextSize = 10f
+        dataSet.setDrawFilled(true)
+        dataSet.fillColor = Color.parseColor("#5561F4")
+        dataSet.fillAlpha = 30
+        dataSet.mode = LineDataSet.Mode.CUBIC_BEZIER
+
+        val lineData = LineData(dataSet)
+
+        binding.lineChart.apply {
+            this.data = lineData
+            description.isEnabled = false
+            setPinchZoom(false)
+            setDrawGridBackground(false)
+            
+            xAxis.apply {
+                position = XAxis.XAxisPosition.BOTTOM
+                granularity = 1f
+                valueFormatter = IndexAxisValueFormatter(data.map { it.kodeBidang })
+                setDrawGridLines(false)
+                labelCount = data.size
+                labelRotationAngle = -45f
+            }
+
+            axisLeft.apply {
+                granularity = 1f
+                axisMinimum = 0f
+            }
+            axisRight.isEnabled = false
+            
+            // Tambahkan jarak bawah agar label yang diputar tidak terpotong
+            setExtraOffsets(0f, 0f, 0f, 16f)
+            animateX(1000)
+            invalidate()
+        }
+    }
+
+    private fun setupDataTable(data: List<AumBidangHasil>) {
+        val table = binding.tableDataAum
+        // Remove all rows except header (index 0)
+        val childCount = table.childCount
+        if (childCount > 1) {
+            table.removeViews(1, childCount - 1)
+        }
+
+        data.forEach { bidang ->
+            val row = TableRow(requireContext())
+            row.setPadding(8, 12, 8, 12)
+            
+            // Kode
+            val tvKode = TextView(requireContext())
+            tvKode.text = bidang.kodeBidang
+            tvKode.setPadding(0, 0, 8, 0)
+            
+            // Nama
+            val tvNama = TextView(requireContext())
+            tvNama.text = bidang.namaBidang
+            
+            // Jumlah
+            val tvJumlah = TextView(requireContext())
+            tvJumlah.text = bidang.pilihan.size.toString()
+            tvJumlah.gravity = Gravity.END
+
+            row.addView(tvKode)
+            row.addView(tvNama)
+            row.addView(tvJumlah)
+            
+            table.addView(row)
+        }
     }
 
     private fun setupDonutChart(data: List<AumBidangHasil>) {
@@ -154,7 +333,26 @@ class StatistikAumFragment : Fragment() {
         }
 
         val dataSet = PieDataSet(entries, "")
-        dataSet.colors = ColorTemplate.MATERIAL_COLORS.toList()
+        
+        // Pemetaan warna khusus untuk setiap kode bidang agar konsisten
+        val colorMap = mapOf(
+            "JDK" to Color.parseColor("#FF5252"), // Merah
+            "DPI" to Color.parseColor("#FF4081"), // Pink
+            "KHK" to Color.parseColor("#E040FB"), // Ungu
+            "HSO" to Color.parseColor("#7C4DFF"), // Deep Purple
+            "KDP" to Color.parseColor("#536DFE"), // Indigo
+            "EDK" to Color.parseColor("#448AFF"), // Biru
+            "WSG" to Color.parseColor("#40C4FF"), // Light Blue
+            "ANM" to Color.parseColor("#18FFFF"), // Cyan
+            "HMP" to Color.parseColor("#64FFDA"), // Teal
+            "PDP" to Color.parseColor("#69F0AE")  // Hijau
+        )
+
+        val chartColors = entries.map { entry ->
+            colorMap[entry.label] ?: Color.GRAY
+        }
+
+        dataSet.colors = chartColors
         dataSet.sliceSpace = 3f
         dataSet.selectionShift = 5f
         dataSet.valueTextSize = 12f
@@ -170,8 +368,60 @@ class StatistikAumFragment : Fragment() {
             setCenterText("Total\nMasalah")
             setCenterTextSize(16f)
             animateY(1000)
-            legend.isEnabled = true
+            
+            // Matikan legend bawaan karena kita pakai custom legend scrollable
+            legend.isEnabled = false
+            
+            setExtraOffsets(20f, 0f, 20f, 10f)
             invalidate()
+        }
+
+        setupCustomLegend(entries, colorMap)
+    }
+
+    private fun setupCustomLegend(entries: List<PieEntry>, colorMap: Map<String, Int>) {
+        val container = binding.legendContainer
+        container.removeAllViews()
+
+        entries.forEach { entry ->
+            val color = colorMap[entry.label] ?: Color.GRAY
+            
+            val itemLayout = LinearLayout(requireContext()).apply {
+                orientation = LinearLayout.HORIZONTAL
+                gravity = Gravity.CENTER_VERTICAL
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                params.setMargins(0, 0, 24, 0)
+                layoutParams = params
+            }
+
+            // Dot warna
+            val colorView = View(requireContext()).apply {
+                val size = TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP, 12f, resources.displayMetrics
+                ).toInt()
+                layoutParams = LinearLayout.LayoutParams(size, size)
+                setBackgroundColor(color)
+            }
+
+            // Teks label
+            val textView = TextView(requireContext()).apply {
+                text = entry.label
+                textSize = 12f
+                setTextColor(Color.parseColor("#424242"))
+                val params = LinearLayout.LayoutParams(
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
+                    LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                params.setMargins(8, 0, 0, 0)
+                layoutParams = params
+            }
+
+            itemLayout.addView(colorView)
+            itemLayout.addView(textView)
+            container.addView(itemLayout)
         }
     }
 
@@ -199,6 +449,8 @@ class StatistikAumFragment : Fragment() {
                 granularity = 1f
                 valueFormatter = IndexAxisValueFormatter(data.map { it.kodeBidang })
                 setDrawGridLines(false)
+                labelCount = data.size
+                labelRotationAngle = -45f
             }
 
             axisLeft.apply {
@@ -207,6 +459,8 @@ class StatistikAumFragment : Fragment() {
             }
             axisRight.isEnabled = false
             
+            // Tambahkan jarak bawah agar label yang diputar tidak terpotong
+            setExtraOffsets(0f, 0f, 0f, 16f)
             animateY(1000)
             invalidate()
         }

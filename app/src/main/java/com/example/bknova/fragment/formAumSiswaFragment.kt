@@ -140,8 +140,10 @@ class FormAumFragment : Fragment() {
         aumController.submitAum(token, request, object : AumController.AumCallback<String> {
             override fun onSuccess(data: String) {
                 if (isAdded) {
-                    Toast.makeText(context, data, Toast.LENGTH_LONG).show()
-                    parentFragmentManager.popBackStack()
+                    val successFragment = SuccessAumFragment.newInstance()
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragment_container, successFragment)
+                        .commit()
                 }
             }
 
