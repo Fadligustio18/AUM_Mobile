@@ -14,6 +14,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
 import com.example.bknova.activity.LoginActivity
+import com.example.bknova.activity.halaman_siswa_Activity
 import com.example.bknova.controller.AuthController
 import com.example.bknova.model.ChangePasswordRequest
 import com.example.bknova.model.UserResponse
@@ -40,6 +41,12 @@ class profilFragment : Fragment() {
     private lateinit var layoutTtl: LinearLayout
     private lateinit var layoutJurusan: LinearLayout
     private lateinit var layoutTahunAjaran: LinearLayout
+
+    override fun onResume() {
+        super.onResume()
+        // Pastikan Bottom Navigation muncul di halaman profil
+        (activity as? halaman_siswa_Activity)?.setBottomNavigationVisibility(true)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

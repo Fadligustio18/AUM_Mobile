@@ -16,6 +16,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
+import com.example.bknova.activity.halaman_siswa_Activity
 import com.example.bknova.controller.AumController
 import com.example.bknova.controller.AuthController
 import com.example.bknova.model.AumSubmitRequest
@@ -64,7 +65,7 @@ class FormAumFragment : Fragment() {
         tvSelectedCount = view.findViewById(R.id.tv_selected_count)
 
         // Sembunyikan Bottom Navigation secara aman
-        activity?.findViewById<View>(R.id.bottom_nav_container)?.visibility = View.GONE
+        (activity as? halaman_siswa_Activity)?.setBottomNavigationVisibility(false)
 
         btnClose.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -243,8 +244,12 @@ class FormAumFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        // Tampilkan kembali container saat keluar
-        activity?.findViewById<View>(R.id.bottom_nav_container)?.visibility = View.VISIBLE
+        // Tampilkan kembali container saat keluar, KECUALI jika kita pindah ke Success Fragment
+        // yang juga menyembunyikannya. Tapi paling aman tampilkan di Fragment tujuan.
+        // Di sini kita tampilkan jika kita popBackStack biasa.
+        if (parentFragmentManager.backStackEntryCount > 0) {
+             (activity as? halaman_siswa_Activity)?.setBottomNavigationVisibility(true)
+        }
     }
 
     companion object {

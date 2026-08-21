@@ -58,6 +58,13 @@ class halaman_siswa_Activity : AppCompatActivity() {
         }
     }
 
+    fun setBottomNavigationVisibility(isVisible: Boolean) {
+        val bottomNavContainer = findViewById<View>(R.id.bottom_nav_container)
+        if (bottomNavContainer != null) {
+            bottomNavContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
+        }
+    }
+
     private fun replaceFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
             .replace(R.id.fragment_container, fragment)

@@ -21,6 +21,7 @@ import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
 import com.example.bknova.controller.AumController
 import com.example.bknova.controller.AuthController
+import com.example.bknova.activity.halaman_siswa_Activity
 import com.google.android.material.button.MaterialButton
 
 // TODO: Rename parameter arguments, choose names that match
@@ -40,6 +41,12 @@ class homeFragment : Fragment() {
     // TODO: Rename parameter arguments, choose names that match
     private var param1: String? = null
     private var param2: String? = null
+
+    override fun onResume() {
+        super.onResume()
+        // Pastikan Bottom Navigation muncul di halaman utama
+        (activity as? halaman_siswa_Activity)?.setBottomNavigationVisibility(true)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
