@@ -13,6 +13,7 @@ import com.example.bknova.model.Login
 import com.example.bknova.model.LoginFeedback
 import com.example.bknova.model.UserResponse
 import com.example.bknova.service.Aktor
+import com.example.bknova.ui.WaveTransitionHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
 
@@ -26,9 +27,18 @@ class LoginActivity : AppCompatActivity() {
         
         authController = AuthController(this)
 
+        // Make status bar and navigation bar transparent for true full screen
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
+        window.navigationBarColor = android.graphics.Color.TRANSPARENT
+        
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+            window.isNavigationBarContrastEnforced = false
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            // Remove top and bottom padding to let design flow into system bar areas
+            v.setPadding(systemBars.left, 0, systemBars.right, 0)
             insets
         }
 
@@ -65,8 +75,7 @@ class LoginActivity : AppCompatActivity() {
                             }
                             
                             intent?.let {
-                                startActivity(it)
-                                finish()
+                                WaveTransitionHelper.startTransition(this@LoginActivity, it)
                             }
                         }
 

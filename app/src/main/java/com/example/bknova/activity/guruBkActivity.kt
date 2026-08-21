@@ -12,6 +12,7 @@ import com.example.bknova.R
 import androidx.fragment.app.Fragment
 import com.example.bknova.fragment.homeBkFragment
 import com.example.bknova.fragment.profilBkFragment
+import com.example.bknova.ui.WaveTransitionHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class guruBkActivity : AppCompatActivity() {
@@ -57,6 +58,9 @@ class guruBkActivity : AppCompatActivity() {
                 else -> false
             }
         }
+
+        // Jalankan animasi wave surut saat halaman dibuka
+        WaveTransitionHelper.finishTransition(this)
     }
 
     fun setBottomNavigationVisibility(isVisible: Boolean) {
