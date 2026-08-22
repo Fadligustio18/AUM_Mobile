@@ -122,7 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="55dp"
                     android:layout_marginTop="32dp"
-                    android:backgroundTint="#4968E0"
+                    android:backgroundTint="@color/brand_primary"
                     android:text="@string/login"
                     android:textAllCaps="false"
                     android:textSize="18sp"

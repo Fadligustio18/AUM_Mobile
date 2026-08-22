@@ -1,72 +1,84 @@
 package com.example.bknova.activity
 
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
-import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import com.example.bknova.R
+import com.example.bknova.databinding.ActivityHalamanSiswaBinding
 import com.example.bknova.fragment.homeFragment
 import com.example.bknova.fragment.profilFragment
 import com.example.bknova.ui.WaveTransitionHelper
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class halaman_siswa_Activity : AppCompatActivity() {
+    
+    private lateinit var binding: ActivityHalamanSiswaBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_halaman_siswa)
-        
-        val mainView = findViewById<View>(R.id.main)
-        val bottomNavContainer = findViewById<View>(R.id.bottom_nav_container)
-        
-        // Initial bottom margin from layout
-        val initialBottomMargin = (bottomNavContainer.layoutParams as ViewGroup.MarginLayoutParams).bottomMargin
+        binding = ActivityHalamanSiswaBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        ViewCompat.setOnApplyWindowInsetsListener(mainView) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            // Pad the root for status bar and side notches
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             
-            // Apply bottom inset to the floating bottom nav container
-            val params = bottomNavContainer.layoutParams as ViewGroup.MarginLayoutParams
-            params.bottomMargin = initialBottomMargin + systemBars.bottom
-            bottomNavContainer.layoutParams = params
-
+            // Hapus padding top pada root agar konten fragment bisa sampai ke atas (area baterai)
+            v.setPadding(systemBars.left, 0, systemBars.right, 0)
+            
+            // Sesuaikan margin bawah navigasi card agar tidak tertutup tombol sistem
+            val mlp = binding.navCard.layoutParams as android.view.ViewGroup.MarginLayoutParams
+            // 24dp margin asli + tinggi navigasi sistem
+            val marginInPx = (24 * resources.displayMetrics.density).toInt()
+            mlp.bottomMargin = systemBars.bottom + marginInPx
+            binding.navCard.layoutParams = mlp
+            
             insets
         }
 
-        val bottomNavigation = findViewById<BottomNavigationView>(R.id.bottom_navigation)
-
-        // Set fragment default saat pertama kali dibuka
+        // Set Default Fragment
         replaceFragment(homeFragment())
+        updateNavUI(isHome = true)
 
-        bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_home -> {
-                    replaceFragment(homeFragment())
-                    true
-                }
-                R.id.nav_profil -> {
-                    replaceFragment(profilFragment())
-                    true
-                }
-                else -> false
-            }
+        // Klik Home
+        binding.btnNavHome.setOnClickListener {
+            replaceFragment(homeFragment())
+            updateNavUI(isHome = true)
         }
 
-        // Jalankan animasi wave surut saat halaman dibuka
+        // Klik Profil
+        binding.btnNavProfil.setOnClickListener {
+            replaceFragment(profilFragment())
+            updateNavUI(isHome = false)
+        }
+
         WaveTransitionHelper.finishTransition(this)
     }
 
+    private fun updateNavUI(isHome: Boolean) {
+        val activeColor = ContextCompat.getColor(this, R.color.brand_primary)
+        val inactiveColor = ContextCompat.getColor(this, R.color.text_color_secondary)
+
+        // UI Home
+        binding.dotHome.visibility = if (isHome) View.VISIBLE else View.INVISIBLE
+        binding.icNavHome.imageTintList = ColorStateList.valueOf(if (isHome) activeColor else inactiveColor)
+        binding.tvNavHome.setTextColor(if (isHome) activeColor else inactiveColor)
+        binding.tvNavHome.typeface = if (isHome) android.graphics.Typeface.DEFAULT_BOLD else android.graphics.Typeface.DEFAULT
+
+        // UI Profil
+        binding.dotProfil.visibility = if (!isHome) View.VISIBLE else View.INVISIBLE
+        binding.icNavProfil.imageTintList = ColorStateList.valueOf(if (!isHome) activeColor else inactiveColor)
+        binding.tvNavProfil.setTextColor(if (!isHome) activeColor else inactiveColor)
+        binding.tvNavProfil.typeface = if (!isHome) android.graphics.Typeface.DEFAULT_BOLD else android.graphics.Typeface.DEFAULT
+    }
+
     fun setBottomNavigationVisibility(isVisible: Boolean) {
-        val bottomNavContainer = findViewById<View>(R.id.bottom_nav_container)
-        if (bottomNavContainer != null) {
-            bottomNavContainer.visibility = if (isVisible) View.VISIBLE else View.GONE
-        }
+        binding.navCard.visibility = if (isVisible) View.VISIBLE else View.GONE
     }
 
     private fun replaceFragment(fragment: Fragment) {

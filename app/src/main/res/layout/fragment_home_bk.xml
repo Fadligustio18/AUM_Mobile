@@ -8,51 +8,50 @@
     tools:context=".fragment.homeBkFragment">
 
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_header"
-        app:elevation="0dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar_bk"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="Dashboard Guru BK"
-            app:titleTextAppearance="@style/ToolbarTitleBold"
-            app:titleTextColor="@color/brand_primary"
-            app:titleCentered="false" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_view_home_bk"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="80dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="220dp"
+        android:background="@drawable/img_1">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Welcome Header -->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar_bk"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Dashboard Guru BK"
+                app:titleTextAppearance="@style/ToolbarTitleBold"
+                app:titleCentered="false"
+                app:titleTextColor="@color/white"
+                app:contentInsetStart="0dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Profile Section in Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="50dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/iv_profile_bk"
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:padding="12dp"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:padding="2dp"
                     android:background="@color/white"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
-                    android:src="@drawable/person_icon"/>
+                    android:src="@drawable/person_icon"
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -64,19 +63,36 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Selamat Datang,"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="14sp" />
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:alpha="0.9" />
 
                     <TextView
                         android:id="@+id/tv_name_bk"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Guru BK"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view_home_bk"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="160dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -285,109 +301,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Activity Logs / Recent Section (decoration) -->
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="1dp"
-                app:strokeColor="@color/divider_color"
-                app:strokeWidth="1dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_grid_shadow"
-                    android:padding="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Statistik Cepat"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/divider_color"
-                        android:layout_marginVertical="12dp" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="3"
-                        android:baselineAligned="false">
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="120"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/brand_primary"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Siswa"
-                                android:textSize="10sp"
-                                android:textColor="@color/text_color_secondary"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="45"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/green_text"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="AUM Selesai"
-                                android:textSize="10sp"
-                                android:textColor="@color/text_color_secondary"/>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical"
-                            android:gravity="center">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="12"
-                                android:textSize="18sp"
-                                android:textStyle="bold"
-                                android:textColor="@color/brand_primary"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Konseling"
-                                android:textSize="10sp"
-                                android:textColor="@color/text_color_secondary"/>
-                        </LinearLayout>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

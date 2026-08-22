@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.bknova.R
+import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.activity.halaman_siswa_Activity
 import com.example.bknova.controller.AuthController
 import java.text.SimpleDateFormat
@@ -30,6 +31,7 @@ class SuccessAumFragment : Fragment() {
         super.onResume()
         // Sembunyikan Bottom Navigation secara paksa saat fragment aktif
         (activity as? halaman_siswa_Activity)?.setBottomNavigationVisibility(false)
+        (activity as? guruBkActivity)?.setBottomNavigationVisibility(false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -70,6 +72,7 @@ class SuccessAumFragment : Fragment() {
         super.onDestroyView()
         // Tampilkan kembali Bottom Navigation saat keluar
         (activity as? halaman_siswa_Activity)?.setBottomNavigationVisibility(true)
+        (activity as? guruBkActivity)?.setBottomNavigationVisibility(true)
     }
 
     companion object {

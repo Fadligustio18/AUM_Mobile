@@ -11,51 +11,48 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/bg_header"
-        app:elevation="2dp">
-
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:title="@string/bk"
-            app:titleTextAppearance="@style/ToolbarTitleBold"
-            app:titleCentered="false"
-            app:titleTextColor="@color/brand_primary" />
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_view_home_siswa"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        android:paddingBottom="80dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="220dp"
+        android:background="@drawable/img_1">
 
         <LinearLayout
-            android:id="@+id/linear_container_home"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="20dp">
 
-            <!-- Profile Section -->
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="@string/bk"
+                app:titleTextAppearance="@style/ToolbarTitleBold"
+                app:titleCentered="false"
+                app:titleTextColor="@color/white"
+                app:contentInsetStart="0dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <!-- Profile Section in Header -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-                android:layout_marginBottom="24dp">
+                android:layout_marginBottom="50dp">
 
                 <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_width="60dp"
-                    android:layout_height="60dp"
-                    android:padding="12dp"
-                    android:background="@color/brand_soft"
+                    android:id="@+id/iv_profile_home"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:padding="2dp"
+                    android:background="@color/white"
                     app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
                     android:src="@drawable/person_icon"
-                    app:tint="@color/brand_primary" />
+                    app:strokeWidth="2dp"
+                    app:strokeColor="@color/white" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -68,18 +65,37 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ex_name"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="20sp"
+                        android:textColor="@color/white"
+                        android:textSize="26sp"
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tv_school_home"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/ex_school"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="14sp" />
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        android:alpha="0.9" />
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scroll_view_home_siswa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <LinearLayout
+            android:id="@+id/linear_container_home"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
             <!-- Section Title -->
             <RelativeLayout

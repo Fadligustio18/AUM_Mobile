@@ -38,12 +38,13 @@
 
         <item name="android:windowBackground">@color/background_cream</item>
 
-        <!-- App bar di semua halaman berwarna putih, jadi status bar dibuat
-             terang dengan ikon gelap supaya menyatu. -->
-        <item name="android:statusBarColor">@color/white</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <!-- Membuat bar sistem transparan agar mengikuti warna desain -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Mematikan kontras otomatis pada navigasi 3-tombol (API 29+) -->
+        <item name="android:enforceNavigationBarContrast" tools:targetApi="q">false</item>
+        <item name="android:enforceStatusBarContrast" tools:targetApi="q">false</item>
     </style>
 
     <style name="Theme.BkNova" parent="Base.Theme.BkNova" />
@@ -60,6 +61,6 @@
 
     <style name="ToolbarTitleBold" parent="TextAppearance.Material3.TitleLarge">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20sp</item> <!-- Sesuaikan ukuran jika perlu -->
+        <item name="android:textSize">24sp</item>
     </style>
 </resources>
