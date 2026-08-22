@@ -1,5 +1,8 @@
 package com.example.bknova.fragment
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -121,7 +124,7 @@ class DaftarSiswaBkFragment : Fragment() {
     }
 
     private fun setupRecyclerView(listSiswa: List<Siswa>) {
-        val adapter = DaftarSiswaBkAdapter(listSiswa) { siswa ->
+        val adapter = DaftarSiswaBkAdapter(listSiswa, isAumMode) { siswa ->
             if (isAumMode) {
                 siswa.id?.let { id ->
                     val fragment = DetailAumSiswaFragment.newInstance(id, siswa.nama)
@@ -131,11 +134,18 @@ class DaftarSiswaBkFragment : Fragment() {
                         .commit()
                 }
             } else {
-                // Navigate to student detail if needed
-                Toast.makeText(context, "Melihat profil ${siswa.nama}", Toast.LENGTH_SHORT).show()
+                // Copy NISN to clipboard only if NOT in AUM mode
+                copyToClipboard(siswa.nisn)
             }
         }
         rvSiswa.adapter = adapter
+    }
+
+    private fun copyToClipboard(text: String) {
+        val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("NISN", text)
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(context, "NISN $text disalin ke clipboard", Toast.LENGTH_SHORT).show()
     }
 
     companion object {

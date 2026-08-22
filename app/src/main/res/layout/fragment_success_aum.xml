@@ -89,9 +89,6 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:cornerRadius="12dp"
-        app:icon="@drawable/ic_arrow_forward"
-        app:iconGravity="textEnd"
-        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

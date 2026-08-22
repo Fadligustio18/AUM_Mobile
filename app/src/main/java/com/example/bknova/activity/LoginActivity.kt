@@ -90,5 +90,9 @@ class LoginActivity : AppCompatActivity() {
                 }
             })
         }
+
+        if (intent.getBooleanExtra("FROM_WAVE_TRANSITION", false)) {
+            WaveTransitionHelper.finishTransition(this)
+        }
     }
 }

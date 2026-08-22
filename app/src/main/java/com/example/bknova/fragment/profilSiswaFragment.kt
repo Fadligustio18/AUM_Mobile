@@ -18,6 +18,7 @@ import com.example.bknova.activity.halaman_siswa_Activity
 import com.example.bknova.controller.AuthController
 import com.example.bknova.model.ChangePasswordRequest
 import com.example.bknova.model.UserResponse
+import com.example.bknova.ui.WaveTransitionHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputEditText
@@ -207,7 +208,7 @@ class profilFragment : Fragment() {
         authController.logout()
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        requireActivity().finish()
+        
+        WaveTransitionHelper.startTransition(requireActivity(), intent)
     }
 }

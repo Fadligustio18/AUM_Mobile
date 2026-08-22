@@ -3,6 +3,7 @@ package com.example.bknova.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bknova.R
@@ -10,12 +11,14 @@ import com.example.bknova.model.Siswa
 
 class DaftarSiswaBkAdapter(
     private val listSiswa: List<Siswa>,
+    private val showArrow: Boolean = false,
     private val onClick: (Siswa) -> Unit
 ) : RecyclerView.Adapter<DaftarSiswaBkAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNama: TextView = view.findViewById(R.id.tv_nama_siswa)
         val tvNisn: TextView = view.findViewById(R.id.tv_nisn_siswa)
+        val ivArrow: ImageView = view.findViewById(R.id.iv_arrow_next)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -28,6 +31,8 @@ class DaftarSiswaBkAdapter(
         val siswa = listSiswa[position]
         holder.tvNama.text = siswa.nama
         holder.tvNisn.text = "NISN: ${siswa.nisn}"
+        
+        holder.ivArrow.visibility = if (showArrow) View.VISIBLE else View.GONE
         
         holder.itemView.setOnClickListener {
             onClick(siswa)

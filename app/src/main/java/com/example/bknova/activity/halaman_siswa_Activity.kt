@@ -57,7 +57,9 @@ class halaman_siswa_Activity : AppCompatActivity() {
             updateNavUI(isHome = false)
         }
 
-        WaveTransitionHelper.finishTransition(this)
+        if (intent.getBooleanExtra("FROM_WAVE_TRANSITION", false)) {
+            WaveTransitionHelper.finishTransition(this)
+        }
     }
 
     private fun updateNavUI(isHome: Boolean) {

@@ -18,6 +18,7 @@ import com.example.bknova.model.BkTask
 import com.example.bknova.model.UserResponse
 import com.example.bknova.service.Aktor
 import com.example.bknova.activity.guruBkActivity
+import com.example.bknova.ui.WaveTransitionHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
@@ -141,7 +142,7 @@ class profilBkFragment : Fragment() {
         authController.logout()
         val intent = Intent(requireActivity(), LoginActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
-        requireActivity().finish()
+        
+        WaveTransitionHelper.startTransition(requireActivity(), intent)
     }
 }

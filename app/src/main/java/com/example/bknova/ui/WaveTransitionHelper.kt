@@ -23,6 +23,7 @@ object WaveTransitionHelper {
             addListener(object : Animator.AnimatorListener {
                 override fun onAnimationStart(animation: Animator) {}
                 override fun onAnimationEnd(animation: Animator) {
+                    targetIntent.putExtra("FROM_WAVE_TRANSITION", true)
                     activity.startActivity(targetIntent)
                     activity.overridePendingTransition(0, 0)
                     onFinishCurrent?.invoke() ?: activity.finish()
