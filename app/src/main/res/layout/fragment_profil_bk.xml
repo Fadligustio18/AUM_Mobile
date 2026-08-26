@@ -38,7 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="20dp"
+            android:layoutAnimation="@anim/layout_animation_staggered">
 
             <!-- Profile Header Card -->
             <com.google.android.material.card.MaterialCardView
@@ -148,9 +149,17 @@
                         android:paddingVertical="8dp">
 
                         <TextView
-                            android:layout_width="120dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
                             android:text="Tahun Ajaran"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=":"
+                            android:layout_marginEnd="8dp"
                             android:textColor="@color/text_color_secondary"
                             android:textSize="14sp" />
 
@@ -159,9 +168,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="-"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                     <!-- Kelas Diampu -->
@@ -172,9 +180,17 @@
                         android:paddingVertical="8dp">
 
                         <TextView
-                            android:layout_width="120dp"
+                            android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Kelas "
+                            android:text="Kelas"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text=":"
+                            android:layout_marginEnd="8dp"
                             android:textColor="@color/text_color_secondary"
                             android:textSize="14sp" />
 
@@ -183,9 +199,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="-"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold" />
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp" />
                     </LinearLayout>
 
                 </LinearLayout>
