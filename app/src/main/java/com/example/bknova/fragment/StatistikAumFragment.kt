@@ -405,16 +405,16 @@ class StatistikAumFragment : Fragment() {
         
         // Pemetaan warna khusus untuk setiap kode bidang agar konsisten
         val colorMap = mapOf(
-            "JDK" to Color.parseColor("#FF5252"), // Merah
-            "DPI" to Color.parseColor("#FF4081"), // Pink
-            "KHK" to Color.parseColor("#E040FB"), // Ungu
-            "HSO" to Color.parseColor("#7C4DFF"), // Deep Purple
-            "KDP" to Color.parseColor("#536DFE"), // Indigo
-            "EDK" to Color.parseColor("#448AFF"), // Biru
-            "WSG" to Color.parseColor("#40C4FF"), // Light Blue
-            "ANM" to Color.parseColor("#18FFFF"), // Cyan
-            "HMP" to Color.parseColor("#64FFDA"), // Teal
-            "PDP" to Color.parseColor("#69F0AE")  // Hijau
+            "JDK" to Color.parseColor("#E63946"),
+            "DPI" to Color.parseColor("#F4A261"),
+            "KHK" to Color.parseColor("#2A9D8F"),
+            "HSO" to Color.parseColor("#264653"),
+            "KDP" to Color.parseColor("#457B9D"),
+            "EDK" to Color.parseColor("#F97316"),
+            "WSG" to Color.parseColor("#1D3557"),
+            "ANM" to Color.parseColor("#10B981"),
+            "HMP" to Color.parseColor("#9B5DE5"),
+            "PDP" to Color.parseColor("#E76F51")
         )
 
         val chartColors = entries.map { entry ->

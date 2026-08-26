@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import android.view.animation.DecelerateInterpolator
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
@@ -39,6 +40,9 @@ class homeBkFragment : Fragment() {
         val cardAum = view.findViewById<MaterialCardView>(R.id.card_data_aum)
         val cardSosio = view.findViewById<MaterialCardView>(R.id.card_sosio_bk)
         val cardGaya = view.findViewById<MaterialCardView>(R.id.card_gaya_belajar_bk)
+
+        // Staggered Animation for Grid Items
+        animateGridItems(cardSiswa, cardAum, cardSosio, cardGaya)
         
         // Handle Window Insets for bottom padding
         val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_home_bk)
@@ -73,5 +77,19 @@ class homeBkFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun animateGridItems(vararg cards: View) {
+        cards.forEachIndexed { index, view ->
+            view.alpha = 0f
+            view.translationY = 100f
+            view.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(600)
+                .setStartDelay(index * 150L)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+        }
     }
 }

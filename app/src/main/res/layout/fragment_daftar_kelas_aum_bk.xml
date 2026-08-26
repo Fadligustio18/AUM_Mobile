@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_cream">
+    android:background="@color/white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -35,6 +35,7 @@
             android:layout_height="match_parent"
             android:clipToPadding="false"
             android:padding="12dp"
+            android:layoutAnimation="@anim/layout_animation_staggered"
             tools:listitem="@layout/item_kelas_bk" />
 
         <ProgressBar

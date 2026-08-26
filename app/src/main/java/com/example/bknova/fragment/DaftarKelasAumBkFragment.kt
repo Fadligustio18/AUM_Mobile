@@ -101,6 +101,7 @@ class DaftarKelasAumBkFragment : Fragment() {
             showOptionsBottomSheet(task)
         }
         rvKelas.adapter = adapter
+        rvKelas.scheduleLayoutAnimation()
     }
 
     private fun showOptionsBottomSheet(task: BkTask) {

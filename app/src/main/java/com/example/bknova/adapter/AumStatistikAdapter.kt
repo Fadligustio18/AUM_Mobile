@@ -29,12 +29,8 @@ class AumStatistikAdapter(
         holder.tvCount.text = count.toString()
         holder.tvLabel.text = bidang.namaBidang
         
-        // Memberi warna berbeda jika jumlah masalah tinggi (opsional)
-        if (count > 5) {
-            holder.tvCount.setTextColor(holder.itemView.context.getColor(R.color.red_text))
-        } else {
-            holder.tvCount.setTextColor(holder.itemView.context.getColor(R.color.brand_primary))
-        }
+        // Tetap berwarna biru sesuai tema, tidak berubah meski data > 5
+        holder.tvCount.setTextColor(holder.itemView.context.getColor(R.color.brand_primary))
     }
 
     override fun getItemCount(): Int = listBidang.size

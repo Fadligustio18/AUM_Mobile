@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PDF"
-            android:backgroundTint="@color/brand_soft"
+            android:background="@drawable/bg_badge_green"
             app:icon="@drawable/ekpor"
             app:iconPadding="8dp"
             app:iconTint="@color/text_color_primary"

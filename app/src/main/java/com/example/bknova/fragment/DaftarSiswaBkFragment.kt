@@ -139,6 +139,7 @@ class DaftarSiswaBkFragment : Fragment() {
             }
         }
         rvSiswa.adapter = adapter
+        rvSiswa.scheduleLayoutAnimation()
     }
 
     private fun copyToClipboard(text: String) {

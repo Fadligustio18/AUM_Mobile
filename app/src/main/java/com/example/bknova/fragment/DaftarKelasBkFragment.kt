@@ -110,5 +110,6 @@ class DaftarKelasBkFragment : Fragment() {
                 .commit()
         }
         rvKelas.adapter = adapter
+        rvKelas.scheduleLayoutAnimation()
     }
 }
