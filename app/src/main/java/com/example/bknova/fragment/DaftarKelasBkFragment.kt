@@ -105,6 +105,12 @@ class DaftarKelasBkFragment : Fragment() {
             // Navigate to student list for this class
             val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, task.namaKelas)
             parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
                 .replace(R.id.fragment_container_bk, fragment)
                 .addToBackStack(null)
                 .commit()

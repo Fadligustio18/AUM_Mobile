@@ -3,6 +3,7 @@ package com.example.bknova.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,8 @@ class DaftarSiswaBkAdapter(
     private val showArrow: Boolean = false,
     private val onClick: (Siswa) -> Unit
 ) : RecyclerView.Adapter<DaftarSiswaBkAdapter.ViewHolder>() {
+
+    private var lastPosition = -1
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNama: TextView = view.findViewById(R.id.tv_nama_siswa)
@@ -36,6 +39,18 @@ class DaftarSiswaBkAdapter(
         
         holder.itemView.setOnClickListener {
             onClick(siswa)
+        }
+
+        // Animasi muncul satu persatu saat di-scroll ke bawah
+        setAnimation(holder.itemView, position)
+    }
+
+    private fun setAnimation(viewToAnimate: View, position: Int) {
+        // Jika posisi item baru (di-scroll ke bawah)
+        if (position > lastPosition) {
+            val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.slide_in_left)
+            viewToAnimate.startAnimation(animation)
+            lastPosition = position
         }
     }
 

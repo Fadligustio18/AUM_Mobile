@@ -59,12 +59,24 @@ class homeBkFragment : Fragment() {
         // Set click listeners
         cardSiswa.setOnClickListener {
             parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
                 .replace(R.id.fragment_container_bk, DaftarKelasBkFragment())
                 .addToBackStack(null)
                 .commit()
         }
         cardAum.setOnClickListener {
             parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
                 .replace(R.id.fragment_container_bk, DaftarKelasAumBkFragment())
                 .addToBackStack(null)
                 .commit()

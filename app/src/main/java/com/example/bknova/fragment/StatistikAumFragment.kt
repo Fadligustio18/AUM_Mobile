@@ -21,6 +21,7 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.DecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.TableRow
 import android.widget.TextView
@@ -306,6 +307,31 @@ class StatistikAumFragment : Fragment() {
 
         // 5. Data Table
         setupDataTable(data)
+
+        // 6. Programmatic Staggered Animation for Cards
+        animateViews()
+    }
+
+    private fun animateViews() {
+        val viewsToAnimate = listOf(
+            binding.headerLayout,
+            binding.cardTable,
+            binding.cardDonut,
+            binding.cardBar,
+            binding.cardLine
+        )
+
+        viewsToAnimate.forEachIndexed { index, view ->
+            view.alpha = 0f
+            view.translationY = 50f
+            view.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(600)
+                .setStartDelay(index * 150L)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
+        }
     }
 
     private fun setupLineChart(data: List<AumBidangHasil>) {

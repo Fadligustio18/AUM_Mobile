@@ -131,8 +131,8 @@ class DetailAumSiswaFragment : Fragment() {
     private fun displayData(data: AumHasilSiswa) {
         tvNama.text = data.nama
         tvKelas.text = "Kelas: ${data.tingkat} ${data.kelas}"
-        tvNis.text = "NIS/NISN: ${data.nis} / ${data.nisn}"
-        tvWaktu.text = "Waktu Mengisi: ${data.waktuMengisi}"
+        tvNis.text = "${data.nis} / ${data.nisn}"
+        tvWaktu.text = data.waktuMengisi
         
         // Setup Detail Bidang
         val adapterBidang = AumHasilBidangAdapter(data.bidang)

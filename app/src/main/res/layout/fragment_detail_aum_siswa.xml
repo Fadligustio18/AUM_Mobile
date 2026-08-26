@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    tools:context=".fragment.DetailAumSiswaFragment"
+    tools:theme="@style/Theme.BkNova">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -35,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="20dp"
+            android:layoutAnimation="@anim/layout_animation_staggered">
 
             <!-- Student Header Section (Minimalist) -->
             <LinearLayout
@@ -55,7 +58,6 @@
                         android:layout_height="match_parent"
                         android:src="@drawable/person_icon"
                         android:padding="12dp"
-
                         app:tint="@color/black" />
                 </com.google.android.material.card.MaterialCardView>
 
@@ -101,17 +103,15 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="NIS / NISN"
+                        android:text="NISN / NIS"
                         android:textSize="11sp"
-                        android:textColor="@color/text_color_secondary"
-                        android:textAllCaps="true"
-                        android:letterSpacing="0.05"/>
+                        android:textColor="@color/text_color_secondary"/>
                     <TextView
                         android:id="@+id/tv_detail_nis"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="1111 / 1111"
-                        android:textColor="@color/text_color_primary"
+                        android:text="-"
+                        android:textColor="@color/text_color_secondary"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"/>
                 </LinearLayout>
@@ -126,15 +126,13 @@
                         android:layout_height="wrap_content"
                         android:text="Tgl Pengisian"
                         android:textSize="11sp"
-                        android:textColor="@color/text_color_secondary"
-                        android:textAllCaps="true"
-                        android:letterSpacing="0.05"/>
+                        android:textColor="@color/text_color_secondary"/>
                     <TextView
                         android:id="@+id/tv_detail_waktu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="17 Agt 2026"
-                        android:textColor="@color/text_color_primary"
+                        android:text="-"
+                        android:textColor="@color/text_color_secondary"
                         android:textSize="14sp"
                         android:layout_marginTop="2dp"/>
                 </LinearLayout>
@@ -160,13 +158,30 @@
                 android:id="@+id/rv_statistik_aum"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="32dp"
                 android:clipToPadding="false"
                 android:paddingStart="0dp"
                 android:paddingEnd="0dp"
                 android:orientation="horizontal"
+                android:layoutAnimation="@anim/layout_animation_staggered"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_aum_statistik"/>
+                tools:listitem="@layout/item_aum_statistik"
+                tools:itemCount="3"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="24dp"
+                android:text="Geser untuk melihat lebih banyak"
+                android:textSize="11sp"
+                android:textColor="@color/text_color_secondary"
+                android:textStyle="italic"
+                android:gravity="center_vertical"
+                android:alpha="0.7"
+                app:drawableEndCompat="@drawable/ic_chevron_right"
+                app:drawableTint="@color/text_color_secondary"
+                android:drawablePadding="2dp" />
 
             <!-- Detail List Section -->
             <TextView
@@ -183,7 +198,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_aum_bidang_hasil"/>
+                android:layoutAnimation="@anim/layout_animation_staggered"
+                tools:listitem="@layout/item_aum_bidang_hasil"
+                tools:itemCount="2"/>
 
             <ProgressBar
                 android:id="@+id/pb_detail_aum"

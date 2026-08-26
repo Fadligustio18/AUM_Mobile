@@ -129,6 +129,12 @@ class DaftarSiswaBkFragment : Fragment() {
                 siswa.id?.let { id ->
                     val fragment = DetailAumSiswaFragment.newInstance(id, siswa.nama)
                     parentFragmentManager.beginTransaction()
+                        .setCustomAnimations(
+                            R.anim.slide_in_right,
+                            R.anim.slide_out_left,
+                            R.anim.slide_in_left,
+                            R.anim.slide_out_right
+                        )
                         .replace(R.id.fragment_container_bk, fragment)
                         .addToBackStack(null)
                         .commit()

@@ -125,6 +125,12 @@ class DaftarKelasAumBkFragment : Fragment() {
     private fun navigateToStatistik(task: BkTask) {
         val fragment = StatistikAumFragment.newInstance(task.namaKelas, task.idKelas)
         parentFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
             .replace(R.id.fragment_container_bk, fragment)
             .addToBackStack(null)
             .commit()
@@ -133,6 +139,12 @@ class DaftarKelasAumBkFragment : Fragment() {
     private fun navigateToDaftarSiswa(task: BkTask) {
         val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, task.namaKelas, true)
         parentFragmentManager.beginTransaction()
+            .setCustomAnimations(
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+                R.anim.slide_in_left,
+                R.anim.slide_out_right
+            )
             .replace(R.id.fragment_container_bk, fragment)
             .addToBackStack(null)
             .commit()
