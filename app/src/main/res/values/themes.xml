@@ -49,6 +49,23 @@
 
     <style name="Theme.BkNova" parent="Base.Theme.BkNova" />
 
+    <!-- Custom Dialog Style -->
+    <style name="CustomMaterialDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="shapeAppearance">@style/CustomDialogShape</item>
+        <item name="colorSurface">@color/accent_peach_soft</item>
+    </style>
+
+    <style name="CustomDialogTitle" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textColor">@color/brand_primary</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:paddingTop">16dp</item>
+    </style>
+
+    <style name="CustomDialogShape" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">28dp</item>
+    </style>
+
     <style name="ShapeAppearance.Circle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>

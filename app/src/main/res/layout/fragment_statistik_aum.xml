@@ -61,11 +61,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="PDF"
-            android:background="@drawable/bg_badge_green"
+            android:backgroundTint="@color/accent_peach_soft"
             app:icon="@drawable/ekpor"
             app:iconPadding="8dp"
             app:iconTint="@color/text_color_primary"
             android:textColor="@color/text_color_primary"
+            app:cornerRadius="12dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -87,23 +88,19 @@
 
 
             <!-- Data Table Container -->
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/card_table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/divider_color"
-                app:strokeWidth="1dp">
+                android:background="@drawable/bg_grid_shadow">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_grid_shadow"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -146,27 +143,22 @@
                         <!-- Rows will be added programmatically -->
                     </TableLayout>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
+            </FrameLayout>
 
             <!-- Donut Chart Container -->
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/card_donut"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="20dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/divider_color"
-                app:strokeWidth="1dp">
+                android:background="@drawable/bg_grid_shadow">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_grid_shadow"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -197,26 +189,22 @@
                             android:paddingVertical="4dp" />
                     </HorizontalScrollView>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </FrameLayout>
 
             <!-- Bar Chart Container -->
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/card_bar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/divider_color"
-                app:strokeWidth="1dp">
+                android:background="@drawable/bg_grid_shadow">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_grid_shadow"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -236,26 +224,22 @@
 
                 </LinearLayout>
 
-            </com.google.android.material.card.MaterialCardView>
+            </FrameLayout>
 
             <!-- Line Chart Container -->
-            <com.google.android.material.card.MaterialCardView
+            <FrameLayout
                 android:id="@+id/card_line"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="16dp"
-                app:cardCornerRadius="20dp"
-                app:cardElevation="0dp"
-                app:strokeColor="@color/divider_color"
-                app:strokeWidth="1dp">
+                android:background="@drawable/bg_grid_shadow">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:background="@drawable/bg_grid_shadow"
-                    android:padding="16dp">
+                    android:padding="20dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -271,7 +255,7 @@
                         android:layout_height="300dp"
                         android:layout_marginTop="12dp" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </FrameLayout>
 
 
             <!-- Grid Summary Cards -->

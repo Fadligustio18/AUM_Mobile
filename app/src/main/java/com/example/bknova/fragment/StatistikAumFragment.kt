@@ -22,12 +22,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.DecelerateInterpolator
+import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -38,6 +41,7 @@ import com.example.bknova.databinding.FragmentStatistikAumBinding
 import com.example.bknova.model.AumBidangHasil
 import com.example.bknova.model.AumHasilSiswa
 import com.example.bknova.service.Aktor
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
@@ -105,11 +109,30 @@ class StatistikAumFragment : Fragment() {
         fetchData()
 
         binding.btnActionHeader.setOnClickListener {
-            exportToPdf()
+            showExportOptions()
         }
     }
 
-    private fun exportToPdf() {
+    private fun showExportOptions() {
+        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_export_options, null)
+        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialDialog)
+            .setView(dialogView)
+            .create()
+
+        dialogView.findViewById<View>(R.id.btn_download_pdf).setOnClickListener {
+            exportToPdf(isShare = false)
+            dialog.dismiss()
+        }
+
+        dialogView.findViewById<View>(R.id.btn_share_pdf).setOnClickListener {
+            exportToPdf(isShare = true)
+            dialog.dismiss()
+        }
+
+        dialog.show()
+    }
+
+    private fun exportToPdf(isShare: Boolean = false) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
                 requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 102)
@@ -143,7 +166,11 @@ class StatistikAumFragment : Fragment() {
             pdfDocument.finishPage(page)
 
             showDownloadNotification("Menyimpan PDF...", 50)
-            savePdfToDownloads(pdfDocument)
+            val pdfUri = savePdfToStorage(pdfDocument, isShare)
+            
+            if (isShare && pdfUri != null) {
+                sharePdf(pdfUri)
+            }
             
             pdfDocument.close()
             bitmap.recycle()
@@ -196,9 +223,11 @@ class StatistikAumFragment : Fragment() {
         }
     }
 
-    private fun savePdfToDownloads(pdfDocument: PdfDocument) {
+    private fun savePdfToStorage(pdfDocument: PdfDocument, isShare: Boolean): Uri? {
         val sanitizedClassName = filterKelas?.replace(" ", "_") ?: "Semua_Kelas"
         val fileName = "Statistik_AUM_$sanitizedClassName.pdf"
+        var resultUri: Uri? = null
+        
         try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 val contentValues = ContentValues().apply {
@@ -215,23 +244,47 @@ class StatistikAumFragment : Fragment() {
                 uri?.let {
                     requireContext().contentResolver.openOutputStream(it)?.use { outputStream ->
                         pdfDocument.writeTo(outputStream)
-                        showDownloadNotification("Ekspor Selesai", 100)
-                        Toast.makeText(context, "PDF tersimpan di folder Download", Toast.LENGTH_LONG).show()
+                        resultUri = it
+                        if (!isShare) {
+                            showDownloadNotification("Ekspor Selesai", 100)
+                            Toast.makeText(context, "PDF tersimpan di folder Download", Toast.LENGTH_LONG).show()
+                        }
                     }
                 } ?: throw Exception("Gagal membuat URI MediaStore")
             } else {
                 val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+                if (!downloadDir.exists()) downloadDir.mkdirs()
                 val file = java.io.File(downloadDir, fileName)
                 java.io.FileOutputStream(file).use { outputStream ->
                     pdfDocument.writeTo(outputStream)
-                    showDownloadNotification("Ekspor Selesai", 100)
-                    Toast.makeText(context, "PDF tersimpan di: ${file.absolutePath}", Toast.LENGTH_LONG).show()
+                    
+                    resultUri = FileProvider.getUriForFile(
+                        requireContext(),
+                        "${requireContext().packageName}.provider",
+                        file
+                    )
+                    
+                    if (!isShare) {
+                        showDownloadNotification("Ekspor Selesai", 100)
+                        Toast.makeText(context, "PDF tersimpan di: ${file.absolutePath}", Toast.LENGTH_LONG).show()
+                    }
                 }
             }
         } catch (e: Exception) {
             e.printStackTrace()
             Toast.makeText(context, "Gagal menyimpan: ${e.message}", Toast.LENGTH_SHORT).show()
         }
+        return resultUri
+    }
+
+    private fun sharePdf(uri: Uri) {
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            type = "application/pdf"
+            putExtra(Intent.EXTRA_STREAM, uri)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+        startActivity(Intent.createChooser(intent, "Bagikan Statistik AUM"))
+        cancelNotification()
     }
 
     private fun setupRecyclerView() {
