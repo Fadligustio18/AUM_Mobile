@@ -127,7 +127,7 @@ class DaftarSiswaBkFragment : Fragment() {
         val adapter = DaftarSiswaBkAdapter(listSiswa, isAumMode) { siswa ->
             if (isAumMode) {
                 siswa.id?.let { id ->
-                    val fragment = DetailAumSiswaFragment.newInstance(id, siswa.nama)
+                    val fragment = DetailAumSiswaFragment.newInstance(id, siswa.nama, siswa.nisn)
                     parentFragmentManager.beginTransaction()
                         .setCustomAnimations(
                             R.anim.slide_in_right,

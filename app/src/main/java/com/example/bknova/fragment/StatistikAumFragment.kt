@@ -4,17 +4,10 @@ import android.graphics.Color
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.pdf.PdfDocument
-import android.content.ContentValues
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
+import android.content.ClipData
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
-import android.os.Environment
-import android.provider.MediaStore
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.Gravity
@@ -28,8 +21,6 @@ import android.widget.LinearLayout
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
@@ -41,7 +32,6 @@ import com.example.bknova.databinding.FragmentStatistikAumBinding
 import com.example.bknova.model.AumBidangHasil
 import com.example.bknova.model.AumHasilSiswa
 import com.example.bknova.service.Aktor
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
@@ -50,7 +40,8 @@ import com.github.mikephil.charting.utils.ColorTemplate
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.io.OutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 class StatistikAumFragment : Fragment() {
 
@@ -59,8 +50,6 @@ class StatistikAumFragment : Fragment() {
     private lateinit var authController: AuthController
 
     private var filterKelas: String? = null
-    private val NOTIFICATION_ID = 101
-    private val CHANNEL_ID = "download_channel"
 
     private val bidangList = listOf(
         "JDK" to "Jasmani dan Kesehatan",
@@ -93,8 +82,6 @@ class StatistikAumFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         authController = AuthController(requireContext())
-        
-        createNotificationChannel()
 
         if (filterKelas != null) {
             binding.tvTitleStatistik.text = "Statistik AUM $filterKelas"
@@ -109,40 +96,13 @@ class StatistikAumFragment : Fragment() {
         fetchData()
 
         binding.btnActionHeader.setOnClickListener {
-            showExportOptions()
+            exportToPdf()
         }
     }
 
-    private fun showExportOptions() {
-        val dialogView = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_export_options, null)
-        val dialog = MaterialAlertDialogBuilder(requireContext(), R.style.CustomMaterialDialog)
-            .setView(dialogView)
-            .create()
-
-        dialogView.findViewById<View>(R.id.btn_download_pdf).setOnClickListener {
-            exportToPdf(isShare = false)
-            dialog.dismiss()
-        }
-
-        dialogView.findViewById<View>(R.id.btn_share_pdf).setOnClickListener {
-            exportToPdf(isShare = true)
-            dialog.dismiss()
-        }
-
-        dialog.show()
-    }
-
-    private fun exportToPdf(isShare: Boolean = false) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-                requestPermissions(arrayOf(android.Manifest.permission.POST_NOTIFICATIONS), 102)
-                return
-            }
-        }
-
+    private fun exportToPdf() {
         val nsv = binding.nsvContent
         val child = nsv.getChildAt(0) ?: return
-
         val height = child.height
         val width = child.width
 
@@ -151,12 +111,27 @@ class StatistikAumFragment : Fragment() {
             return
         }
 
-        showDownloadNotification("Persiapan ekspor...", 0)
+        Toast.makeText(context, "Menyiapkan PDF...", Toast.LENGTH_SHORT).show()
 
         try {
             val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
             val canvas = Canvas(bitmap)
+            
+            // Tambahkan latar belakang putih eksplisit
+            canvas.drawColor(Color.WHITE)
+            
+            // Simpan state alpha asli dan paksa alpha = 1 agar konten terlihat di PDF
+            val animatedViews = listOf(
+                binding.headerLayout, binding.cardTable, binding.cardDonut,
+                binding.cardBar, binding.cardLine
+            )
+            val originalAlphas = animatedViews.map { it to it.alpha }
+            animatedViews.forEach { it.alpha = 1f }
+
             child.draw(canvas)
+            
+            // Kembalikan alpha ke state semula
+            originalAlphas.forEach { (view, alpha) -> view.alpha = alpha }
 
             val pdfDocument = PdfDocument()
             val pageInfo = PdfDocument.PageInfo.Builder(width, height, 1).create()
@@ -165,126 +140,57 @@ class StatistikAumFragment : Fragment() {
             page.canvas.drawBitmap(bitmap, 0f, 0f, null)
             pdfDocument.finishPage(page)
 
-            showDownloadNotification("Menyimpan PDF...", 50)
-            val pdfUri = savePdfToStorage(pdfDocument, isShare)
+            val pdfUri = savePdfToStorage(pdfDocument)
             
-            if (isShare && pdfUri != null) {
+            if (pdfUri != null) {
                 sharePdf(pdfUri)
             }
             
             pdfDocument.close()
             bitmap.recycle()
         } catch (e: Exception) {
-            Toast.makeText(context, "Gagal ekspor: ${e.message}", Toast.LENGTH_SHORT).show()
-            cancelNotification()
+            Toast.makeText(context, "Gagal memproses PDF: ${e.message}", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun showDownloadNotification(title: String, progress: Int) {
-        val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        
-        val builder = NotificationCompat.Builder(requireContext(), CHANNEL_ID)
-            .setSmallIcon(if (progress < 100) android.R.drawable.stat_sys_download else android.R.drawable.stat_sys_download_done)
-            .setContentTitle(title)
-            .setContentText("Statistik AUM $filterKelas")
-            .setPriority(NotificationCompat.PRIORITY_LOW)
-            .setOngoing(progress < 100)
-            .setOnlyAlertOnce(true)
 
-        if (progress in 0..99) {
-            builder.setProgress(100, progress, false)
-        } else {
-            builder.setProgress(0, 0, false)
-            builder.setOngoing(false)
-            builder.setContentTitle("Ekspor Selesai")
-            builder.setContentText("PDF berhasil disimpan ke folder Download")
-            builder.setAutoCancel(true)
-        }
-
-        notificationManager.notify(NOTIFICATION_ID, builder.build())
-    }
-
-    private fun cancelNotification() {
-        val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.cancel(NOTIFICATION_ID)
-    }
-
-    private fun createNotificationChannel() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Download Notification"
-            val descriptionText = "Channel untuk notifikasi ekspor PDF"
-            val importance = NotificationManager.IMPORTANCE_LOW
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            val notificationManager: NotificationManager =
-                requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun savePdfToStorage(pdfDocument: PdfDocument, isShare: Boolean): Uri? {
+    private fun savePdfToStorage(pdfDocument: PdfDocument): Uri? {
         val sanitizedClassName = filterKelas?.replace(" ", "_") ?: "Semua_Kelas"
         val fileName = "Statistik_AUM_$sanitizedClassName.pdf"
         var resultUri: Uri? = null
         
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val contentValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.DISPLAY_NAME, fileName)
-                    put(MediaStore.MediaColumns.MIME_TYPE, "application/pdf")
-                    put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_DOWNLOADS)
-                }
+            val cacheDir = File(requireContext().externalCacheDir, "pdf")
+            if (!cacheDir.exists()) cacheDir.mkdirs()
+            
+            val file = File(cacheDir, fileName)
+            FileOutputStream(file).use { outputStream ->
+                pdfDocument.writeTo(outputStream)
                 
-                val uri = requireContext().contentResolver.insert(
-                    MediaStore.Downloads.EXTERNAL_CONTENT_URI, 
-                    contentValues
+                resultUri = FileProvider.getUriForFile(
+                    requireContext(),
+                    "${requireContext().packageName}.provider",
+                    file
                 )
-                
-                uri?.let {
-                    requireContext().contentResolver.openOutputStream(it)?.use { outputStream ->
-                        pdfDocument.writeTo(outputStream)
-                        resultUri = it
-                        if (!isShare) {
-                            showDownloadNotification("Ekspor Selesai", 100)
-                            Toast.makeText(context, "PDF tersimpan di folder Download", Toast.LENGTH_LONG).show()
-                        }
-                    }
-                } ?: throw Exception("Gagal membuat URI MediaStore")
-            } else {
-                val downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
-                if (!downloadDir.exists()) downloadDir.mkdirs()
-                val file = java.io.File(downloadDir, fileName)
-                java.io.FileOutputStream(file).use { outputStream ->
-                    pdfDocument.writeTo(outputStream)
-                    
-                    resultUri = FileProvider.getUriForFile(
-                        requireContext(),
-                        "${requireContext().packageName}.provider",
-                        file
-                    )
-                    
-                    if (!isShare) {
-                        showDownloadNotification("Ekspor Selesai", 100)
-                        Toast.makeText(context, "PDF tersimpan di: ${file.absolutePath}", Toast.LENGTH_LONG).show()
-                    }
-                }
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            Toast.makeText(context, "Gagal menyimpan: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Gagal menyiapkan file: ${e.message}", Toast.LENGTH_SHORT).show()
         }
         return resultUri
     }
 
     private fun sharePdf(uri: Uri) {
-        val intent = Intent(Intent.ACTION_SEND).apply {
+        val shareIntent = Intent(Intent.ACTION_SEND).apply {
             type = "application/pdf"
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            // Menambahkan ClipData agar pratinjau file muncul di atas Share Sheet (Android 10+)
+            clipData = ClipData.newRawUri("", uri)
         }
-        startActivity(Intent.createChooser(intent, "Bagikan Statistik AUM"))
-        cancelNotification()
+        
+        val chooser = Intent.createChooser(shareIntent, "Bagikan Statistik AUM")
+        startActivity(chooser)
     }
 
     private fun setupRecyclerView() {
@@ -621,13 +527,6 @@ class StatistikAumFragment : Fragment() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 102 && grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            exportToPdf()
-        } else if (requestCode == 102) {
-            Toast.makeText(context, "Izin notifikasi ditolak, PDF akan diekspor tanpa notifikasi status", Toast.LENGTH_SHORT).show()
-            // Kita bisa tetap lanjut tanpa notifikasi jika diinginkan, 
-            // tapi di sini saya pilih biarkan user tahu kenapa tidak ada notifikasi.
-        }
     }
 
     companion object {
