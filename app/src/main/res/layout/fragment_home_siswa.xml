@@ -121,347 +121,167 @@
                     android:textSize="12sp" />
             </RelativeLayout>
 
-            <!-- Card 1: AUM -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_aum"
+            <!-- Grid Menu like home_bk.xml -->
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="-8dp">
 
-                app:strokeWidth="0dp">
-
+                <!-- Row 1 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_grid_shadow">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <!-- Header -->
-                    <RelativeLayout
-                        android:id="@+id/header_aum"
-                        android:layout_width="match_parent"
+                    <!-- AUM -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_aum"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:strokeWidth="0dp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:padding="16dp"
-                        android:background="?attr/selectableItemBackground">
+                        android:foreground="?attr/selectableItemBackground">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/icon_aum"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:padding="8dp"
-                            android:background="@color/brand_soft"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                            android:src="@drawable/img_9"
-                            app:tint="@color/brand_primary" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="12dp"
-                            android:layout_toEndOf="@id/icon_aum"
-                            android:layout_toStartOf="@id/arrow_aum"
-                            android:text="@string/aum_title"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:orientation="vertical"
+                            android:padding="16dp"
+                            android:background="@drawable/bg_grid_shadow"
+                            android:gravity="center">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/arrow_aum"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:background="@color/brand_soft"
-                            android:padding="8dp"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
-                            android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/brand_primary"
-                            android:rotation="90" />
-                    </RelativeLayout>
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/iv_icon_aum"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@color/brand_soft"
+                                android:padding="10dp"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
+                                android:src="@drawable/img_9"
+                                app:tint="@color/brand_primary" />
 
-                    <!-- Expandable Content -->
-                    <LinearLayout
-                        android:id="@+id/expandable_aum"
-                        android:layout_width="match_parent"
+                            <TextView
+                                android:id="@+id/tv_title_aum"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="@string/aum_title"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:gravity="center" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Sosiografik -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_sosio"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="16dp"
-                        android:paddingBottom="16dp"
-                        android:visibility="gone">
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:strokeWidth="0dp"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:foreground="?attr/selectableItemBackground">
 
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/divider_color"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:id="@+id/badge_aum"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_badge_brand"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="@string/status_belum_isi"
-                            android:textColor="@color/brand_primary"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="8dp"/>
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/aum_desc"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
+                            android:orientation="vertical"
+                            android:padding="16dp"
+                            android:background="@drawable/bg_grid_shadow"
+                            android:gravity="center">
 
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_mulai_aum"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/btn_mulai_isi"
-                            android:textAllCaps="false"
-                            app:cornerRadius="12dp"
-                            app:icon="@drawable/ic_edit"
-                            android:backgroundTint="@color/brand_primary"
-                            android:textColor="@color/white"
-                            app:iconTint="@color/white"/>
-                    </LinearLayout>
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@color/accent_pink_soft"
+                                android:padding="10dp"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
+                                android:src="@drawable/img_8"
+                                app:tint="@color/accent_pink_text" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="@string/sosiografik_title"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:gravity="center" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
 
-            <!-- Card 2: Sosiografik -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_sosio"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-
-                app:strokeWidth="0dp">
-
+                <!-- Row 2 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_grid_shadow">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
-                    <!-- Header -->
-                    <RelativeLayout
-                        android:id="@+id/header_sosio"
+                    <!-- Gaya Belajar -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/card_gaya"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
+                        app:cardCornerRadius="16dp"
+                        app:strokeWidth="0dp"
                         android:clickable="true"
                         android:focusable="true"
-                        android:padding="16dp"
-                        android:background="?attr/selectableItemBackground">
+                        android:foreground="?attr/selectableItemBackground">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/icon_sosio"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:padding="8dp"
-                            android:background="@color/accent_pink_soft"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                            android:src="@drawable/img_8"
-                            app:tint="@color/accent_pink_text" />
-
-                        <TextView
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="12dp"
-                            android:layout_toEndOf="@id/icon_sosio"
-                            android:layout_toStartOf="@id/arrow_sosio"
-                            android:text="@string/sosiografik_title"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
+                            android:orientation="vertical"
+                            android:padding="16dp"
+                            android:background="@drawable/bg_grid_shadow"
+                            android:gravity="center">
 
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/arrow_sosio"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:background="@color/accent_pink_soft"
-                            android:padding="8dp"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
-                            android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/accent_pink_text"
-                            android:rotation="90" />
-                    </RelativeLayout>
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:background="@color/accent_peach_soft"
+                                android:padding="10dp"
+                                app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
+                                android:src="@drawable/img_10"
+                                app:tint="@color/accent_peach_text" />
 
-                    <!-- Expandable Content -->
-                    <LinearLayout
-                        android:id="@+id/expandable_sosio"
-                        android:layout_width="match_parent"
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="12dp"
+                                android:text="@string/gaya_belajar_title"
+                                android:textColor="@color/text_color_primary"
+                                android:textSize="14sp"
+                                android:textStyle="bold"
+                                android:gravity="center" />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Empty space to maintain grid alignment -->
+                    <View
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="16dp"
-                        android:paddingBottom="16dp"
-                        android:visibility="gone">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/divider_color"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:id="@+id/badge_sosio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_badge_green"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="@string/status_selesai"
-                            android:textColor="@color/green_text"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="8dp"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/sosiografik_desc"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_lihat_sosio"
-                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/btn_lihat_hasil"
-                            android:textAllCaps="false"
-                            app:cornerRadius="12dp"
-                            app:icon="@drawable/ic_eye"
-                            app:strokeColor="@color/brand_primary"
-                            android:textColor="@color/brand_primary"
-                            app:iconTint="@color/brand_primary"/>
-                    </LinearLayout>
+                        android:layout_weight="1"
+                        android:layout_margin="8dp" />
                 </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
-
-            <!-- Card 3: Gaya Belajar -->
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/card_gaya"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-
-                app:strokeWidth="0dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:background="@drawable/bg_grid_shadow">
-
-                    <!-- Header -->
-                    <RelativeLayout
-                        android:id="@+id/header_gaya"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:padding="16dp"
-                        android:background="?attr/selectableItemBackground">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/icon_gaya"
-                            android:layout_width="40dp"
-                            android:layout_height="40dp"
-                            android:padding="8dp"
-                            android:background="@color/accent_peach_soft"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                            android:src="@drawable/img_10"
-                            app:tint="@color/accent_peach_text" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_centerVertical="true"
-                            android:layout_marginStart="12dp"
-                            android:layout_toEndOf="@id/icon_gaya"
-                            android:layout_toStartOf="@id/arrow_gaya"
-                            android:text="@string/gaya_belajar_title"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="16sp"
-                            android:textStyle="bold" />
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:id="@+id/arrow_gaya"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_alignParentEnd="true"
-                            android:layout_centerVertical="true"
-                            android:background="@color/accent_peach_soft"
-                            android:padding="8dp"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
-                            android:src="@drawable/ic_chevron_right"
-                            app:tint="@color/accent_peach_text"
-                            android:rotation="90" />
-                    </RelativeLayout>
-
-                    <!-- Expandable Content -->
-                    <LinearLayout
-                        android:id="@+id/expandable_gaya"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:paddingHorizontal="16dp"
-                        android:paddingBottom="16dp"
-                        android:visibility="gone">
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="@color/divider_color"
-                            android:layout_marginBottom="12dp"/>
-
-                        <TextView
-                            android:id="@+id/badge_gaya"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@drawable/bg_badge_brand"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="4dp"
-                            android:text="@string/status_belum_isi"
-                            android:textColor="@color/brand_primary"
-                            android:textSize="12sp"
-                            android:layout_marginBottom="8dp"/>
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="@string/gaya_belajar_desc"
-                            android:textColor="@color/text_color_secondary"
-                            android:textSize="14sp" />
-
-                        <com.google.android.material.button.MaterialButton
-                            android:id="@+id/btn_mulai_gaya"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="16dp"
-                            android:text="@string/btn_mulai_isi"
-                            android:textAllCaps="false"
-                            app:cornerRadius="12dp"
-                            app:icon="@drawable/ic_edit"
-                            android:backgroundTint="@color/brand_primary"
-                            android:textColor="@color/white"
-                            app:iconTint="@color/white"/>
-                    </LinearLayout>
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

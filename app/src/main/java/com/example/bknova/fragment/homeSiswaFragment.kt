@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.content.Context
+import android.view.animation.DecelerateInterpolator
 import android.transition.TransitionManager
 import android.content.res.ColorStateList
 import android.widget.ImageView
@@ -23,6 +24,7 @@ import com.example.bknova.controller.AumController
 import com.example.bknova.controller.AuthController
 import com.example.bknova.activity.halaman_siswa_Activity
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -37,6 +39,7 @@ private const val ARG_PARAM2 = "param2"
 class homeFragment : Fragment() {
     private lateinit var aumController: AumController
     private lateinit var authController: AuthController
+    private var isAumFinished = false
 
     // TODO: Rename parameter arguments, choose names that match
     private var param1: String? = null
@@ -67,7 +70,12 @@ class homeFragment : Fragment() {
         authController = AuthController(requireContext())
 
         val tvName = view.findViewById<TextView>(R.id.tv_name_home)
-        val btnMulaiAum = view.findViewById<MaterialButton>(R.id.btn_mulai_aum)
+        val cardAum = view.findViewById<MaterialCardView>(R.id.card_aum)
+        val cardSosio = view.findViewById<MaterialCardView>(R.id.card_sosio)
+        val cardGaya = view.findViewById<MaterialCardView>(R.id.card_gaya)
+
+        // Staggered Animation for Grid Items
+        animateGridItems(cardAum, cardSosio, cardGaya)
         
         // Handle Window Insets for bottom padding
         val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_home_siswa)
@@ -77,21 +85,15 @@ class homeFragment : Fragment() {
             v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, initialPaddingBottom + systemBars.bottom)
             insets
         }
-        val btnLihatSosio = view.findViewById<MaterialButton>(R.id.btn_lihat_sosio)
-        val btnMulaiGaya = view.findViewById<MaterialButton>(R.id.btn_mulai_gaya)
-        val badgeAum = view.findViewById<TextView>(R.id.badge_aum)
-        
-        setupExpandableCards(view)
         
         // Ambil nama dari SharedPreferences
         val name = authController.getName()
         tvName.text = name
 
-        fetchAumStatus(badgeAum, btnMulaiAum)
+        checkAumStatus()
 
-        btnMulaiAum.setOnClickListener {
-            // Cek status lagi sebelum masuk atau andalkan UI yang sudah di-update
-            if (badgeAum.text == "Sudah Diisi") {
+        cardAum.setOnClickListener {
+            if (isAumFinished) {
                 Toast.makeText(context, "Anda sudah mengisi instrumen ini", Toast.LENGTH_SHORT).show()
             } else {
                 parentFragmentManager.beginTransaction()
@@ -101,11 +103,11 @@ class homeFragment : Fragment() {
             }
         }
 
-        btnLihatSosio.setOnClickListener {
+        cardSosio.setOnClickListener {
             Toast.makeText(context, "Fitur Sosiografik akan segera hadir", Toast.LENGTH_SHORT).show()
         }
 
-        btnMulaiGaya.setOnClickListener {
+        cardGaya.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container, formGayaBelajarFragment())
                 .addToBackStack(null)
@@ -115,7 +117,7 @@ class homeFragment : Fragment() {
         return view 
     }
 
-    private fun fetchAumStatus(badge: TextView, button: MaterialButton) {
+    private fun checkAumStatus() {
         val token = authController.getToken()
         val userId = authController.getUserId()
 
@@ -123,30 +125,9 @@ class homeFragment : Fragment() {
             aumController.checkAumStatus(token, userId, object : AumController.AumCallback<Boolean> {
                 override fun onSuccess(data: Boolean) {
                     if (isAdded) {
+                        isAumFinished = data
                         if (data) {
-                            badge.text = "Selesai"
-                            badge.setBackgroundResource(R.drawable.bg_badge_green)
-                            badge.setTextColor(ContextCompat.getColor(requireContext(), R.color.green_text))
-                            
-                            button.visibility = View.VISIBLE
-                            button.isEnabled = false
-                            button.text = "100%"
-                            button.setIconResource(R.drawable.ic_assignment) // Menggunakan ikon tugas/selesai
-                            button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.divider_color))
-                            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color_secondary))
-                            button.iconTint = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.text_color_secondary))
-                        } else {
-                            badge.text = getString(R.string.status_belum_isi)
-                            badge.setBackgroundResource(R.drawable.bg_badge_brand)
-                            badge.setTextColor(ContextCompat.getColor(requireContext(), R.color.brand_primary))
-                            
-                            button.visibility = View.VISIBLE
-                            button.isEnabled = true
-                            button.text = getString(R.string.btn_mulai_isi)
-                            button.setIconResource(R.drawable.ic_edit)
-                            button.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.brand_primary))
-                            button.setTextColor(ContextCompat.getColor(requireContext(), R.color.white))
-                            button.iconTint = ColorStateList.valueOf(ContextCompat.getColor(requireContext(), R.color.white))
+                            updateAumUiFinished()
                         }
                     }
                 }
@@ -158,50 +139,33 @@ class homeFragment : Fragment() {
         }
     }
 
-    private fun setupExpandableCards(view: View) {
-        val rootLayout = view.findViewById<ViewGroup>(R.id.linear_container_home)
+    private fun updateAumUiFinished() {
+        view?.let { root ->
+            val ivIcon = root.findViewById<ImageView>(R.id.iv_icon_aum)
+            val tvTitle = root.findViewById<TextView>(R.id.tv_title_aum)
 
-        // Card AUM
-        val headerAum = view.findViewById<RelativeLayout>(R.id.header_aum)
-        val expandableAum = view.findViewById<LinearLayout>(R.id.expandable_aum)
-        val arrowAum = view.findViewById<ImageView>(R.id.arrow_aum)
-        
-        headerAum.setOnClickListener {
-            toggleCard(expandableAum, arrowAum, rootLayout)
-        }
-
-        // Card Sosio
-        val headerSosio = view.findViewById<RelativeLayout>(R.id.header_sosio)
-        val expandableSosio = view.findViewById<LinearLayout>(R.id.expandable_sosio)
-        val arrowSosio = view.findViewById<ImageView>(R.id.arrow_sosio)
-
-        headerSosio.setOnClickListener {
-            toggleCard(expandableSosio, arrowSosio, rootLayout)
-        }
-
-        // Card Gaya
-        val headerGaya = view.findViewById<RelativeLayout>(R.id.header_gaya)
-        val expandableGaya = view.findViewById<LinearLayout>(R.id.expandable_gaya)
-        val arrowGaya = view.findViewById<ImageView>(R.id.arrow_gaya)
-
-        headerGaya.setOnClickListener {
-            toggleCard(expandableGaya, arrowGaya, rootLayout)
+            // Mengubah warna menjadi abu-abu
+            val grayColor = ContextCompat.getColor(requireContext(), R.color.text_color_secondary)
+            ivIcon.imageTintList = ColorStateList.valueOf(grayColor)
+            tvTitle.setTextColor(grayColor)
         }
     }
 
-    private fun toggleCard(expandableLayout: View, arrow: ImageView, root: ViewGroup) {
-        val isVisible = expandableLayout.visibility == View.VISIBLE
-        
-        TransitionManager.beginDelayedTransition(root)
-        
-        if (isVisible) {
-            expandableLayout.visibility = View.GONE
-            arrow.animate().rotation(90f).start()
-        } else {
-            expandableLayout.visibility = View.VISIBLE
-            arrow.animate().rotation(270f).start()
+    private fun animateGridItems(vararg cards: View) {
+        cards.forEachIndexed { index, view ->
+            view.alpha = 0f
+            view.translationY = 100f
+            view.animate()
+                .alpha(1f)
+                .translationY(0f)
+                .setDuration(600)
+                .setStartDelay(index * 150L)
+                .setInterpolator(DecelerateInterpolator())
+                .start()
         }
     }
+
+
 
     companion object {
         /**
