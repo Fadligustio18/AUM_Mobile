@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Aktor {
-    private const val BASE_URL = "http://192.168.69.50:3000/"
+    private const val BASE_URL = "https://throw-headquarters-losses-anytime.trycloudflare.com"
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
