@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object Aktor {
-    private const val BASE_URL = "http://192.168.69.50:3000/"
+    private const val BASE_URL = "https://with-concepts-amongst-salmon.trycloudflare.com"
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -34,6 +34,10 @@ object Aktor {
 
     val tiket: TiketServices by lazy {
         http.create(TiketServices::class.java)
+    }
+
+    val kuesioner: KuesionerServices by lazy {
+        http.create(KuesionerServices::class.java)
     }
 
     val sociografik: SociografikServices by lazy {

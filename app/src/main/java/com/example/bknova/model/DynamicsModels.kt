@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 // Siswa
 data class Siswa(
     @SerializedName("id") val id: Int? = null,
+    @SerializedName("id_user", alternate = ["Id_User", "userId", "IdUser", "id_siswa"]) val idUser: Int? = null,
     @SerializedName("nisn") val nisn: String,
     @SerializedName("nama") val nama: String,
     @SerializedName("email") val email: String,

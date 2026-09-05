@@ -18,8 +18,8 @@ data class Kelas(
 // Tahun Ajaran
 data class TahunAjaran(
     @SerializedName("id") val id: Int,
-    @SerializedName("tahun") val tahun: String,
-    @SerializedName("semester") val semester: String
+    @SerializedName("tahun", alternate = ["tahun_ajaran", "tahunAjaran", "tahun_Ajaran", "Tahun_Ajaran", "TahunAjaran"]) val tahun: String?,
+    @SerializedName("semester") val semester: String?
 )
 
 data class BkTask(
