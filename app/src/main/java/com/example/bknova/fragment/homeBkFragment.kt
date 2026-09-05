@@ -39,10 +39,10 @@ class homeBkFragment : Fragment() {
         val cardSiswa = view.findViewById<MaterialCardView>(R.id.card_data_siswa)
         val cardAum = view.findViewById<MaterialCardView>(R.id.card_data_aum)
         val cardSosio = view.findViewById<MaterialCardView>(R.id.card_sosio_bk)
-        val cardGaya = view.findViewById<MaterialCardView>(R.id.card_gaya_belajar_bk)
+        val cardTiket = view.findViewById<MaterialCardView>(R.id.card_tiket_bk)
 
         // Staggered Animation for Grid Items
-        animateGridItems(cardSiswa, cardAum, cardSosio, cardGaya)
+        animateGridItems(cardSosio, cardAum, cardTiket, cardSiswa)
         
         // Handle Window Insets for bottom padding
         val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_home_bk)
@@ -84,8 +84,8 @@ class homeBkFragment : Fragment() {
         cardSosio.setOnClickListener {
             Toast.makeText(context, "Membuka CRUD Sosiografik", Toast.LENGTH_SHORT).show()
         }
-        cardGaya.setOnClickListener {
-            Toast.makeText(context, "Membuka Kelola Gaya Belajar", Toast.LENGTH_SHORT).show()
+        cardTiket.setOnClickListener {
+            Toast.makeText(context, "Membuka Tiket Konseling", Toast.LENGTH_SHORT).show()
         }
 
         return view

@@ -107,12 +107,6 @@ class homeFragment : Fragment() {
             Toast.makeText(context, "Fitur Sosiografik akan segera hadir", Toast.LENGTH_SHORT).show()
         }
 
-        cardGaya.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container, formGayaBelajarFragment())
-                .addToBackStack(null)
-                .commit()
-        }
 
         return view 
     }

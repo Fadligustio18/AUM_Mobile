@@ -55,8 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp"
-            android:layoutAnimation="@anim/layout_animation_staggered">
+            android:padding="20dp">
 
             <!-- Student Header Section (Minimalist) -->
             <LinearLayout
@@ -355,7 +354,6 @@
                 android:clipToPadding="false"
                 android:paddingHorizontal="14dp"
                 android:nestedScrollingEnabled="false"
-                android:layoutAnimation="@anim/layout_animation_staggered"
                 app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 app:spanCount="2"
                 tools:listitem="@layout/item_aum_statistik"
@@ -384,7 +382,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
-                android:layoutAnimation="@anim/layout_animation_staggered"
                 tools:listitem="@layout/item_aum_bidang_hasil"
                 tools:itemCount="2"/>
 

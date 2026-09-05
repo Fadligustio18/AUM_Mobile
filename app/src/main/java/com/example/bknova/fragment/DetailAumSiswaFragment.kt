@@ -176,6 +176,11 @@ class DetailAumSiswaFragment : Fragment() {
         }
 
         if (idSiswa != -1) {
+            // Tampilkan data profil dasar segera dari arguments agar tidak kosong saat loading
+            tvNama.text = namaSiswa ?: "Siswa"
+            tvNis.text = if (!nisnSiswa.isNullOrBlank()) "NISN: $nisnSiswa" else "-"
+            toolbar.title = "AUM ${namaSiswa ?: "Siswa"}"
+            
             fetchDetailAum()
         }
 
@@ -292,6 +297,56 @@ class DetailAumSiswaFragment : Fragment() {
         
         val token = authController.getToken() ?: return
         val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
+        
+        // Prioritas 1: Fetch langsung berdasarkan ID Siswa (Identifier Paling Unik)
+        if (idSiswa != -1) {
+            Aktor.aum.getHasilAumBySiswaId(bearerToken, idSiswa).enqueue(object : Callback<AumHasilSiswa> {
+                override fun onResponse(call: Call<AumHasilSiswa>, response: Response<AumHasilSiswa>) {
+                    if (isAdded) {
+                        if (response.isSuccessful && response.body() != null) {
+                            progressBar.visibility = View.GONE
+                            displayData(response.body()!!)
+                        } else {
+                            // Jika ID gagal, coba fallback ke NISN
+                            fetchByNisn(bearerToken)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<AumHasilSiswa>, t: Throwable) {
+                    if (isAdded) fetchByNisn(bearerToken)
+                }
+            })
+        } else {
+            fetchByNisn(bearerToken)
+        }
+    }
+
+    private fun fetchByNisn(bearerToken: String) {
+        val nisn = nisnSiswa
+        if (!nisn.isNullOrBlank()) {
+            Aktor.aum.getHasilAumByNisn(bearerToken, nisn).enqueue(object : Callback<AumHasilSiswa> {
+                override fun onResponse(call: Call<AumHasilSiswa>, response: Response<AumHasilSiswa>) {
+                    if (isAdded) {
+                        if (response.isSuccessful && response.body() != null) {
+                            progressBar.visibility = View.GONE
+                            displayData(response.body()!!)
+                        } else {
+                            fetchDetailAumFallback(bearerToken)
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<AumHasilSiswa>, t: Throwable) {
+                    if (isAdded) fetchDetailAumFallback(bearerToken)
+                }
+            })
+        } else {
+            fetchDetailAumFallback(bearerToken)
+        }
+    }
+
+    private fun fetchDetailAumFallback(bearerToken: String) {
         val idGuru = authController.getUserId()
 
         Aktor.aum.getHasilAumByGuru(bearerToken, idGuru).enqueue(object : Callback<List<AumHasilSiswa>> {
@@ -301,50 +356,25 @@ class DetailAumSiswaFragment : Fragment() {
                     if (response.isSuccessful) {
                         val listHasil = response.body()
                         val currentNisn = nisnSiswa
-                        val currentNama = namaSiswa
 
-                        // 1. Urutkan berdasarkan waktu mengisi terbaru agar mendapatkan hasil AUM yang paling baru
+                        // Urutkan berdasarkan waktu mengisi terbaru
                         val sortedList = listHasil?.sortedByDescending { it.waktuMengisi }
 
-                        // 2. Pencarian yang lebih ketat untuk menghindari data tertukar ("Data Orang Lain")
-                        // Prioritas 1: NISN + Nama (Paling Akurat)
-                        var result = sortedList?.find { 
-                            !currentNisn.isNullOrBlank() && it.nisn.trim() == currentNisn.trim() &&
-                            it.nama.trim().equals(currentNama?.trim(), ignoreCase = true)
-                        }
-                        
-                        // Prioritas 2: NISN saja
-                        if (result == null) {
-                            result = sortedList?.find { 
-                                !currentNisn.isNullOrBlank() && it.nisn.trim() == currentNisn.trim() 
-                            }
-                        }
-                        
-                        // Prioritas 3: ID Siswa + Nama
-                        if (result == null && idSiswa != -1) {
-                            result = sortedList?.find { 
-                                it.idSiswa == idSiswa && it.nama.trim().equals(currentNama?.trim(), ignoreCase = true) 
-                            }
-                        }
-                        
-                        // Prioritas 4: ID Siswa saja
-                        if (result == null && idSiswa != -1) {
-                            result = sortedList?.find { it.idSiswa == idSiswa }
-                        }
-                        
-                        // Prioritas 5: Nama saja (Fallback terakhir)
-                        if (result == null && !currentNama.isNullOrBlank()) {
-                            result = sortedList?.find { it.nama.trim().equals(currentNama.trim(), ignoreCase = true) }
+                        // Pengecekan ID Siswa secara eksklusif (TIDAK ADA FUZZY NAME SEARCH)
+                        val result = sortedList?.find { 
+                            (idSiswa != -1 && it.idSiswa == idSiswa) || 
+                            (!currentNisn.isNullOrBlank() && it.nisn.trim() == currentNisn.trim())
                         }
                         
                         if (result != null) {
                             displayData(result)
                         } else {
                             tvEmpty.visibility = View.VISIBLE
-                            tvEmpty.text = "Data AUM tidak ditemukan untuk siswa ini"
+                            tvEmpty.text = "Siswa ini belum mengisi instrumen AUM"
                         }
                     } else {
-                        Toast.makeText(context, "Gagal memuat data AUM: ${response.code()}", Toast.LENGTH_SHORT).show()
+                        tvEmpty.visibility = View.VISIBLE
+                        tvEmpty.text = "Gagal memuat data AUM (${response.code()})"
                     }
                 }
             }
@@ -352,7 +382,8 @@ class DetailAumSiswaFragment : Fragment() {
             override fun onFailure(call: Call<List<AumHasilSiswa>>, t: Throwable) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
-                    Toast.makeText(context, "Kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
+                    tvEmpty.visibility = View.VISIBLE
+                    tvEmpty.text = "Kesalahan koneksi: ${t.message}"
                 }
             }
         })

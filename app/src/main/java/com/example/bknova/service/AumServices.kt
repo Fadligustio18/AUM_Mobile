@@ -46,4 +46,16 @@ interface AumServices {
         @Header("Authorization") token: String,
         @Path("idGuru") idGuru: Int
     ): Call<List<AumHasilSiswa>>
+
+    @GET("/api/v1/aum/hasil-siswa/{nisn}")
+    fun getHasilAumByNisn(
+        @Header("Authorization") token: String,
+        @Path("nisn") nisn: String
+    ): Call<AumHasilSiswa>
+
+    @GET("/api/v1/aum/hasil-siswa-id/{idSiswa}")
+    fun getHasilAumBySiswaId(
+        @Header("Authorization") token: String,
+        @Path("idSiswa") idSiswa: Int
+    ): Call<AumHasilSiswa>
 }
