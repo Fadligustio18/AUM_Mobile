@@ -104,7 +104,18 @@ class homeFragment : Fragment() {
         }
 
         cardSosio.setOnClickListener {
+            // parentFragmentManager.beginTransaction()
+            //    .replace(R.id.fragment_container, IsiSociografikFragment())
+            //    .addToBackStack(null)
+            //    .commit()
             Toast.makeText(context, "Fitur Sosiografik akan segera hadir", Toast.LENGTH_SHORT).show()
+        }
+
+        cardGaya.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container, DaftarTiketSiswaFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
 

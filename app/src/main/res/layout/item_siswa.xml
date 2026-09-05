@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="12dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeWidth="0dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:background="@drawable/bg_grid_shadow"
+        android:gravity="center_vertical">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_siswa_avatar"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:shapeAppearanceOverlay="@style/ShapeAppearance.Circle"
+            android:src="@drawable/person_icon"
+            android:padding="2dp"
+            android:background="@color/brand_soft" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
+            <TextView
+                android:id="@+id/tv_siswa_nama"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nama Siswa"
+                android:textStyle="bold"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/tv_siswa_nisn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NISN: 12345678"
+                android:textSize="14sp"
+                android:textColor="@color/text_color_secondary" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_chevron_right"
+            app:tint="@color/brand_primary" />
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

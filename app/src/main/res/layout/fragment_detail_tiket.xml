@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <!-- Header -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="36dp"
+        android:paddingBottom="12dp"
+        android:paddingHorizontal="20dp"
+        android:background="@drawable/bg_header"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/btn_back_detail_tiket"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_close"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/brand_primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="Detail Tiket Konseling"
+            android:textColor="@color/brand_primary"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/btn_back_detail_tiket"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/divider_header"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_color"
+        app:layout_constraintTop_toBottomOf="@id/header" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fillViewport="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/divider_header">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <!-- Info Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="0dp"
+                app:strokeWidth="1dp"
+                app:strokeColor="@color/border_color">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:id="@+id/tv_detail_siswa"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Siswa: AULIA HAMDANI"
+                            android:textColor="@color/text_color_primary"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tv_detail_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:text="Dikirim"
+                            android:textColor="@color/brand_primary"
+                            android:background="@drawable/bg_status_dikirim"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="2dp"
+                            android:textSize="12sp"
+                            android:textStyle="bold" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:id="@+id/tv_detail_kelas"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_primary"
+                        android:text="Kelas: -" />
+
+                    <TextView
+                        android:id="@+id/tv_detail_bk"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/brand_primary"
+                        android:text="Guru BK: -" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_color"
+                        android:layout_marginVertical="12dp" />
+
+                    <!-- Schedule Info (Visible after handled by BK) -->
+                    <LinearLayout
+                        android:id="@+id/layout_info_perjanjian"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Informasi Pertemuan :"
+                            android:textStyle="bold"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:id="@+id/tv_detail_tempat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Tempat: -"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <TextView
+                            android:id="@+id/tv_detail_tanggal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Waktu: -"
+                            android:textColor="@color/text_color_secondary" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/border_color"
+                            android:layout_marginVertical="12dp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textSize="16sp"
+                        android:textColor="@color/text_color_primary"
+                        android:text="Masalah Yang Sedang Di Rasakan :"/>
+
+                    <TextView
+                        android:id="@+id/tv_detail_judul"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_color_secondary"
+                        android:text="bullying"
+                        android:textStyle="normal" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/border_color"
+                        android:layout_marginVertical="12dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_color_primary"
+                        android:text="Deskripsi Masalah :"
+                        android:textSize="16sp"/>
+
+                    <TextView
+                        android:id="@+id/tv_detail_isi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:textStyle="normal"
+                        android:textColor="@color/text_color_secondary"
+                        android:text="Apakah Bekerja Atau Kuliah" />
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Action Section (Guru BK) -->
+            <LinearLayout
+                android:id="@+id/layout_actions_bk"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_tempat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tempat Konseling"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_tanggal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tanggal Perjanjian"
+                    android:layout_marginTop="12dp"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="true" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_setujui"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Setujui Tiket"
+                    android:layout_marginTop="24dp"
+                    app:cornerRadius="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_update_lokasi"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Update"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    app:cornerRadius="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_tunda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Tunda"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    app:cornerRadius="12dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_selesai_bk"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Selesaikan"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:textColor="@color/green_text"
+                        app:cornerRadius="12dp" />
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_hapus_riwayat_bk"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hapus Riwayat Tiket"
+                    android:layout_marginTop="8dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:textColor="@color/red_text"
+                    app:strokeColor="@color/red_text"
+                    app:cornerRadius="12dp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <!-- Action Section (Siswa) -->
+            <LinearLayout
+                android:id="@+id/layout_actions_siswa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginTop="24dp"
+                android:visibility="gone">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_edit_siswa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Edit Masalah"
+                    app:cornerRadius="12dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_hapus_siswa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Hapus Tiket"
+                    android:layout_marginTop="8dp"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:textColor="@color/red_text"
+                    app:strokeColor="@color/red_text"
+                    app:cornerRadius="12dp" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

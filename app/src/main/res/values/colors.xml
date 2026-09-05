@@ -50,5 +50,6 @@
     <color name="background_cream">#F8F7F2</color>
     <!-- Dipakai juga sebagai garis/stroke default -->
     <color name="divider_color">#E8E3DC</color>
+    <color name="border_color">#E8E3DC</color>
 
 </resources>

@@ -34,3 +34,8 @@ data class BkTask(
     @SerializedName("is_Active") val isActive: Boolean,
     @SerializedName("assigned_At") val assignedAt: String
 )
+
+data class SiswaKelas(
+    @SerializedName("tingkat") val tingkat: String,
+    @SerializedName("nama_kelas") val namaKelas: String
+)

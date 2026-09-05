@@ -32,6 +32,14 @@ object Aktor {
         http.create(AumServices::class.java)
     }
 
+    val tiket: TiketServices by lazy {
+        http.create(TiketServices::class.java)
+    }
+
+    val sociografik: SociografikServices by lazy {
+        http.create(SociografikServices::class.java)
+    }
+
     val dynamics: DynamicsServices by lazy {
         http.create(DynamicsServices::class.java)
     }

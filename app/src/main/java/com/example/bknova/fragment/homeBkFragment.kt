@@ -82,10 +82,23 @@ class homeBkFragment : Fragment() {
                 .commit()
         }
         cardSosio.setOnClickListener {
+            // parentFragmentManager.beginTransaction()
+            //    .replace(R.id.fragment_container_bk, ManageSociografikFragment())
+            //    .addToBackStack(null)
+            //    .commit()
             Toast.makeText(context, "Membuka CRUD Sosiografik", Toast.LENGTH_SHORT).show()
         }
         cardTiket.setOnClickListener {
-            Toast.makeText(context, "Membuka Tiket Konseling", Toast.LENGTH_SHORT).show()
+            parentFragmentManager.beginTransaction()
+                .setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
+                .replace(R.id.fragment_container_bk, DaftarTiketFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         return view

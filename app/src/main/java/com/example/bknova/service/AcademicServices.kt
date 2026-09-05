@@ -3,6 +3,7 @@ package com.example.bknova.service
 import com.example.bknova.model.BkTask
 import com.example.bknova.model.Jurusan
 import com.example.bknova.model.Kelas
+import com.example.bknova.model.SiswaKelas
 import com.example.bknova.model.TahunAjaran
 import retrofit2.Call
 import retrofit2.http.*
@@ -15,6 +16,12 @@ interface AcademicServices {
     // Kelas
     @GET("/api/v1/kelas")
     fun getKelas(): Call<List<Kelas>>
+
+    @GET("/api/v1/siswa/kelas/{id}")
+    fun getSiswaKelas(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int
+    ): Call<SiswaKelas>
 
     // Tahun Ajaran
     @GET("/api/v1/tahun-ajaran")
