@@ -37,6 +37,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.adapter.AumHasilBidangAdapter
@@ -72,6 +73,7 @@ class DetailAumSiswaFragment : Fragment() {
     private lateinit var authController: AuthController
     private lateinit var rvBidang: RecyclerView
     private lateinit var rvStatistik: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
     private lateinit var toolbar: MaterialToolbar
     private lateinit var tvEmpty: TextView
@@ -147,6 +149,7 @@ class DetailAumSiswaFragment : Fragment() {
         toolbar = view.findViewById(R.id.toolbar_detail_aum)
         rvBidang = view.findViewById(R.id.rv_bidang_aum)
         rvStatistik = view.findViewById(R.id.rv_statistik_aum)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_detail_aum)
         progressBar = view.findViewById(R.id.pb_detail_aum)
         tvEmpty = view.findViewById(R.id.tv_empty_detail_aum)
         
@@ -179,6 +182,10 @@ class DetailAumSiswaFragment : Fragment() {
 
         toolbar.setNavigationOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            fetchDetailAum()
         }
 
         if (idSiswa != -1) {
@@ -299,7 +306,9 @@ class DetailAumSiswaFragment : Fragment() {
     }
 
     private fun fetchDetailAum() {
-        progressBar.visibility = View.VISIBLE
+        if (!swipeRefresh.isRefreshing) {
+            progressBar.visibility = View.VISIBLE
+        }
         tvEmpty.visibility = View.GONE
         llEmptyState.visibility = View.GONE
         llAumContent.visibility = View.GONE
@@ -315,6 +324,8 @@ class DetailAumSiswaFragment : Fragment() {
             Aktor.aum.getHasilAumSiswa(bearerToken, idGuru, idSiswa).enqueue(object : Callback<AumHasilSiswa> {
                 override fun onResponse(call: Call<AumHasilSiswa>, response: Response<AumHasilSiswa>) {
                     if (isAdded) {
+                        progressBar.visibility = View.GONE
+                        swipeRefresh.isRefreshing = false
                         if (response.isSuccessful && response.body() != null) {
                             android.util.Log.d("AUM_DEBUG", "Success Fetch by Guru & Siswa Endpoint")
                             progressBar.visibility = View.GONE
@@ -328,7 +339,10 @@ class DetailAumSiswaFragment : Fragment() {
 
                 override fun onFailure(call: Call<AumHasilSiswa>, t: Throwable) {
                     android.util.Log.e("AUM_DEBUG", "Error specific endpoint: ${t.message}. Trying NISN fallback.")
-                    if (isAdded) fetchByNisn(bearerToken)
+                    if (isAdded) {
+                        swipeRefresh.isRefreshing = false
+                        fetchByNisn(bearerToken)
+                    }
                 }
             })
         } else {
@@ -343,6 +357,8 @@ class DetailAumSiswaFragment : Fragment() {
             Aktor.aum.getHasilAumByNisn(bearerToken, nisn).enqueue(object : Callback<AumHasilSiswa> {
                 override fun onResponse(call: Call<AumHasilSiswa>, response: Response<AumHasilSiswa>) {
                     if (isAdded) {
+                        progressBar.visibility = View.GONE
+                        swipeRefresh.isRefreshing = false
                         if (response.isSuccessful && response.body() != null) {
                             android.util.Log.d("AUM_DEBUG", "Success Fetch by NISN")
                             progressBar.visibility = View.GONE
@@ -356,7 +372,10 @@ class DetailAumSiswaFragment : Fragment() {
 
                 override fun onFailure(call: Call<AumHasilSiswa>, t: Throwable) {
                     android.util.Log.e("AUM_DEBUG", "Error Fetch by NISN: ${t.message}. Falling back to list search.")
-                    if (isAdded) fetchDetailAumFallback(bearerToken)
+                    if (isAdded) {
+                        swipeRefresh.isRefreshing = false
+                        fetchDetailAumFallback(bearerToken)
+                    }
                 }
             })
         } else {
@@ -372,6 +391,7 @@ class DetailAumSiswaFragment : Fragment() {
             override fun onResponse(call: Call<List<AumHasilSiswa>>, response: Response<List<AumHasilSiswa>>) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
                     if (response.isSuccessful) {
                         val listHasil = response.body()
                         android.util.Log.d("AUM_DEBUG", "Fallback: Received ${listHasil?.size} items")
@@ -421,6 +441,7 @@ class DetailAumSiswaFragment : Fragment() {
             override fun onFailure(call: Call<List<AumHasilSiswa>>, t: Throwable) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
                     tvEmpty.visibility = View.VISIBLE
                     tvEmpty.text = "Kesalahan koneksi: ${t.message}"
                 }

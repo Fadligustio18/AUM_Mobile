@@ -24,35 +24,41 @@
             app:navigationIconTint="@color/brand_primary" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <FrameLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_kelas_aum"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_daftar_kelas_aum"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:padding="12dp"
-            android:layoutAnimation="@anim/layout_animation_slide_right"
-            tools:listitem="@layout/item_kelas_bk" />
+            android:layout_height="match_parent">
 
-        <ProgressBar
-            android:id="@+id/pb_loading_aum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_daftar_kelas_aum"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                android:padding="12dp"
+                android:layoutAnimation="@anim/layout_animation_slide_right"
+                tools:listitem="@layout/item_kelas_bk" />
 
-        <TextView
-            android:id="@+id/tv_empty_aum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Belum ada data kelas"
-            android:textColor="@color/text_color_secondary"
-            android:visibility="gone" />
-    </FrameLayout>
+            <ProgressBar
+                android:id="@+id/pb_loading_aum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/tv_empty_aum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Belum ada data kelas"
+                android:textColor="@color/text_color_secondary"
+                android:visibility="gone" />
+        </FrameLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

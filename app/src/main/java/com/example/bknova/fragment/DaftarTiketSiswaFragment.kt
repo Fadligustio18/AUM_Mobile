@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.halaman_siswa_Activity
 import com.example.bknova.adapter.TiketAdapter
@@ -22,6 +23,7 @@ import retrofit2.Response
 
 class DaftarTiketSiswaFragment : Fragment() {
     private lateinit var rvTiket: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var adapter: TiketAdapter
     private lateinit var sessionManager: SessionManager
     private lateinit var fabAdd: FloatingActionButton
@@ -41,10 +43,15 @@ class DaftarTiketSiswaFragment : Fragment() {
         
         sessionManager = SessionManager(requireContext())
         rvTiket = view.findViewById(R.id.rv_tiket_siswa)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_tiket_siswa)
         fabAdd = view.findViewById(R.id.fab_add_tiket)
         btnBack = view.findViewById(R.id.btn_back_tiket_siswa)
         
         rvTiket.layoutManager = LinearLayoutManager(context)
+
+        swipeRefresh.setOnRefreshListener {
+            loadTiket()
+        }
         
         adapter = TiketAdapter(emptyList()) { tiket ->
             // Siswa can also see their own ticket detail
@@ -77,18 +84,24 @@ class DaftarTiketSiswaFragment : Fragment() {
         
         Aktor.tiket.getTiketSiswa(token, idUser).enqueue(object : Callback<List<Tiket>> {
             override fun onResponse(call: Call<List<Tiket>>, response: Response<List<Tiket>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { 
-                        adapter.updateData(it)
-                        rvTiket.scheduleLayoutAnimation()
+                if (isAdded) {
+                    swipeRefresh.isRefreshing = false
+                    if (response.isSuccessful) {
+                        response.body()?.let { 
+                            adapter.updateData(it)
+                            rvTiket.scheduleLayoutAnimation()
+                        }
+                    } else {
+                        Toast.makeText(context, "Gagal memuat status tiket", Toast.LENGTH_SHORT).show()
                     }
-                } else {
-                    Toast.makeText(context, "Gagal memuat status tiket", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onFailure(call: Call<List<Tiket>>, t: Throwable) {
-                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    swipeRefresh.isRefreshing = false
+                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }

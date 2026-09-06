@@ -19,6 +19,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.controller.AumController
 import com.example.bknova.controller.AuthController
@@ -39,6 +40,7 @@ private const val ARG_PARAM2 = "param2"
 class homeFragment : Fragment() {
     private lateinit var aumController: AumController
     private lateinit var authController: AuthController
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private var isAumFinished = false
 
     // TODO: Rename parameter arguments, choose names that match
@@ -73,9 +75,14 @@ class homeFragment : Fragment() {
         val cardAum = view.findViewById<MaterialCardView>(R.id.card_aum)
         val cardSosio = view.findViewById<MaterialCardView>(R.id.card_sosio)
         val cardGaya = view.findViewById<MaterialCardView>(R.id.card_gaya)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_home_siswa)
 
         // Staggered Animation for Grid Items
         animateGridItems(cardAum, cardSosio, cardGaya)
+
+        swipeRefresh.setOnRefreshListener {
+            checkAumStatus()
+        }
         
         // Handle Window Insets for bottom padding
         val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_home_siswa)
@@ -129,6 +136,7 @@ class homeFragment : Fragment() {
             aumController.checkAumStatus(token, userId, object : AumController.AumCallback<Boolean> {
                 override fun onSuccess(data: Boolean) {
                     if (isAdded) {
+                        swipeRefresh.isRefreshing = false
                         isAumFinished = data
                         if (data) {
                             updateAumUiFinished()
@@ -137,9 +145,13 @@ class homeFragment : Fragment() {
                 }
 
                 override fun onError(message: String) {
-                    // Silent error for status check
+                    if (isAdded) {
+                        swipeRefresh.isRefreshing = false
+                    }
                 }
             })
+        } else {
+            swipeRefresh.isRefreshing = false
         }
     }
 

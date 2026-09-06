@@ -15,6 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.adapter.DaftarSiswaBkAdapter
@@ -29,6 +30,7 @@ import retrofit2.Response
 class DaftarSiswaBkFragment : Fragment() {
     private lateinit var authController: AuthController
     private lateinit var rvSiswa: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
     private lateinit var toolbar: MaterialToolbar
     private lateinit var tvEmpty: TextView
@@ -64,6 +66,7 @@ class DaftarSiswaBkFragment : Fragment() {
 
         toolbar = view.findViewById(R.id.toolbar_siswa)
         rvSiswa = view.findViewById(R.id.rv_daftar_siswa)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_siswa)
         progressBar = view.findViewById(R.id.pb_loading_siswa)
         tvEmpty = view.findViewById(R.id.tv_empty_siswa)
 
@@ -72,6 +75,10 @@ class DaftarSiswaBkFragment : Fragment() {
         }
 
         rvSiswa.layoutManager = LinearLayoutManager(context)
+
+        swipeRefresh.setOnRefreshListener {
+            fetchStudents()
+        }
 
         // Handle Window Insets for bottom padding
         val initialPaddingBottom = rvSiswa.paddingBottom
@@ -91,7 +98,9 @@ class DaftarSiswaBkFragment : Fragment() {
     }
 
     private fun fetchStudents() {
-        progressBar.visibility = View.VISIBLE
+        if (!swipeRefresh.isRefreshing) {
+            progressBar.visibility = View.VISIBLE
+        }
         tvEmpty.visibility = View.GONE
         
         val token = authController.getToken() ?: return
@@ -101,6 +110,7 @@ class DaftarSiswaBkFragment : Fragment() {
             override fun onResponse(call: Call<List<Siswa>>, response: Response<List<Siswa>>) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
                     if (response.isSuccessful) {
                         val listSiswa = response.body()
                         if (!listSiswa.isNullOrEmpty()) {
@@ -117,6 +127,7 @@ class DaftarSiswaBkFragment : Fragment() {
             override fun onFailure(call: Call<List<Siswa>>, t: Throwable) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
                     Toast.makeText(context, "Kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             }

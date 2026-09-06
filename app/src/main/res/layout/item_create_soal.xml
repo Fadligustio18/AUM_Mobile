@@ -13,30 +13,45 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:background="@drawable/bg_grid_shadow"
+        android:padding="20dp">
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_pertanyaan"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Pertanyaan">
+            android:hint="Tulis Pertanyaan Anda"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:paddingVertical="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/til_tipe"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:hint="Tipe Jawaban">
-            <AutoCompleteTextView
+            android:layout_marginTop="16dp"
+            android:hint="Pilih Tipe Jawaban"
+            app:endIconDrawable="@drawable/ic_chevron_right"
+            app:endIconTint="@color/text_color_secondary"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
+            <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="none" />
+                android:focusable="false"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:paddingVertical="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -58,12 +73,15 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete_soal"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:text="Hapus"
-            android:textColor="@color/red_text" />
+            android:layout_marginTop="8dp"
+            android:text="Hapus Pertanyaan"
+            android:textColor="@color/red_text"
+            app:icon="@drawable/ic_close"
+            app:iconTint="@color/red_text" />
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

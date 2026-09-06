@@ -61,7 +61,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingHorizontal="20dp"
+            android:paddingTop="20dp"
+            android:paddingBottom="50dp">
 
             <!-- Info Card -->
             <com.google.android.material.card.MaterialCardView
@@ -217,30 +219,52 @@
                 android:orientation="vertical"
                 android:layout_marginTop="24dp">
 
-                <com.google.android.material.textfield.TextInputLayout
+                    <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/til_tempat"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tempat Konseling"
-                    app:boxStrokeColor="@color/brand_dark"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/til_tanggal"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Tanggal Perjanjian"
-                    android:layout_marginTop="12dp"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+                    app:startIconDrawable="@drawable/meet"
+                    app:startIconTint="@color/brand_primary"
+                    app:endIconDrawable="@drawable/ic_chevron_right"
+                    app:endIconTint="@color/text_color_secondary"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp"
+                    app:boxStrokeColor="@color/brand_dark">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:focusable="false"
-                        android:clickable="true" />
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:paddingVertical="16dp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/til_tanggal"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tanggal Perjanjian"
+                    android:layout_marginTop="16dp"
+                    app:startIconDrawable="@drawable/calender"
+                    app:startIconTint="@color/brand_primary"
+                    app:endIconDrawable="@drawable/ic_chevron_right"
+                    app:endIconTint="@color/text_color_secondary"
+                    app:boxCornerRadiusTopStart="12dp"
+                    app:boxCornerRadiusTopEnd="12dp"
+                    app:boxCornerRadiusBottomStart="12dp"
+                    app:boxCornerRadiusBottomEnd="12dp">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:focusable="false"
+                        android:clickable="true"
+                        android:cursorVisible="false"
+                        android:paddingVertical="16dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.button.MaterialButton
@@ -267,7 +291,7 @@
                     style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
                     android:textColor="@color/brand_primary"
                     app:backgroundTint="@color/brand_soft"
-                    app:icon="@drawable/ic_edit"
+                    app:icon="@drawable/pen"
                     app:iconGravity="textStart"
                     app:iconPadding="8dp"
                     app:iconTint="@color/brand_primary"

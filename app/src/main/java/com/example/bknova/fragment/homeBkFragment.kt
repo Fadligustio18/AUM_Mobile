@@ -11,6 +11,7 @@ import android.view.animation.DecelerateInterpolator
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.widget.NestedScrollView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.controller.AuthController
@@ -23,6 +24,7 @@ import retrofit2.Response
 
 class homeBkFragment : Fragment() {
     private lateinit var authController: AuthController
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var tvBadgeTiket: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +51,11 @@ class homeBkFragment : Fragment() {
         val cardTiket = view.findViewById<MaterialCardView>(R.id.card_tiket_bk)
         val containerTiket = view.findViewById<View>(R.id.container_card_tiket)
         tvBadgeTiket = view.findViewById(R.id.tv_badge_tiket)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_home_bk)
+
+        swipeRefresh.setOnRefreshListener {
+            fetchTiketBadge()
+        }
 
         // Staggered Animation for Grid Items (Animate the container for Tiket so the badge follows)
         animateGridItems(cardSosio, cardAum, containerTiket, cardSiswa)
@@ -127,22 +134,27 @@ class homeBkFragment : Fragment() {
 
         Aktor.tiket.getTiketBk(bearerToken, idUser).enqueue(object : Callback<List<Tiket>> {
             override fun onResponse(call: Call<List<Tiket>>, response: Response<List<Tiket>>) {
-                if (isAdded && response.isSuccessful) {
-                    val listTiket = response.body() ?: emptyList()
-                    // Hitung tiket dengan status "Dikirim" (Pending)
-                    val pendingCount = listTiket.count { it.status.equals("Dikirim", ignoreCase = true) }
-                    
-                    if (pendingCount > 0) {
-                        tvBadgeTiket.text = if (pendingCount > 99) "99+" else pendingCount.toString()
-                        tvBadgeTiket.visibility = View.VISIBLE
-                    } else {
-                        tvBadgeTiket.visibility = View.GONE
+                if (isAdded) {
+                    swipeRefresh.isRefreshing = false
+                    if (response.isSuccessful) {
+                        val listTiket = response.body() ?: emptyList()
+                        // Hitung tiket dengan status "Dikirim" (Pending)
+                        val pendingCount = listTiket.count { it.status.equals("Dikirim", ignoreCase = true) }
+                        
+                        if (pendingCount > 0) {
+                            tvBadgeTiket.text = if (pendingCount > 99) "99+" else pendingCount.toString()
+                            tvBadgeTiket.visibility = View.VISIBLE
+                        } else {
+                            tvBadgeTiket.visibility = View.GONE
+                        }
                     }
                 }
             }
 
             override fun onFailure(call: Call<List<Tiket>>, t: Throwable) {
-                // Silent fail for badge
+                if (isAdded) {
+                    swipeRefresh.isRefreshing = false
+                }
             }
         })
     }

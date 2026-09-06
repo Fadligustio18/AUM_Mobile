@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.databinding.FragmentIsiKuesionerBinding
 import com.example.bknova.model.*
@@ -21,6 +22,7 @@ class IsiKuesionerFragment : Fragment() {
     private var _binding: FragmentIsiKuesionerBinding? = null
     private val binding get() = _binding!!
     private lateinit var sessionManager: SessionManager
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private var kuesionerId: Int = -1
     private var kuesionerDetail: KuesionerDetail? = null
 
@@ -44,6 +46,10 @@ class IsiKuesionerFragment : Fragment() {
 
         binding.btnBackIsi.setOnClickListener { parentFragmentManager.popBackStack() }
         binding.btnSubmitKuesioner.setOnClickListener { submitJawaban() }
+        
+        binding.swipeRefreshIsiKuesioner.setOnRefreshListener {
+            loadDetail()
+        }
 
         loadDetail()
 
@@ -54,13 +60,19 @@ class IsiKuesionerFragment : Fragment() {
         val token = "Bearer ${sessionManager.getToken()}"
         Aktor.kuesioner.getKuesionerDetailSiswa(token, kuesionerId).enqueue(object : Callback<KuesionerDetail> {
             override fun onResponse(call: Call<KuesionerDetail>, response: Response<KuesionerDetail>) {
-                if (response.isSuccessful) {
-                    kuesionerDetail = response.body()
-                    renderQuestions()
+                if (isAdded) {
+                    binding.swipeRefreshIsiKuesioner.isRefreshing = false
+                    if (response.isSuccessful) {
+                        kuesionerDetail = response.body()
+                        renderQuestions()
+                    }
                 }
             }
             override fun onFailure(call: Call<KuesionerDetail>, t: Throwable) {
-                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    binding.swipeRefreshIsiKuesioner.isRefreshing = false
+                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
@@ -103,6 +115,7 @@ class IsiKuesionerFragment : Fragment() {
                         rb.id = View.generateViewId()
                         rb.tag = opsi.id
                         rb.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color_primary))
+                        rb.setPadding(24, 24, 24, 24)
                         rb.layoutParams = RadioGroup.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.WRAP_CONTENT
@@ -114,11 +127,18 @@ class IsiKuesionerFragment : Fragment() {
                 }
             } else {
                 val editText = EditText(requireContext())
-                editText.hint = "Ketik jawaban di sini..."
+                editText.hint = "Ketik jawaban lengkap di sini..."
                 editText.setBackgroundResource(R.drawable.bg_input_essay)
-                editText.setPadding(32, 32, 32, 32)
+                editText.setPadding(40, 40, 40, 40)
                 editText.gravity = android.view.Gravity.TOP
-                editText.minLines = 3
+                editText.minLines = 4
+                editText.setTextColor(ContextCompat.getColor(requireContext(), R.color.text_color_primary))
+                editText.setHintTextColor(ContextCompat.getColor(requireContext(), R.color.text_color_secondary))
+                
+                // Penting: Agar keyboard tidak menutupi input
+                editText.imeOptions = android.view.inputmethod.EditorInfo.IME_ACTION_DONE
+                editText.setRawInputType(android.text.InputType.TYPE_CLASS_TEXT or android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE)
+                
                 containerJawaban.addView(editText)
                 containerJawaban.tag = editText // Store reference
             }

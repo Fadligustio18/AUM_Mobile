@@ -13,6 +13,7 @@ import com.example.bknova.databinding.ItemCreateOpsiBinding
 import com.example.bknova.model.*
 import com.example.bknova.service.Aktor
 import com.example.bknova.service.SessionManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -53,15 +54,11 @@ class CreateKuesionerFragment : Fragment() {
             override fun onResponse(call: Call<List<BkTask>>, response: Response<List<BkTask>>) {
                 if (response.isSuccessful) {
                     listKelas = response.body() ?: emptyList()
-                    if (listKelas.isEmpty()) {
-                        Toast.makeText(context, "Daftar kelas Anda kosong", Toast.LENGTH_SHORT).show()
-                    }
-                    val names = listKelas.map { "${it.tingkat} ${it.namaKelas}" }
-                    val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, names)
-                    (binding.tilPilihKelas.editText as? AutoCompleteTextView)?.apply {
-                        setAdapter(adapter)
-                        setOnItemClickListener { _, _, position, _ ->
-                            selectedKelasId = listKelas[position].idKelas
+                    binding.tilPilihKelas.editText?.setOnClickListener {
+                        val names = listKelas.map { "${it.tingkat} ${it.namaKelas}" }
+                        showSelectionBottomSheet("Pilih Kelas Sasaran", names) { index ->
+                            selectedKelasId = listKelas[index].idKelas
+                            binding.tilPilihKelas.editText?.setText(names[index])
                         }
                     }
                 }
@@ -74,15 +71,11 @@ class CreateKuesionerFragment : Fragment() {
             override fun onResponse(call: Call<List<TahunAjaran>>, response: Response<List<TahunAjaran>>) {
                 if (response.isSuccessful) {
                     listTahun = response.body() ?: emptyList()
-                    if (listTahun.isEmpty()) {
-                        Toast.makeText(context, "Daftar tahun ajaran kosong", Toast.LENGTH_SHORT).show()
-                    }
-                    val years = listTahun.map { "${it.tahun ?: "Tahun -"} (${it.semester ?: "-"})" }
-                    val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, years)
-                    (binding.tilPilihTahun.editText as? AutoCompleteTextView)?.apply {
-                        setAdapter(adapter)
-                        setOnItemClickListener { _, _, position, _ ->
-                            selectedTahunId = listTahun[position].id
+                    binding.tilPilihTahun.editText?.setOnClickListener {
+                        val years = listTahun.map { "${it.tahun ?: "Tahun -"} (${it.semester ?: "-"})" }
+                        showSelectionBottomSheet("Pilih Tahun Ajaran", years) { index ->
+                            selectedTahunId = listTahun[index].id
+                            binding.tilPilihTahun.editText?.setText(years[index])
                         }
                     }
                 }
@@ -93,14 +86,36 @@ class CreateKuesionerFragment : Fragment() {
         })
     }
 
+    private fun showSelectionBottomSheet(title: String, items: List<String>, onSelected: (Int) -> Unit) {
+        val bottomSheet = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.layout_popup_selection, null)
+        
+        val tvTitle = view.findViewById<TextView>(R.id.tv_selection_title)
+        val listView = view.findViewById<ListView>(R.id.lv_selection)
+        
+        tvTitle.text = title
+        
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
+        listView.adapter = adapter
+        
+        listView.setOnItemClickListener { _, _, position, _ ->
+            onSelected(position)
+            bottomSheet.dismiss()
+        }
+        
+        bottomSheet.setContentView(view)
+        bottomSheet.show()
+    }
+
     private fun addQuestionView() {
         val soalBinding = ItemCreateSoalBinding.inflate(layoutInflater, binding.containerSoal, true)
         val types = arrayOf("Pilihan Ganda", "Esai")
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, types)
-        (soalBinding.tilTipe.editText as? AutoCompleteTextView)?.apply {
-            setAdapter(adapter)
-            setOnItemClickListener { _, _, position, _ ->
-                val type = types[position]
+        
+        soalBinding.tilTipe.editText?.setOnClickListener {
+            showSelectionBottomSheet("Pilih Tipe Jawaban", types.toList()) { index ->
+                val type = types[index]
+                soalBinding.tilTipe.editText?.setText(type)
+                
                 if (type == "Pilihan Ganda") {
                     soalBinding.containerOpsi.visibility = View.VISIBLE
                     soalBinding.btnAddOpsi.visibility = View.VISIBLE
@@ -111,6 +126,7 @@ class CreateKuesionerFragment : Fragment() {
                 }
             }
         }
+        
         soalBinding.btnAddOpsi.setOnClickListener { addOptionView(soalBinding.containerOpsi) }
         soalBinding.btnDeleteSoal.setOnClickListener { binding.containerSoal.removeView(soalBinding.root) }
     }

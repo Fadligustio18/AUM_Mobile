@@ -16,6 +16,7 @@ import com.example.bknova.databinding.FragmentDetailTiketBinding
 import com.example.bknova.model.*
 import com.example.bknova.service.Aktor
 import com.example.bknova.service.SessionManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -61,6 +62,18 @@ class DetailTiketFragment : Fragment() {
 
         binding.tilTanggal.editText?.setOnClickListener {
             showDateTimePicker()
+        }
+
+        binding.tilTempat.editText?.setOnClickListener {
+            val commonPlaces = listOf("Ruang BK", "Perpustakaan", "Laboratorium", "Kelas", "Custom...")
+            showSelectionBottomSheet("Pilih Tempat Konseling", commonPlaces) { index ->
+                val selected = commonPlaces[index]
+                if (selected == "Custom...") {
+                    showCustomPlaceDialog()
+                } else {
+                    binding.tilTempat.editText?.setText(selected)
+                }
+            }
         }
 
         // BK Actions
@@ -199,6 +212,35 @@ class DetailTiketFragment : Fragment() {
         }
     }
 
+    private fun showCustomPlaceDialog() {
+        val input = android.widget.EditText(requireContext())
+        val padding = (24 * resources.displayMetrics.density).toInt()
+        val container = android.widget.FrameLayout(requireContext())
+        val params = android.widget.FrameLayout.LayoutParams(
+            android.view.ViewGroup.LayoutParams.MATCH_PARENT,
+            android.view.ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        params.setMargins(padding, 8, padding, 8)
+        input.layoutParams = params
+        input.hint = "Tulis tempat spesifik..."
+        container.addView(input)
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Tempat Konseling Custom")
+            .setMessage("Masukkan nama tempat pertemuan:")
+            .setView(container)
+            .setPositiveButton("Simpan") { _, _ ->
+                val customPlace = input.text.toString().trim()
+                if (customPlace.isNotEmpty()) {
+                    binding.tilTempat.editText?.setText(customPlace)
+                }
+            }
+            .setNegativeButton("Batal", null)
+            .show()
+            
+        input.requestFocus()
+    }
+
     private fun showDateTimePicker() {
         val calendar = Calendar.getInstance()
         DatePickerDialog(requireContext(), { _, year, month, day ->
@@ -212,6 +254,25 @@ class DetailTiketFragment : Fragment() {
                 binding.tilTanggal.editText?.setText(formattedDate)
             }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true).show()
         }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show()
+    }
+
+    private fun showSelectionBottomSheet(title: String, items: List<String>, onSelected: (Int) -> Unit) {
+        val bottomSheet = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.layout_popup_selection, null)
+        
+        view.findViewById<android.widget.TextView>(R.id.tv_selection_title).text = title
+        val listView = view.findViewById<android.widget.ListView>(R.id.lv_selection)
+        
+        val adapter = android.widget.ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, items)
+        listView.adapter = adapter
+        
+        listView.setOnItemClickListener { _, _, position, _ ->
+            onSelected(position)
+            bottomSheet.dismiss()
+        }
+        
+        bottomSheet.setContentView(view)
+        bottomSheet.show()
     }
 
     private fun approveTiket() {

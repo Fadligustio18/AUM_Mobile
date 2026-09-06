@@ -15,6 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.NestedScrollView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.halaman_siswa_Activity
 import com.example.bknova.controller.AumController
@@ -25,6 +26,7 @@ import com.example.bknova.model.SoalMasalah
 class FormAumFragment : Fragment() {
     private lateinit var aumController: AumController
     private lateinit var authController: AuthController
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private var listSoal: List<SoalMasalah> = listOf()
     private var btnNext: Button? = null
     
@@ -58,6 +60,7 @@ class FormAumFragment : Fragment() {
         btnNext = view.findViewById<Button>(R.id.btn_next)
         val btnBack = view.findViewById<Button>(R.id.btn_back)
         val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_content)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_form_aum)
         
         val progressIndicator = view.findViewById<LinearLayout>(R.id.container_progress_bars)
         tvProgressLabel = view.findViewById(R.id.tv_progress_label)
@@ -69,6 +72,10 @@ class FormAumFragment : Fragment() {
 
         btnClose.setOnClickListener {
             parentFragmentManager.popBackStack()
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            loadSoal(containerOptions, tvQuestionTitle)
         }
 
         btnNext?.setOnClickListener {
@@ -180,6 +187,7 @@ class FormAumFragment : Fragment() {
         aumController.fetchSoalByBidang(currentBidangId, object : AumController.AumCallback<List<SoalMasalah>> {
             override fun onSuccess(data: List<SoalMasalah>) {
                 if (isAdded && view != null) {
+                    swipeRefresh.isRefreshing = false
                     listSoal = data
                     Log.d("AUM_DEBUG", "Data Berhasil: ${data.size} soal")
                     
@@ -195,6 +203,7 @@ class FormAumFragment : Fragment() {
 
             override fun onError(message: String) {
                 if (isAdded && context != null) {
+                    swipeRefresh.isRefreshing = false
                     Log.e("AUM_DEBUG", "Error Fetch: $message")
                     Toast.makeText(context, "Gagal memuat soal: $message", Toast.LENGTH_SHORT).show()
                 }

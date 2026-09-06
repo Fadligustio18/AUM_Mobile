@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.adapter.JawabanKuesionerAdapter
@@ -21,6 +22,7 @@ import retrofit2.Response
 
 class JawabanKuesionerSiswaFragment : Fragment() {
     private lateinit var rv: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var llEmptyState: View
     private lateinit var adapter: JawabanKuesionerAdapter
     private lateinit var sessionManager: SessionManager
@@ -55,12 +57,17 @@ class JawabanKuesionerSiswaFragment : Fragment() {
         
         sessionManager = SessionManager(requireContext())
         rv = view.findViewById(R.id.rv_jawaban)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_jawaban)
         llEmptyState = view.findViewById(R.id.ll_empty_state_kuesioner)
         val btnBack = view.findViewById<ImageView>(R.id.btn_back_jawaban)
         
         rv.layoutManager = LinearLayoutManager(context)
         adapter = JawabanKuesionerAdapter(emptyList())
         rv.adapter = adapter
+        
+        swipeRefresh.setOnRefreshListener {
+            loadData()
+        }
         
         btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
         
@@ -70,31 +77,39 @@ class JawabanKuesionerSiswaFragment : Fragment() {
     }
 
     private fun loadData() {
-        llEmptyState.visibility = View.GONE
-        rv.visibility = View.VISIBLE
+        if (!swipeRefresh.isRefreshing) {
+            llEmptyState.visibility = View.GONE
+            rv.visibility = View.VISIBLE
+        }
         
         val token = "Bearer ${sessionManager.getToken()}"
         Aktor.kuesioner.getJawabanSiswa(token, kuesionerId, siswaId).enqueue(object : Callback<List<JawabanSiswaDetail>> {
             override fun onResponse(call: Call<List<JawabanSiswaDetail>>, response: Response<List<JawabanSiswaDetail>>) {
-                if (response.isSuccessful) {
-                    val data = response.body()
-                    if (!data.isNullOrEmpty()) {
-                        rv.visibility = View.VISIBLE
-                        llEmptyState.visibility = View.GONE
-                        adapter.updateData(data)
+                if (isAdded) {
+                    swipeRefresh.isRefreshing = false
+                    if (response.isSuccessful) {
+                        val data = response.body()
+                        if (!data.isNullOrEmpty()) {
+                            rv.visibility = View.VISIBLE
+                            llEmptyState.visibility = View.GONE
+                            adapter.updateData(data)
+                        } else {
+                            rv.visibility = View.GONE
+                            llEmptyState.visibility = View.VISIBLE
+                        }
                     } else {
                         rv.visibility = View.GONE
                         llEmptyState.visibility = View.VISIBLE
                     }
-                } else {
-                    rv.visibility = View.GONE
-                    llEmptyState.visibility = View.VISIBLE
                 }
             }
             override fun onFailure(call: Call<List<JawabanSiswaDetail>>, t: Throwable) {
-                rv.visibility = View.GONE
-                llEmptyState.visibility = View.VISIBLE
-                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    swipeRefresh.isRefreshing = false
+                    rv.visibility = View.GONE
+                    llEmptyState.visibility = View.VISIBLE
+                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }

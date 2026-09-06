@@ -18,6 +18,7 @@ import com.example.bknova.controller.AuthController
 import com.example.bknova.model.BkTask
 import com.example.bknova.service.Aktor
 import com.google.android.material.appbar.MaterialToolbar
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,6 +26,7 @@ import retrofit2.Response
 class DaftarKelasBkFragment : Fragment() {
     private lateinit var authController: AuthController
     private lateinit var rvKelas: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
     private lateinit var toolbar: MaterialToolbar
 
@@ -50,9 +52,14 @@ class DaftarKelasBkFragment : Fragment() {
 
         toolbar = view.findViewById(R.id.toolbar_kelas)
         rvKelas = view.findViewById(R.id.rv_daftar_kelas)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_kelas)
         progressBar = view.findViewById(R.id.pb_loading)
 
         rvKelas.layoutManager = LinearLayoutManager(context)
+
+        swipeRefresh.setOnRefreshListener {
+            fetchClasses()
+        }
 
         // Handle Window Insets for bottom padding
         val initialPaddingBottom = rvKelas.paddingBottom
@@ -70,7 +77,9 @@ class DaftarKelasBkFragment : Fragment() {
     }
 
     private fun fetchClasses() {
-        progressBar.visibility = View.VISIBLE
+        if (!swipeRefresh.isRefreshing) {
+            progressBar.visibility = View.VISIBLE
+        }
         val token = authController.getToken() ?: return
         val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
 
@@ -78,6 +87,7 @@ class DaftarKelasBkFragment : Fragment() {
             override fun onResponse(call: Call<List<BkTask>>, response: Response<List<BkTask>>) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
                     if (response.isSuccessful) {
                         val tasks = response.body()
                         if (!tasks.isNullOrEmpty()) {
@@ -94,6 +104,7 @@ class DaftarKelasBkFragment : Fragment() {
             override fun onFailure(call: Call<List<BkTask>>, t: Throwable) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
                     Toast.makeText(context, "Kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
                 }
             }

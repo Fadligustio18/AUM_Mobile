@@ -25,6 +25,7 @@ import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.adapter.AumStatistikAdapter
 import com.example.bknova.controller.AuthController
@@ -93,6 +94,11 @@ class StatistikAumFragment : Fragment() {
         }
 
         setupRecyclerView()
+        
+        binding.swipeRefreshStatistik.setOnRefreshListener {
+            fetchData()
+        }
+
         fetchData()
 
         binding.btnActionHeader.setOnClickListener {
@@ -202,6 +208,7 @@ class StatistikAumFragment : Fragment() {
         val idGuru = authController.getUserId()
 
         if (token == null || idGuru == -1) {
+            binding.swipeRefreshStatistik.isRefreshing = false
             Toast.makeText(context, "Sesi berakhir, silakan login kembali", Toast.LENGTH_SHORT).show()
             return
         }
@@ -210,16 +217,22 @@ class StatistikAumFragment : Fragment() {
 
         Aktor.aum.getHasilAumByGuru(bearerToken, idGuru).enqueue(object : Callback<List<AumHasilSiswa>> {
             override fun onResponse(call: Call<List<AumHasilSiswa>>, response: Response<List<AumHasilSiswa>>) {
-                if (response.isSuccessful) {
-                    val data = response.body() ?: emptyList()
-                    processData(data)
-                } else {
-                    Toast.makeText(context, "Gagal mengambil data statistik", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    binding.swipeRefreshStatistik.isRefreshing = false
+                    if (response.isSuccessful) {
+                        val data = response.body() ?: emptyList()
+                        processData(data)
+                    } else {
+                        Toast.makeText(context, "Gagal mengambil data statistik", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
             override fun onFailure(call: Call<List<AumHasilSiswa>>, t: Throwable) {
-                Toast.makeText(context, "Terjadi kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    binding.swipeRefreshStatistik.isRefreshing = false
+                    Toast.makeText(context, "Terjadi kesalahan: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }

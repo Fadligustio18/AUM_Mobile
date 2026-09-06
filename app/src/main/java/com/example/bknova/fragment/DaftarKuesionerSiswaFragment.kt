@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.halaman_siswa_Activity
 import com.example.bknova.adapter.KuesionerAdapter
@@ -21,6 +22,7 @@ import retrofit2.Response
 
 class DaftarKuesionerSiswaFragment : Fragment() {
     private lateinit var rv: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var adapter: KuesionerAdapter
     private lateinit var sessionManager: SessionManager
     private lateinit var btnBack: ImageView
@@ -38,11 +40,16 @@ class DaftarKuesionerSiswaFragment : Fragment() {
         
         sessionManager = SessionManager(requireContext())
         rv = view.findViewById(R.id.rv_kuesioner)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_kuesioner)
         btnBack = view.findViewById(R.id.btn_back_kuesioner)
         val fabAdd = view.findViewById<View>(R.id.fab_add_kuesioner)
         fabAdd.visibility = View.GONE // Siswa cannot create
         
         rv.layoutManager = LinearLayoutManager(context)
+        
+        swipeRefresh.setOnRefreshListener {
+            loadData()
+        }
         adapter = KuesionerAdapter(
             list = emptyList(),
             onItemClick = { kuesioner ->
@@ -71,15 +78,21 @@ class DaftarKuesionerSiswaFragment : Fragment() {
         
         Aktor.kuesioner.getKuesionerSiswa(token, idUser).enqueue(object : Callback<List<KuesionerSummary>> {
             override fun onResponse(call: Call<List<KuesionerSummary>>, response: Response<List<KuesionerSummary>>) {
-                if (response.isSuccessful) {
-                    response.body()?.let { 
-                        adapter.updateData(it)
-                        rv.scheduleLayoutAnimation()
+                if (isAdded) {
+                    swipeRefresh.isRefreshing = false
+                    if (response.isSuccessful) {
+                        response.body()?.let { 
+                            adapter.updateData(it)
+                            rv.scheduleLayoutAnimation()
+                        }
                     }
                 }
             }
             override fun onFailure(call: Call<List<KuesionerSummary>>, t: Throwable) {
-                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    swipeRefresh.isRefreshing = false
+                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }

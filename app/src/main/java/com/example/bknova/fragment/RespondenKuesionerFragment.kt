@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.adapter.DaftarSiswaBkAdapter
@@ -23,6 +24,7 @@ import retrofit2.Response
 
 class RespondenKuesionerFragment : Fragment() {
     private lateinit var rv: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var progressBar: ProgressBar
     private lateinit var tvEmpty: TextView
     private lateinit var sessionManager: SessionManager
@@ -58,11 +60,16 @@ class RespondenKuesionerFragment : Fragment() {
         
         sessionManager = SessionManager(requireContext())
         rv = view.findViewById(R.id.rv_responden)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_responden)
         progressBar = view.findViewById(R.id.pb_loading_responden)
         tvEmpty = view.findViewById(R.id.tv_empty_responden)
         val btnBack = view.findViewById<ImageView>(R.id.btn_back_responden)
         
         rv.layoutManager = LinearLayoutManager(context)
+        
+        swipeRefresh.setOnRefreshListener {
+            loadStudents()
+        }
         
         btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
         
@@ -76,26 +83,34 @@ class RespondenKuesionerFragment : Fragment() {
     }
 
     private fun loadStudents() {
-        progressBar.visibility = View.VISIBLE
+        if (!swipeRefresh.isRefreshing) {
+            progressBar.visibility = View.VISIBLE
+        }
         tvEmpty.visibility = View.GONE
         
         val token = "Bearer ${sessionManager.getToken()}"
         Aktor.dynamics.getSiswaByKelas(token, idKelas).enqueue(object : Callback<List<Siswa>> {
             override fun onResponse(call: Call<List<Siswa>>, response: Response<List<Siswa>>) {
-                progressBar.visibility = View.GONE
-                if (response.isSuccessful) {
-                    val listSiswa = response.body()
-                    if (!listSiswa.isNullOrEmpty()) {
-                        setupRecyclerView(listSiswa)
-                    } else {
-                        tvEmpty.visibility = View.VISIBLE
+                if (isAdded) {
+                    progressBar.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
+                    if (response.isSuccessful) {
+                        val listSiswa = response.body()
+                        if (!listSiswa.isNullOrEmpty()) {
+                            setupRecyclerView(listSiswa)
+                        } else {
+                            tvEmpty.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
 
             override fun onFailure(call: Call<List<Siswa>>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    progressBar.visibility = View.GONE
+                    swipeRefresh.isRefreshing = false
+                    Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
             }
         })
     }
