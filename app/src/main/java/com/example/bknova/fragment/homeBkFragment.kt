@@ -14,10 +14,16 @@ import androidx.core.widget.NestedScrollView
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.controller.AuthController
+import com.example.bknova.model.Tiket
+import com.example.bknova.service.Aktor
 import com.google.android.material.card.MaterialCardView
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class homeBkFragment : Fragment() {
     private lateinit var authController: AuthController
+    private lateinit var tvBadgeTiket: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +33,7 @@ class homeBkFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as? guruBkActivity)?.setBottomNavigationVisibility(true)
+        fetchTiketBadge()
     }
 
     override fun onCreateView(
@@ -40,9 +47,11 @@ class homeBkFragment : Fragment() {
         val cardAum = view.findViewById<MaterialCardView>(R.id.card_data_aum)
         val cardSosio = view.findViewById<MaterialCardView>(R.id.card_sosio_bk)
         val cardTiket = view.findViewById<MaterialCardView>(R.id.card_tiket_bk)
+        val containerTiket = view.findViewById<View>(R.id.container_card_tiket)
+        tvBadgeTiket = view.findViewById(R.id.tv_badge_tiket)
 
-        // Staggered Animation for Grid Items
-        animateGridItems(cardSosio, cardAum, cardTiket, cardSiswa)
+        // Staggered Animation for Grid Items (Animate the container for Tiket so the badge follows)
+        animateGridItems(cardSosio, cardAum, containerTiket, cardSiswa)
         
         // Handle Window Insets for bottom padding
         val scrollView = view.findViewById<NestedScrollView>(R.id.scroll_view_home_bk)
@@ -107,6 +116,35 @@ class homeBkFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun fetchTiketBadge() {
+        val token = authController.getToken() ?: return
+        val idUser = authController.getUserId()
+        if (idUser == -1) return
+
+        val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
+
+        Aktor.tiket.getTiketBk(bearerToken, idUser).enqueue(object : Callback<List<Tiket>> {
+            override fun onResponse(call: Call<List<Tiket>>, response: Response<List<Tiket>>) {
+                if (isAdded && response.isSuccessful) {
+                    val listTiket = response.body() ?: emptyList()
+                    // Hitung tiket dengan status "Dikirim" (Pending)
+                    val pendingCount = listTiket.count { it.status.equals("Dikirim", ignoreCase = true) }
+                    
+                    if (pendingCount > 0) {
+                        tvBadgeTiket.text = if (pendingCount > 99) "99+" else pendingCount.toString()
+                        tvBadgeTiket.visibility = View.VISIBLE
+                    } else {
+                        tvBadgeTiket.visibility = View.GONE
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<List<Tiket>>, t: Throwable) {
+                // Silent fail for badge
+            }
+        })
     }
 
     private fun animateGridItems(vararg cards: View) {

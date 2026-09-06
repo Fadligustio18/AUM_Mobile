@@ -35,7 +35,7 @@
             android:layout_marginStart="16dp"
             android:text="Pengajuan Konseling"
             android:textColor="@color/brand_primary"
-            android:textSize="18sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/btn_back_pengajuan"

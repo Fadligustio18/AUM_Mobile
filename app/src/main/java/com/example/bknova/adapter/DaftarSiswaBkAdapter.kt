@@ -16,8 +16,6 @@ class DaftarSiswaBkAdapter(
     private val onClick: (Siswa) -> Unit
 ) : RecyclerView.Adapter<DaftarSiswaBkAdapter.ViewHolder>() {
 
-    private var lastPosition = -1
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNama: TextView = view.findViewById(R.id.tv_nama_siswa)
         val tvNisn: TextView = view.findViewById(R.id.tv_nisn_siswa)
@@ -41,17 +39,13 @@ class DaftarSiswaBkAdapter(
             onClick(siswa)
         }
 
-        // Animasi muncul satu persatu saat di-scroll ke bawah
-        setAnimation(holder.itemView, position)
+        // Animasi muncul satu persatu saat di-scroll
+        setAnimation(holder.itemView)
     }
 
-    private fun setAnimation(viewToAnimate: View, position: Int) {
-        // Jika posisi item baru (di-scroll ke bawah)
-        if (position > lastPosition) {
-            val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.slide_in_left)
-            viewToAnimate.startAnimation(animation)
-            lastPosition = position
-        }
+    private fun setAnimation(viewToAnimate: View) {
+        val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.slide_in_left)
+        viewToAnimate.startAnimation(animation)
     }
 
     override fun getItemCount(): Int = listSiswa.size

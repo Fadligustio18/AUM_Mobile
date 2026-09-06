@@ -78,7 +78,10 @@ class DaftarTiketSiswaFragment : Fragment() {
         Aktor.tiket.getTiketSiswa(token, idUser).enqueue(object : Callback<List<Tiket>> {
             override fun onResponse(call: Call<List<Tiket>>, response: Response<List<Tiket>>) {
                 if (response.isSuccessful) {
-                    response.body()?.let { adapter.updateData(it) }
+                    response.body()?.let { 
+                        adapter.updateData(it)
+                        rvTiket.scheduleLayoutAnimation()
+                    }
                 } else {
                     Toast.makeText(context, "Gagal memuat status tiket", Toast.LENGTH_SHORT).show()
                 }

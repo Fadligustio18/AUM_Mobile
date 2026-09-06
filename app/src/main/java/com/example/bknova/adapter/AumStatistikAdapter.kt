@@ -13,8 +13,6 @@ class AumStatistikAdapter(
     private val listBidang: List<AumBidangHasil>
 ) : RecyclerView.Adapter<AumStatistikAdapter.ViewHolder>() {
 
-    private var lastPosition = -1
-
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvCount: TextView = view.findViewById(R.id.tv_stat_count)
         val tvLabel: TextView = view.findViewById(R.id.tv_stat_label)
@@ -35,15 +33,12 @@ class AumStatistikAdapter(
         // Tetap berwarna biru sesuai tema, tidak berubah meski data > 5
         holder.tvCount.setTextColor(holder.itemView.context.getColor(R.color.brand_primary))
 
-        setAnimation(holder.itemView, position)
+        setAnimation(holder.itemView)
     }
 
-    private fun setAnimation(viewToAnimate: View, position: Int) {
-        if (position > lastPosition) {
-            val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.slide_in_left)
-            viewToAnimate.startAnimation(animation)
-            lastPosition = position
-        }
+    private fun setAnimation(viewToAnimate: View) {
+        val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.slide_in_left)
+        viewToAnimate.startAnimation(animation)
     }
 
     override fun getItemCount(): Int = listBidang.size

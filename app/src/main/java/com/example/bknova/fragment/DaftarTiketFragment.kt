@@ -75,7 +75,10 @@ class DaftarTiketFragment : Fragment() {
             override fun onResponse(call: Call<List<Tiket>>, response: Response<List<Tiket>>) {
                 swipeRefresh.isRefreshing = false
                 if (response.isSuccessful) {
-                    response.body()?.let { adapter.updateData(it) }
+                    response.body()?.let { 
+                        adapter.updateData(it)
+                        rvTiket.scheduleLayoutAnimation()
+                    }
                 } else {
                     Toast.makeText(context, "Gagal memuat tiket", Toast.LENGTH_SHORT).show()
                 }

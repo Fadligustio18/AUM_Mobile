@@ -106,9 +106,6 @@ class RespondenKuesionerFragment : Fragment() {
             val idTarget = siswa.idSiswa ?: -1 
             
             if (idTarget != -1) {
-                // Notifikasi untuk verifikasi data (bisa dihapus nanti jika sudah fix)
-                Toast.makeText(context, "Membuka jawaban: ${siswa.nama} (ID: $idTarget)", Toast.LENGTH_SHORT).show()
-                
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container_bk, JawabanKuesionerSiswaFragment.newInstance(kuesionerId, idTarget))
                     .addToBackStack(null)
@@ -118,5 +115,6 @@ class RespondenKuesionerFragment : Fragment() {
             }
         }
         rv.adapter = adapter
+        rv.scheduleLayoutAnimation()
     }
 }

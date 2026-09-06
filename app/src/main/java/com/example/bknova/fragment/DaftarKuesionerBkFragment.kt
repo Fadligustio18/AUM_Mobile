@@ -93,7 +93,10 @@ class DaftarKuesionerBkFragment : Fragment() {
         Aktor.kuesioner.getKuesionerBk(token, idUser).enqueue(object : Callback<List<KuesionerSummary>> {
             override fun onResponse(call: Call<List<KuesionerSummary>>, response: Response<List<KuesionerSummary>>) {
                 if (response.isSuccessful) {
-                    response.body()?.let { adapter.updateData(it) }
+                    response.body()?.let { 
+                        adapter.updateData(it)
+                        rv.scheduleLayoutAnimation()
+                    }
                 }
             }
             override fun onFailure(call: Call<List<KuesionerSummary>>, t: Throwable) {

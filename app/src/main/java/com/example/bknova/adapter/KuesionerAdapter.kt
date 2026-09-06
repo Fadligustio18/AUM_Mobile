@@ -3,6 +3,7 @@ package com.example.bknova.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bknova.R
@@ -43,6 +44,14 @@ class KuesionerAdapter(
         }
 
         holder.itemView.setOnClickListener { onItemClick(item) }
+
+        // Slide-in animation from left
+        setAnimation(holder.itemView)
+    }
+
+    private fun setAnimation(viewToAnimate: View) {
+        val animation = AnimationUtils.loadAnimation(viewToAnimate.context, R.anim.slide_in_left)
+        viewToAnimate.startAnimation(animation)
     }
 
     override fun getItemCount(): Int = list.size
