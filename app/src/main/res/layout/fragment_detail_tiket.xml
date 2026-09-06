@@ -222,6 +222,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Tempat Konseling"
+                    app:boxStrokeColor="@color/brand_dark"
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
                     <com.google.android.material.textfield.TextInputEditText
                         android:layout_width="match_parent"
@@ -245,49 +246,71 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_setujui"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Setujui Tiket"
+                    android:layout_height="56dp"
+                    android:text="@string/btn_setujui_tiket"
                     android:layout_marginTop="24dp"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:icon="@drawable/ic_check_circle"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
                     app:cornerRadius="12dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_update_lokasi"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Update"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    android:layout_height="56dp"
+                    android:text="Perbarui"
+                    android:layout_marginTop="8dp"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:textColor="@color/brand_primary"
+                    app:backgroundTint="@color/brand_soft"
+                    app:icon="@drawable/ic_edit"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/brand_primary"
                     app:cornerRadius="12dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_tunda"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Tunda"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    android:layout_height="56dp"
+                    android:text="@string/btn_tunda_konseling"
+                    android:layout_marginTop="8dp"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:textColor="@color/accent_peach_text"
+                    app:backgroundTint="@color/accent_peach_soft"
                     app:cornerRadius="12dp" />
 
-                <LinearLayout
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_selesai_bk"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:layout_marginTop="8dp">
-
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_selesai_bk"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Selesaikan"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        android:textColor="@color/green_text"
-                        app:cornerRadius="12dp" />
-                </LinearLayout>
+                    android:layout_height="56dp"
+                    android:text="@string/btn_selesaikan_tiket"
+                    android:layout_marginTop="8dp"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                    android:textColor="@color/green_text"
+                    app:backgroundTint="@color/green_light"
+                    app:icon="@drawable/ic_check_circle"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/green_text"
+                    app:cornerRadius="12dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_hapus_riwayat_bk"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Hapus Riwayat Tiket"
+                    android:layout_height="56dp"
+                    android:text="@string/btn_hapus_riwayat"
                     android:layout_marginTop="8dp"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:textColor="@color/red_text"
                     app:strokeColor="@color/red_text"
@@ -307,20 +330,27 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_edit_siswa"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Edit Masalah"
-                    app:cornerRadius="12dp" />
+                    android:layout_height="56dp"
+                    android:text="@string/btn_edit_masalah"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
+                    app:icon="@drawable/ic_edit"
+                    app:iconGravity="textStart"
+                    app:iconPadding="8dp"
+                    app:cornerRadius="16dp" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_hapus_siswa"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Hapus Tiket"
+                    android:layout_height="56dp"
+                    android:text="@string/btn_hapus_tiket"
                     android:layout_marginTop="8dp"
+                    android:textAllCaps="false"
+                    android:textStyle="bold"
                     style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:textColor="@color/red_text"
                     app:strokeColor="@color/red_text"
-                    app:cornerRadius="12dp" />
+                    app:cornerRadius="16dp" />
             </LinearLayout>
 
         </LinearLayout>

@@ -134,7 +134,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:text="Tambah Pertanyaan"
-                app:icon="@drawable/img_14" />
+                app:icon="@drawable/img_16" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

@@ -29,6 +29,14 @@
     <string name="bk">Bimbingan Konseling</string>
     <string name="navsiswa">Siswa</string>
 
+    <string name="btn_setujui_tiket">Setujui Tiket</string>
+    <string name="btn_perbarui_data">Perbarui Data</string>
+    <string name="btn_tunda_konseling">Tunda Konseling</string>
+    <string name="btn_selesaikan_tiket">Selesaikan Tiket</string>
+    <string name="btn_hapus_riwayat">Hapus Riwayat Tiket</string>
+    <string name="btn_edit_masalah">Edit Masalah</string>
+    <string name="btn_hapus_tiket">Hapus Tiket</string>
+
     <!-- Splash -->
     <string name="splash_footer">©Tefa Company</string>
 

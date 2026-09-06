@@ -16,6 +16,7 @@ import com.example.bknova.databinding.FragmentDetailTiketBinding
 import com.example.bknova.model.*
 import com.example.bknova.service.Aktor
 import com.example.bknova.service.SessionManager
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -316,12 +317,30 @@ class DetailTiketFragment : Fragment() {
     }
 
     private fun hapusTiketSiswa() {
+        val status = tiket?.status ?: ""
+        val (title, message) = when (status) {
+            "Selesai", "Dibatalkan" -> "Hapus Riwayat" to "Apakah Anda yakin ingin menghapus riwayat tiket ini?"
+            "Dikirim" -> "Hapus Tiket" to "Apakah Anda yakin ingin menghapus pengajuan tiket ini?"
+            else -> "Batalkan Tiket" to "Apakah Anda yakin ingin membatalkan jadwal konseling ini?"
+        }
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton("Ya, Lanjutkan") { _, _ ->
+                performDeleteTiket()
+            }
+            .setNegativeButton("Batal", null)
+            .show()
+    }
+
+    private fun performDeleteTiket() {
         val token = "Bearer ${sessionManager.getToken()}"
         val id = tiket?.id ?: return
         Aktor.tiket.deleteTiket(token, id).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, "Tiket dihapus", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, "Tiket berhasil dihapus", Toast.LENGTH_SHORT).show()
                     parentFragmentManager.popBackStack()
                 }
             }

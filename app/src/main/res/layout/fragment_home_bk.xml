@@ -121,7 +121,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_sosio_bk"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="8dp"
                         app:cardCornerRadius="16dp"
@@ -132,7 +132,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="16dp"
                             android:background="@drawable/bg_grid_shadow"
@@ -151,11 +151,12 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
-                                android:text="Sosiografik"
+                                android:text="Kuesioner Sosiografik"
                                 android:textColor="@color/text_color_primary"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                android:gravity="center" />
+                                android:gravity="center"
+                                android:minLines="2" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 
@@ -163,7 +164,7 @@
                     <com.google.android.material.card.MaterialCardView
                         android:id="@+id/card_data_aum"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:layout_margin="8dp"
                         app:cardCornerRadius="16dp"
@@ -174,7 +175,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="16dp"
                             android:background="@drawable/bg_grid_shadow"
@@ -197,22 +198,88 @@
                                 android:textColor="@color/text_color_primary"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                android:gravity="center" />
+                                android:gravity="center"
+                                android:minLines="2" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-                <!-- Row 2: Tiket Konseling (Full Width) -->
-                <FrameLayout
+                <!-- Row 2: Tiket Konseling & Data Siswa -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="8dp"
-                    android:layout_marginVertical="8dp">
+                    android:orientation="horizontal"
+                    android:weightSum="2">
 
+                    <!-- Tiket Konseling -->
+                    <FrameLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/card_tiket_bk"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            app:cardCornerRadius="16dp"
+                            app:strokeWidth="0dp"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:foreground="?attr/selectableItemBackground">
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:padding="16dp"
+                                android:background="@drawable/bg_grid_shadow"
+                                android:gravity="center">
+
+                                <com.google.android.material.imageview.ShapeableImageView
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
+                                    android:background="@color/red_light"
+                                    android:padding="10dp"
+                                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
+                                    android:src="@drawable/img_15"
+                                    app:tint="@color/red_text" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="12dp"
+                                    android:text="Tiket Konseling"
+                                    android:textColor="@color/text_color_primary"
+                                    android:textSize="14sp"
+                                    android:textStyle="bold"
+                                    android:gravity="center"
+                                    android:minLines="2" />
+                            </LinearLayout>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <!-- Notification Badge -->
+                        <TextView
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:layout_gravity="end|top"
+                            android:background="@drawable/bg_badge_red_circle"
+                            android:text="1"
+                            android:textColor="@color/white"
+                            android:textSize="10sp"
+                            android:textStyle="bold"
+                            android:gravity="center"
+                            android:translationX="-4dp"
+                            android:translationY="4dp" />
+                    </FrameLayout>
+
+                    <!-- Data Siswa -->
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/card_tiket_bk"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/card_data_siswa"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:layout_margin="8dp"
                         app:cardCornerRadius="16dp"
                         app:strokeWidth="0dp"
                         android:clickable="true"
@@ -221,7 +288,7 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:padding="16dp"
                             android:background="@drawable/bg_grid_shadow"
@@ -230,79 +297,25 @@
                             <com.google.android.material.imageview.ShapeableImageView
                                 android:layout_width="48dp"
                                 android:layout_height="48dp"
-                                android:background="@color/red_light"
+                                android:background="@color/green_light"
                                 android:padding="10dp"
                                 app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                                android:src="@drawable/img_15"
-                                app:tint="@color/red_text" />
+                                android:src="@drawable/img_2"
+                                app:tint="@color/green_text" />
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="12dp"
-                                android:text="Tiket Konseling"
+                                android:text="Data Siswa"
                                 android:textColor="@color/text_color_primary"
                                 android:textSize="14sp"
                                 android:textStyle="bold"
-                                android:gravity="center" />
+                                android:gravity="center"
+                                android:minLines="2" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
-
-                    <!-- Notification Badge -->
-                    <TextView
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        android:layout_gravity="end|top"
-                        android:background="@drawable/bg_badge_red_circle"
-                        android:text="1"
-                        android:textColor="@color/white"
-                        android:textSize="10sp"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:translationX="-4dp"
-                        android:translationY="4dp" />
-                </FrameLayout>
-
-                <!-- Row 3: Data Siswa (Full Width) -->
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/card_data_siswa"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="8dp"
-                    app:cardCornerRadius="16dp"
-                    app:strokeWidth="0dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:foreground="?attr/selectableItemBackground">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp"
-                        android:background="@drawable/bg_grid_shadow"
-                        android:gravity="center">
-
-                        <com.google.android.material.imageview.ShapeableImageView
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:background="@color/green_light"
-                            android:padding="10dp"
-                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Rounded8"
-                            android:src="@drawable/img_2"
-                            app:tint="@color/green_text" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="12dp"
-                            android:text="Data Siswa"
-                            android:textColor="@color/text_color_primary"
-                            android:textSize="14sp"
-                            android:textStyle="bold"
-                            android:gravity="center" />
-                    </LinearLayout>
-                </com.google.android.material.card.MaterialCardView>
+                </LinearLayout>
 
             </LinearLayout>
         </LinearLayout>

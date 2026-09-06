@@ -33,7 +33,7 @@
                 android:layout_gravity="end"
                 android:layout_marginEnd="16dp"
                 android:text="PDF"
-                android:backgroundTint="@color/accent_peach_soft"
+                android:backgroundTint="@color/brand_soft"
                 app:icon="@drawable/ekpor"
                 app:iconPadding="8dp"
                 app:iconTint="@color/text_color_primary"
