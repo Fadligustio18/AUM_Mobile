@@ -72,7 +72,7 @@ class DaftarKuesionerBkFragment : Fragment() {
         val token = "Bearer ${sessionManager.getToken()}"
         
         // Pertama, ambil daftar kelas Guru BK untuk referensi ID
-        Aktor.academic.getMyTasks(token).enqueue(object : Callback<List<BkTask>> {
+        Aktor.bk.getMyBkTasks(token).enqueue(object : Callback<List<BkTask>> {
             override fun onResponse(call: Call<List<BkTask>>, response: Response<List<BkTask>>) {
                 if (response.isSuccessful) {
                     listKelasBk = response.body() ?: emptyList()

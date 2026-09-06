@@ -178,16 +178,11 @@ class DetailTiketFragment : Fragment() {
             
             // Fetch detailed class info if it's a Guru BK view
             if (sessionManager.getRole() != "Siswa") {
-                val studentId = it.idSiswa ?: -1
-                if (studentId != -1) {
-                    fetchDetailedClass(studentId)
-                } else {
-                    // Jika studentId tidak ada di JSON, coba tampilkan tingkat dari JSON tiket jika ada
-                    val level = it.tingkat ?: ""
-                    val className = it.kelas ?: ""
-                    val fullKelas = if (level.isNotEmpty()) "$level $className" else className
-                    binding.tvDetailKelas.text = "Kelas: ${if (fullKelas.isEmpty()) "-" else fullKelas}"
-                }
+                // Info kelas sudah ada di objek Tiket (tingkat & kelas)
+                val level = it.tingkat ?: ""
+                val className = it.kelas ?: ""
+                val fullKelas = if (level.isNotEmpty()) "$level $className" else className
+                binding.tvDetailKelas.text = "Kelas: ${if (fullKelas.isEmpty()) "-" else fullKelas}"
             }
             
             // Show meeting info if exists
@@ -202,29 +197,6 @@ class DetailTiketFragment : Fragment() {
             binding.tilTempat.editText?.setText(it.tempat ?: "")
             binding.tilTanggal.editText?.setText(it.tanggalPerjanjian ?: "")
         }
-    }
-
-    private fun fetchDetailedClass(id: Int) {
-        val token = "Bearer ${sessionManager.getToken()}"
-        Aktor.academic.getSiswaKelas(token, id).enqueue(object : Callback<SiswaKelas> {
-            override fun onResponse(call: Call<SiswaKelas>, response: Response<SiswaKelas>) {
-                if (response.isSuccessful) {
-                    val data = response.body()
-                    data?.let {
-                        val level = it.tingkat
-                        val className = it.namaKelas
-                        binding.tvDetailKelas.text = "Kelas: $level $className"
-                    }
-                } else {
-                    // Jika gagal, tampilkan pesan singkat untuk debug
-                    // Toast.makeText(context, "API Kelas Gagal: ${response.code()}", Toast.LENGTH_SHORT).show()
-                }
-            }
-
-            override fun onFailure(call: Call<SiswaKelas>, t: Throwable) {
-                // Toast.makeText(context, "Error API Kelas: ${t.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 
     private fun showDateTimePicker() {

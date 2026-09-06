@@ -49,7 +49,7 @@ class CreateKuesionerFragment : Fragment() {
         val token = "Bearer ${sessionManager.getToken()}"
         
         // Load Kelas
-        Aktor.academic.getMyTasks(token).enqueue(object : Callback<List<BkTask>> {
+        Aktor.bk.getMyBkTasks(token).enqueue(object : Callback<List<BkTask>> {
             override fun onResponse(call: Call<List<BkTask>>, response: Response<List<BkTask>>) {
                 if (response.isSuccessful) {
                     listKelas = response.body() ?: emptyList()

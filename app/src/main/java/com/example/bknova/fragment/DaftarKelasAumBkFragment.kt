@@ -70,7 +70,7 @@ class DaftarKelasAumBkFragment : Fragment() {
         val token = authController.getToken() ?: return
         val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
 
-        Aktor.academic.getMyTasks(bearerToken).enqueue(object : Callback<List<BkTask>> {
+        Aktor.bk.getMyBkTasks(bearerToken).enqueue(object : Callback<List<BkTask>> {
             override fun onResponse(call: Call<List<BkTask>>, response: Response<List<BkTask>>) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
@@ -123,7 +123,8 @@ class DaftarKelasAumBkFragment : Fragment() {
     }
 
     private fun navigateToStatistik(task: BkTask) {
-        val fragment = StatistikAumFragment.newInstance(task.namaKelas, task.idKelas)
+        val fullClassName = "${task.tingkat} ${task.namaKelas}"
+        val fragment = StatistikAumFragment.newInstance(fullClassName, task.idKelas)
         parentFragmentManager.beginTransaction()
             .setCustomAnimations(
                 R.anim.slide_in_right,
@@ -137,7 +138,8 @@ class DaftarKelasAumBkFragment : Fragment() {
     }
 
     private fun navigateToDaftarSiswa(task: BkTask) {
-        val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, task.namaKelas, true)
+        val fullClassName = "${task.tingkat} ${task.namaKelas}"
+        val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, fullClassName, true)
         parentFragmentManager.beginTransaction()
             .setCustomAnimations(
                 R.anim.slide_in_right,

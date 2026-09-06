@@ -96,10 +96,13 @@ class DetailAumSiswaFragment : Fragment() {
     private lateinit var sectionVisualTitle: View
     private lateinit var sectionStatsTitle: View
     private lateinit var sectionDetailTitle: View
+    private lateinit var llAumContent: LinearLayout
+    private lateinit var llEmptyState: LinearLayout
 
     private var idSiswa: Int = -1
     private var namaSiswa: String? = null
     private var nisnSiswa: String? = null
+    private var kelasSiswa: String? = null
     private var currentData: AumHasilSiswa? = null
 
     private val colorMap = mapOf(
@@ -122,6 +125,7 @@ class DetailAumSiswaFragment : Fragment() {
             idSiswa = it.getInt("id_siswa", -1)
             namaSiswa = it.getString("nama_siswa")
             nisnSiswa = it.getString("nisn_siswa")
+            kelasSiswa = it.getString("kelas_siswa")
         }
     }
 
@@ -148,6 +152,8 @@ class DetailAumSiswaFragment : Fragment() {
         
         tvNama = view.findViewById(R.id.tv_detail_nama)
         tvKelas = view.findViewById(R.id.tv_detail_kelas)
+        llAumContent = view.findViewById(R.id.ll_aum_content)
+        llEmptyState = view.findViewById(R.id.ll_empty_state_aum)
         tvNis = view.findViewById(R.id.tv_detail_nis)
         tvWaktu = view.findViewById(R.id.tv_detail_waktu)
 
@@ -179,6 +185,7 @@ class DetailAumSiswaFragment : Fragment() {
             // Tampilkan data profil dasar segera dari arguments agar tidak kosong saat loading
             tvNama.text = namaSiswa ?: "Siswa"
             tvNis.text = if (!nisnSiswa.isNullOrBlank()) "NISN: $nisnSiswa" else "-"
+            tvKelas.text = if (!kelasSiswa.isNullOrBlank()) "Kelas: $kelasSiswa" else "Kelas: -"
             toolbar.title = "AUM ${namaSiswa ?: "Siswa"}"
             
             fetchDetailAum()
@@ -294,26 +301,33 @@ class DetailAumSiswaFragment : Fragment() {
     private fun fetchDetailAum() {
         progressBar.visibility = View.VISIBLE
         tvEmpty.visibility = View.GONE
+        llEmptyState.visibility = View.GONE
+        llAumContent.visibility = View.GONE
+        btnExport.visibility = View.GONE
         
         val token = authController.getToken() ?: return
         val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
+        val idGuru = authController.getUserId()
         
-        // Prioritas 1: Fetch langsung berdasarkan ID Siswa (Identifier Paling Unik)
-        if (idSiswa != -1) {
-            Aktor.aum.getHasilAumBySiswaId(bearerToken, idSiswa).enqueue(object : Callback<AumHasilSiswa> {
+        // Prioritas UTAMA: Fetch berdasarkan idGuruBK dan idSiswa (Sesuai API v1)
+        if (idSiswa != -1 && idGuru != -1) {
+            android.util.Log.d("AUM_DEBUG", "Fetching by Guru ($idGuru) & Siswa ($idSiswa)")
+            Aktor.aum.getHasilAumSiswa(bearerToken, idGuru, idSiswa).enqueue(object : Callback<AumHasilSiswa> {
                 override fun onResponse(call: Call<AumHasilSiswa>, response: Response<AumHasilSiswa>) {
                     if (isAdded) {
                         if (response.isSuccessful && response.body() != null) {
+                            android.util.Log.d("AUM_DEBUG", "Success Fetch by Guru & Siswa Endpoint")
                             progressBar.visibility = View.GONE
                             displayData(response.body()!!)
                         } else {
-                            // Jika ID gagal, coba fallback ke NISN
+                            android.util.Log.w("AUM_DEBUG", "Fail specific endpoint (${response.code()}). Trying NISN fallback.")
                             fetchByNisn(bearerToken)
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<AumHasilSiswa>, t: Throwable) {
+                    android.util.Log.e("AUM_DEBUG", "Error specific endpoint: ${t.message}. Trying NISN fallback.")
                     if (isAdded) fetchByNisn(bearerToken)
                 }
             })
@@ -325,19 +339,23 @@ class DetailAumSiswaFragment : Fragment() {
     private fun fetchByNisn(bearerToken: String) {
         val nisn = nisnSiswa
         if (!nisn.isNullOrBlank()) {
+            android.util.Log.d("AUM_DEBUG", "Fetching by NISN: $nisn")
             Aktor.aum.getHasilAumByNisn(bearerToken, nisn).enqueue(object : Callback<AumHasilSiswa> {
                 override fun onResponse(call: Call<AumHasilSiswa>, response: Response<AumHasilSiswa>) {
                     if (isAdded) {
                         if (response.isSuccessful && response.body() != null) {
+                            android.util.Log.d("AUM_DEBUG", "Success Fetch by NISN")
                             progressBar.visibility = View.GONE
                             displayData(response.body()!!)
                         } else {
+                            android.util.Log.w("AUM_DEBUG", "Fail Fetch by NISN, Status: ${response.code()}. Falling back to list search.")
                             fetchDetailAumFallback(bearerToken)
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<AumHasilSiswa>, t: Throwable) {
+                    android.util.Log.e("AUM_DEBUG", "Error Fetch by NISN: ${t.message}. Falling back to list search.")
                     if (isAdded) fetchDetailAumFallback(bearerToken)
                 }
             })
@@ -348,6 +366,7 @@ class DetailAumSiswaFragment : Fragment() {
 
     private fun fetchDetailAumFallback(bearerToken: String) {
         val idGuru = authController.getUserId()
+        android.util.Log.d("AUM_DEBUG", "Fetching by Guru List (Fallback). Guru ID: $idGuru")
 
         Aktor.aum.getHasilAumByGuru(bearerToken, idGuru).enqueue(object : Callback<List<AumHasilSiswa>> {
             override fun onResponse(call: Call<List<AumHasilSiswa>>, response: Response<List<AumHasilSiswa>>) {
@@ -355,22 +374,42 @@ class DetailAumSiswaFragment : Fragment() {
                     progressBar.visibility = View.GONE
                     if (response.isSuccessful) {
                         val listHasil = response.body()
-                        val currentNisn = nisnSiswa
+                        android.util.Log.d("AUM_DEBUG", "Fallback: Received ${listHasil?.size} items")
 
                         // Urutkan berdasarkan waktu mengisi terbaru
                         val sortedList = listHasil?.sortedByDescending { it.waktuMengisi }
 
-                        // Pengecekan ID Siswa secara eksklusif (TIDAK ADA FUZZY NAME SEARCH)
-                        val result = sortedList?.find { 
-                            (idSiswa != -1 && it.idSiswa == idSiswa) || 
-                            (!currentNisn.isNullOrBlank() && it.nisn.trim() == currentNisn.trim())
+                        // PENCARIAN LEBIH AKURAT UNTUK MENGHINDARI DATA TERTUKAR
+                        val currentNisn = nisnSiswa?.trim()
+                        val currentNama = namaSiswa?.trim()
+
+                        // 1. Coba cari berdasarkan NISN (Paling Unik)
+                        var result = if (!currentNisn.isNullOrBlank()) {
+                            sortedList?.find { it.nisn.trim() == currentNisn }
+                        } else null
+
+                        // 2. Jika NISN tidak ketemu, cari berdasarkan ID dan NAMA (Double check)
+                        if (result == null && idSiswa != -1) {
+                            result = sortedList?.find { 
+                                it.idSiswa == idSiswa && 
+                                (currentNama == null || it.nama.contains(currentNama, ignoreCase = true))
+                            }
+                        }
+                        
+                        // 3. Jika masih belum ketemu, coba cari berdasarkan Nama saja (Fuzzy)
+                        if (result == null && !currentNama.isNullOrBlank()) {
+                            result = sortedList?.find { it.nama.equals(currentNama, ignoreCase = true) }
                         }
                         
                         if (result != null) {
+                            android.util.Log.d("AUM_DEBUG", "Match found for ${result.nama}")
+                            llAumContent.visibility = View.VISIBLE
+                            btnExport.visibility = View.VISIBLE
                             displayData(result)
                         } else {
-                            tvEmpty.visibility = View.VISIBLE
-                            tvEmpty.text = "Siswa ini belum mengisi instrumen AUM"
+                            android.util.Log.w("AUM_DEBUG", "No match found in list for $namaSiswa (ID: $idSiswa, NISN: $nisnSiswa)")
+                            llEmptyState.visibility = View.VISIBLE
+                            btnExport.visibility = View.GONE
                         }
                     } else {
                         tvEmpty.visibility = View.VISIBLE
@@ -391,10 +430,24 @@ class DetailAumSiswaFragment : Fragment() {
 
     private fun displayData(data: AumHasilSiswa) {
         currentData = data
+        llAumContent.visibility = View.VISIBLE
+        llEmptyState.visibility = View.GONE
+        btnExport.visibility = View.VISIBLE
+        
+        android.util.Log.d("AUM_DEBUG", "Data Loaded: ID=${data.idSiswa}, Name=${data.nama}")
+
         toolbar.title = "AUM ${data.nama}"
         tvNama.text = data.nama
-        tvKelas.text = "Kelas: ${data.tingkat} ${data.kelas}"
-        tvNis.text = "${data.nis} / ${data.nisn}"
+        
+        // Gunakan data dari API jika ada, jika tidak gunakan data awal dari navigasi
+        val displayKelas = if (!data.tingkat.isNullOrBlank() && !data.kelas.isNullOrBlank()) {
+            "${data.tingkat} ${data.kelas}"
+        } else {
+            kelasSiswa ?: "-"
+        }
+        tvKelas.text = "Kelas: $displayKelas"
+        
+        tvNis.text = "${data.nisn} / ${data.nis}"
         tvWaktu.text = data.waktuMengisi
         
         // Setup Detail Bidang
@@ -643,12 +696,13 @@ class DetailAumSiswaFragment : Fragment() {
     }
 
     companion object {
-        fun newInstance(idSiswa: Int, namaSiswa: String, nisnSiswa: String? = null) =
+        fun newInstance(idSiswa: Int, namaSiswa: String, nisnSiswa: String? = null, kelasSiswa: String? = null) =
             DetailAumSiswaFragment().apply {
                 arguments = Bundle().apply {
                     putInt("id_siswa", idSiswa)
                     putString("nama_siswa", namaSiswa)
                     putString("nisn_siswa", nisnSiswa)
+                    putString("kelas_siswa", kelasSiswa)
                 }
             }
     }

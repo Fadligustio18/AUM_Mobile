@@ -106,284 +106,291 @@
 
             <!-- Info Summary (Simplified) -->
             <LinearLayout
+                android:id="@+id/ll_aum_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="32dp"
-                android:baselineAligned="false">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="NISN / NIS"
-                        android:textSize="11sp"
-                        android:textColor="@color/text_color_secondary"/>
-                    <TextView
-                        android:id="@+id/tv_detail_nis"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="14sp"
-                        android:layout_marginTop="2dp"/>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.2"
-                    android:orientation="vertical">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tgl Pengisian"
-                        android:textSize="11sp"
-                        android:textColor="@color/text_color_secondary"/>
-                    <TextView
-                        android:id="@+id/tv_detail_waktu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="-"
-                        android:textColor="@color/text_color_secondary"
-                        android:textSize="14sp"
-                        android:layout_marginTop="2dp"/>
-                </LinearLayout>
-            </LinearLayout>
-
-            <!-- Visual Data Analysis Section -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider_color"
-                android:layout_marginBottom="24dp"/>
-
-            <TextView
-                android:id="@+id/tv_title_visual"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Analisis Data Visual"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_color_primary"
-                android:layout_marginBottom="16dp"/>
-
-            <!-- Data Table Container -->
-            <FrameLayout
-                android:id="@+id/card_table"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/bg_grid_shadow">
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="32dp"
+                    android:baselineAligned="false">
 
-                    <TextView
-                        android:layout_width="wrap_content"
+                    <LinearLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="12dp"
-                        android:text="Detail Frekuensi Masalah"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <TableLayout
-                        android:id="@+id/table_data_aum"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:stretchColumns="1">
-
-                        <!-- Header Row -->
-                        <TableRow
-                            android:background="@color/brand_soft"
-                            android:padding="8dp">
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Kode"
-                                android:textStyle="bold"
-                                android:paddingEnd="8dp" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Nama Bidang"
-                                android:textStyle="bold" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Jumlah"
-                                android:textStyle="bold"
-                                android:gravity="end" />
-                        </TableRow>
-                    </TableLayout>
-                </LinearLayout>
-            </FrameLayout>
-
-            <!-- Donut Chart Container -->
-            <FrameLayout
-                android:id="@+id/card_donut"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/bg_grid_shadow">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Proporsi Bidang Masalah"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <com.github.mikephil.charting.charts.PieChart
-                        android:id="@+id/donut_chart"
-                        android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_marginTop="12dp" />
-
-                    <HorizontalScrollView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:scrollbars="none">
-                        <LinearLayout
-                            android:id="@+id/legend_container"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+                        <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:paddingVertical="4dp" />
-                    </HorizontalScrollView>
+                            android:text="NISN / NIS"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_color_secondary"/>
+                        <TextView
+                            android:id="@+id/tv_detail_nis"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp"
+                            android:layout_marginTop="2dp"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.2"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tgl Pengisian"
+                            android:textSize="11sp"
+                            android:textColor="@color/text_color_secondary"/>
+                        <TextView
+                            android:id="@+id/tv_detail_waktu"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="-"
+                            android:textColor="@color/text_color_secondary"
+                            android:textSize="14sp"
+                            android:layout_marginTop="2dp"/>
+                    </LinearLayout>
                 </LinearLayout>
-            </FrameLayout>
 
-            <!-- Bar Chart Container -->
-            <FrameLayout
-                android:id="@+id/card_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="20dp"
-                android:background="@drawable/bg_grid_shadow">
+                <!-- Visual Data Analysis Section -->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    android:layout_marginBottom="24dp"/>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/tv_title_visual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Analisis Data Visual"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_color_primary"
+                    android:layout_marginBottom="16dp"/>
+
+                <!-- Data Table Container -->
+                <FrameLayout
+                    android:id="@+id/card_table"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/bg_grid_shadow">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Frekuensi Masalah Per Bidang"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <com.github.mikephil.charting.charts.BarChart
-                        android:id="@+id/bar_chart"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_marginTop="12dp" />
-                </LinearLayout>
-            </FrameLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-            <!-- Line Chart Container -->
-            <FrameLayout
-                android:id="@+id/card_line"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:background="@drawable/bg_grid_shadow">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="12dp"
+                            android:text="Detail Frekuensi Masalah"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-                <LinearLayout
+                        <TableLayout
+                            android:id="@+id/table_data_aum"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:stretchColumns="1">
+
+                            <!-- Header Row -->
+                            <TableRow
+                                android:background="@color/brand_soft"
+                                android:padding="8dp">
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Kode"
+                                    android:textStyle="bold"
+                                    android:paddingEnd="8dp" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Nama Bidang"
+                                    android:textStyle="bold" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Jumlah"
+                                    android:textStyle="bold"
+                                    android:gravity="end" />
+                            </TableRow>
+                        </TableLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- Donut Chart Container -->
+                <FrameLayout
+                    android:id="@+id/card_donut"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="20dp">
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/bg_grid_shadow">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tren Bidang Masalah"
-                        android:textColor="@color/text_color_primary"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-
-                    <com.github.mikephil.charting.charts.LineChart
-                        android:id="@+id/line_chart"
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="250dp"
-                        android:layout_marginTop="12dp" />
-                </LinearLayout>
-            </FrameLayout>
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider_color"
-                android:layout_marginBottom="24dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Proporsi Bidang Masalah"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
 
-            <!-- Statistics Section -->
-            <TextView
-                android:id="@+id/tv_title_stats"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ringkasan Masalah"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_color_primary"
-                android:layout_marginBottom="16dp"/>
+                        <com.github.mikephil.charting.charts.PieChart
+                            android:id="@+id/donut_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="12dp" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_statistik_aum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clipToPadding="false"
-                android:paddingHorizontal="14dp"
-                android:nestedScrollingEnabled="false"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-                app:spanCount="2"
-                tools:listitem="@layout/item_aum_statistik"
-                tools:itemCount="4"
-                android:layout_marginBottom="24dp"/>
+                        <HorizontalScrollView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:scrollbars="none">
+                            <LinearLayout
+                                android:id="@+id/legend_container"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingVertical="4dp" />
+                        </HorizontalScrollView>
+                    </LinearLayout>
+                </FrameLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="@color/divider_color"
-                android:layout_marginBottom="24dp"/>
+                <!-- Bar Chart Container -->
+                <FrameLayout
+                    android:id="@+id/card_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/bg_grid_shadow">
 
-            <!-- Detail List Section -->
-            <TextView
-                android:id="@+id/tv_title_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Daftar Masalah Terpilih"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:textColor="@color/text_color_primary"
-                android:layout_marginBottom="16dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_bidang_aum"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/item_aum_bidang_hasil"
-                tools:itemCount="2"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Frekuensi Masalah Per Bidang"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <com.github.mikephil.charting.charts.BarChart
+                            android:id="@+id/bar_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="12dp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <!-- Line Chart Container -->
+                <FrameLayout
+                    android:id="@+id/card_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/bg_grid_shadow">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="20dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tren Bidang Masalah"
+                            android:textColor="@color/text_color_primary"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                        <com.github.mikephil.charting.charts.LineChart
+                            android:id="@+id/line_chart"
+                            android:layout_width="match_parent"
+                            android:layout_height="250dp"
+                            android:layout_marginTop="12dp" />
+                    </LinearLayout>
+                </FrameLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    android:layout_marginBottom="24dp"/>
+
+                <!-- Statistics Section -->
+                <TextView
+                    android:id="@+id/tv_title_stats"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ringkasan Masalah"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_color_primary"
+                    android:layout_marginBottom="16dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_statistik_aum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="14dp"
+                    android:nestedScrollingEnabled="false"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:spanCount="2"
+                    tools:listitem="@layout/item_aum_statistik"
+                    tools:itemCount="4"
+                    android:layout_marginBottom="24dp"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/divider_color"
+                    android:layout_marginBottom="24dp"/>
+
+                <!-- Detail List Section -->
+                <TextView
+                    android:id="@+id/tv_title_detail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Daftar Masalah Terpilih"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_color_primary"
+                    android:layout_marginBottom="16dp"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_bidang_aum"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_aum_bidang_hasil"
+                    tools:itemCount="2"/>
+            </LinearLayout>
 
             <ProgressBar
                 android:id="@+id/pb_detail_aum"
@@ -392,6 +399,34 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="40dp"
                 android:visibility="gone"/>
+
+            <!-- Empty State Section (Warning) -->
+            <LinearLayout
+                android:id="@+id/ll_empty_state_aum"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:layout_marginTop="40dp"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="250dp"
+                    android:layout_height="250dp"
+                    android:src="@drawable/danger"
+                    android:scaleType="fitCenter"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tolong Ingatkan Siswa Ini Untuk Mengisi Data"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:paddingHorizontal="32dp"/>
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_empty_detail_aum"
@@ -402,6 +437,7 @@
                 android:text="Belum ada data AUM"
                 android:textColor="@color/text_color_secondary"
                 android:visibility="gone"/>
+
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

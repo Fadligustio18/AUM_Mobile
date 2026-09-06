@@ -111,7 +111,7 @@ class profilBkFragment : Fragment() {
         val token = authController.getToken() ?: return
         val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
 
-        Aktor.academic.getMyTasks(bearerToken).enqueue(object : Callback<List<BkTask>> {
+        Aktor.bk.getMyBkTasks(bearerToken).enqueue(object : Callback<List<BkTask>> {
             override fun onResponse(call: Call<List<BkTask>>, response: Response<List<BkTask>>) {
                 if (isAdded && response.isSuccessful) {
                     val tasks = response.body()

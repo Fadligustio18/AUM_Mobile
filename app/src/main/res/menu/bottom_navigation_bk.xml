@@ -6,5 +6,5 @@
 
     <item android:id="@+id/navProfilBk"
         android:title="@string/profil"
-        android:icon="@drawable/img_14"/>
+        android:icon="@drawable/img_17"/>
 </menu>

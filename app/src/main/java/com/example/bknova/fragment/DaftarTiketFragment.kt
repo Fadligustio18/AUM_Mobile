@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.adapter.TiketAdapter
@@ -22,6 +23,7 @@ import retrofit2.Response
 
 class DaftarTiketFragment : Fragment() {
     private lateinit var rvTiket: RecyclerView
+    private lateinit var swipeRefresh: SwipeRefreshLayout
     private lateinit var adapter: TiketAdapter
     private lateinit var sessionManager: SessionManager
     private lateinit var btnBack: ImageView
@@ -39,6 +41,7 @@ class DaftarTiketFragment : Fragment() {
         
         sessionManager = SessionManager(requireContext())
         rvTiket = view.findViewById(R.id.rv_tiket)
+        swipeRefresh = view.findViewById(R.id.swipe_refresh_tiket)
         btnBack = view.findViewById(R.id.btn_back_daftar_tiket)
         rvTiket.layoutManager = LinearLayoutManager(context)
         
@@ -50,6 +53,10 @@ class DaftarTiketFragment : Fragment() {
         }
         rvTiket.adapter = adapter
         
+        swipeRefresh.setOnRefreshListener {
+            loadTiket()
+        }
+
         btnBack.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -60,11 +67,13 @@ class DaftarTiketFragment : Fragment() {
     }
 
     private fun loadTiket() {
+        swipeRefresh.isRefreshing = true
         val token = "Bearer ${sessionManager.getToken()}"
         val idUser = sessionManager.getUserId()
         
         Aktor.tiket.getTiketBk(token, idUser).enqueue(object : Callback<List<Tiket>> {
             override fun onResponse(call: Call<List<Tiket>>, response: Response<List<Tiket>>) {
+                swipeRefresh.isRefreshing = false
                 if (response.isSuccessful) {
                     response.body()?.let { adapter.updateData(it) }
                 } else {
@@ -73,6 +82,7 @@ class DaftarTiketFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<Tiket>>, t: Throwable) {
+                swipeRefresh.isRefreshing = false
                 Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })

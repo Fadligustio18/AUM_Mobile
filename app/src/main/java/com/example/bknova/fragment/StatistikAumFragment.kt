@@ -226,7 +226,11 @@ class StatistikAumFragment : Fragment() {
 
     private fun processData(data: List<AumHasilSiswa>) {
         val filteredData = if (filterKelas != null) {
-            data.filter { it.kelas.contains(filterKelas!!, ignoreCase = true) }
+            data.filter { 
+                val fullClass = "${it.tingkat} ${it.kelas}".trim()
+                fullClass.contains(filterKelas!!, ignoreCase = true) || 
+                it.kelas.contains(filterKelas!!, ignoreCase = true)
+            }
         } else {
             data
         }

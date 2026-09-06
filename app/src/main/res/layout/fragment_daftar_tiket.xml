@@ -51,13 +51,20 @@
         android:background="@color/divider_color"
         app:layout_constraintTop_toBottomOf="@id/header" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_tiket"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh_tiket"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:padding="16dp"
-        android:clipToPadding="false"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/divider_header" />
+        app:layout_constraintTop_toBottomOf="@id/divider_header">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_tiket"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="16dp"
+            android:clipToPadding="false" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

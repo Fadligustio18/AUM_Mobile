@@ -101,7 +101,7 @@
                     android:id="@+id/ic_nav_profil_bk"
                     android:layout_width="26dp"
                     android:layout_height="26dp"
-                    android:src="@drawable/img_14"
+                    android:src="@drawable/img_17"
                     app:tint="@color/text_color_secondary" />
 
                 <TextView

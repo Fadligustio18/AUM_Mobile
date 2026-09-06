@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:text="Tambah Opsi"
             android:visibility="gone"
-            app:icon="@drawable/img_14" />
+            app:icon="@drawable/img_17" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_delete_soal"

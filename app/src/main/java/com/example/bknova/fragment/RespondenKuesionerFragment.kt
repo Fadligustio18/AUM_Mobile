@@ -102,8 +102,8 @@ class RespondenKuesionerFragment : Fragment() {
 
     private fun setupRecyclerView(listSiswa: List<Siswa>) {
         val adapter = DaftarSiswaBkAdapter(listSiswa, false) { siswa ->
-            // Gunakan 'id' (ID Tabel Siswa) sesuai spesifikasi API monitoring Guru BK
-            val idTarget = siswa.id ?: -1 
+            // Gunakan 'idSiswa' (ID Tabel Siswa) sesuai spesifikasi API monitoring Guru BK
+            val idTarget = siswa.idSiswa ?: -1 
             
             if (idTarget != -1) {
                 // Notifikasi untuk verifikasi data (bisa dihapus nanti jika sudah fix)

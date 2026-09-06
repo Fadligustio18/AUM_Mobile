@@ -126,8 +126,9 @@ class DaftarSiswaBkFragment : Fragment() {
     private fun setupRecyclerView(listSiswa: List<Siswa>) {
         val adapter = DaftarSiswaBkAdapter(listSiswa, isAumMode) { siswa ->
             if (isAumMode) {
-                siswa.id?.let { id ->
-                    val fragment = DetailAumSiswaFragment.newInstance(id, siswa.nama, siswa.nisn)
+                // Gunakan idSiswa untuk memanggil API AUM per siswa
+                siswa.idSiswa?.let { id ->
+                    val fragment = DetailAumSiswaFragment.newInstance(id, siswa.nama, siswa.nisn, namaKelas)
                     parentFragmentManager.beginTransaction()
                         .setCustomAnimations(
                             R.anim.slide_in_right,

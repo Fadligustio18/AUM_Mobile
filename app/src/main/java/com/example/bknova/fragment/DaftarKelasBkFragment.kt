@@ -74,7 +74,7 @@ class DaftarKelasBkFragment : Fragment() {
         val token = authController.getToken() ?: return
         val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
 
-        Aktor.academic.getMyTasks(bearerToken).enqueue(object : Callback<List<BkTask>> {
+        Aktor.bk.getMyBkTasks(bearerToken).enqueue(object : Callback<List<BkTask>> {
             override fun onResponse(call: Call<List<BkTask>>, response: Response<List<BkTask>>) {
                 if (isAdded) {
                     progressBar.visibility = View.GONE
@@ -103,7 +103,8 @@ class DaftarKelasBkFragment : Fragment() {
     private fun setupRecyclerView(tasks: List<BkTask>) {
         val adapter = DaftarKelasBkAdapter(tasks) { _, task ->
             // Navigate to student list for this class
-            val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, task.namaKelas)
+            val fullClassName = "${task.tingkat} ${task.namaKelas}"
+            val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, fullClassName)
             parentFragmentManager.beginTransaction()
                 .setCustomAnimations(
                     R.anim.slide_in_right,
