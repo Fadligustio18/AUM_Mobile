@@ -11,10 +11,15 @@ import com.example.bknova.R
 import com.example.bknova.model.Siswa
 
 class DaftarSiswaBkAdapter(
-    private val listSiswa: List<Siswa>,
+    private var listSiswa: List<Siswa>,
     private val showArrow: Boolean = false,
     private val onClick: (Siswa) -> Unit
 ) : RecyclerView.Adapter<DaftarSiswaBkAdapter.ViewHolder>() {
+
+    fun updateData(newList: List<Siswa>) {
+        listSiswa = newList
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNama: TextView = view.findViewById(R.id.tv_nama_siswa)

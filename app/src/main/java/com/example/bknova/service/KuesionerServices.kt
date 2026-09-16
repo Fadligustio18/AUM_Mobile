@@ -20,6 +20,14 @@ interface KuesionerServices {
         @Path("IdUser") idUser: Int
     ): Call<List<KuesionerSummary>>
 
+    @GET("/api/v1/kuesioner/bk/{IdUser}/paged")
+    fun getKuesionerBkPaged(
+        @Header("Authorization") token: String,
+        @Path("IdUser") idUser: Int,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): Call<PaginatedResponse<KuesionerSummary>>
+
     @GET("/api/v1/kuesioner/bk/detail/{IdKuesioner}")
     fun getKuesionerDetailBk(
         @Header("Authorization") token: String,
@@ -45,6 +53,14 @@ interface KuesionerServices {
         @Header("Authorization") token: String,
         @Path("IdUser") idUser: Int
     ): Call<List<KuesionerSummary>>
+
+    @GET("/api/v1/kuesioner/siswa/{IdUser}/paged")
+    fun getKuesionerSiswaPaged(
+        @Header("Authorization") token: String,
+        @Path("IdUser") idUser: Int,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): Call<PaginatedResponse<KuesionerSummary>>
 
     @GET("/api/v1/kuesioner/siswa/detail/{IdKuesioner}")
     fun getKuesionerDetailSiswa(

@@ -6,12 +6,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import android.widget.ImageButton
+import android.widget.LinearLayout
+import android.widget.TextView
+import android.graphics.Color
+import android.view.Gravity
+import androidx.appcompat.widget.SearchView
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bknova.R
 import com.example.bknova.activity.guruBkActivity
 import com.example.bknova.adapter.KuesionerAdapter
+import com.example.bknova.model.PaginatedResponse
 import com.example.bknova.model.BkTask
 import com.example.bknova.model.KuesionerSummary
 import com.example.bknova.service.Aktor
@@ -29,7 +38,14 @@ class DaftarKuesionerBkFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private lateinit var btnBack: ImageView
     private lateinit var fabAdd: FloatingActionButton
+    private lateinit var searchView: SearchView
     private var listKelasBk = listOf<BkTask>()
+    private var listKuesionerFull = listOf<KuesionerSummary>()
+    private var listKuesionerFiltered = listOf<KuesionerSummary>()
+    private var searchQuery: String? = null
+    private var currentPage = 1
+    private val pageSize = 10
+    private var totalPages = 1
 
     override fun onResume() {
         super.onResume()
@@ -47,9 +63,19 @@ class DaftarKuesionerBkFragment : Fragment() {
         swipeRefresh = view.findViewById(R.id.swipe_refresh_kuesioner)
         btnBack = view.findViewById(R.id.btn_back_kuesioner)
         fabAdd = view.findViewById(R.id.fab_add_kuesioner)
+        searchView = view.findViewById(R.id.search_view_kuesioner)
         
         rv.layoutManager = LinearLayoutManager(context)
+
+        val paginationBar = view.findViewById<View>(R.id.pagination_bar)
+        ViewCompat.setOnApplyWindowInsetsListener(paginationBar) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(v.paddingLeft, v.paddingTop, v.paddingRight, systemBars.bottom)
+            insets
+        }
         
+        setupSearch()
+
         swipeRefresh.setOnRefreshListener {
             loadKelasAndData()
         }
@@ -75,6 +101,104 @@ class DaftarKuesionerBkFragment : Fragment() {
         return view
     }
 
+    private fun setupSearch() {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean = false
+            override fun onQueryTextChange(newText: String?): Boolean {
+                filterKuesioner(newText)
+                return true
+            }
+        })
+    }
+
+    private fun filterKuesioner(query: String?) {
+        searchQuery = query
+        currentPage = 1
+        loadKuesionerList()
+    }
+
+    private fun updatePaginationUI() {
+        val layoutPagination = view?.findViewById<View>(R.id.pagination_bar)
+        val layoutPageNumbers = view?.findViewById<LinearLayout>(R.id.layout_page_numbers)
+        val btnPrev = view?.findViewById<ImageButton>(R.id.btn_prev_page)
+        val btnNext = view?.findViewById<ImageButton>(R.id.btn_next_page)
+
+        if (totalPages <= 1) {
+            layoutPagination?.visibility = View.GONE
+            return
+        }
+
+        layoutPagination?.visibility = View.VISIBLE
+        layoutPageNumbers?.removeAllViews()
+
+        btnPrev?.isEnabled = currentPage > 1
+        btnNext?.isEnabled = currentPage < totalPages
+        btnPrev?.alpha = if (currentPage > 1) 1f else 0.5f
+        btnNext?.alpha = if (currentPage < totalPages) 1f else 0.5f
+
+        for (i in 1..totalPages) {
+            if (i == 1 || i == totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                addPageNumber(i)
+            } else if (i == currentPage - 2 || i == currentPage + 2) {
+                addEllipsis()
+            }
+        }
+
+        btnPrev?.setOnClickListener {
+            if (currentPage > 1) {
+                currentPage--
+                loadKuesionerList()
+            }
+        }
+        btnNext?.setOnClickListener {
+            if (currentPage < totalPages) {
+                currentPage++
+                loadKuesionerList()
+            }
+        }
+    }
+
+    private fun addPageNumber(page: Int) {
+        val layoutPageNumbers = view?.findViewById<LinearLayout>(R.id.layout_page_numbers) ?: return
+        val textView = TextView(requireContext()).apply {
+            text = page.toString()
+            val paddingSide = (12 * resources.displayMetrics.density).toInt()
+            val paddingVert = (8 * resources.displayMetrics.density).toInt()
+            setPadding(paddingSide, paddingVert, paddingSide, paddingVert)
+            gravity = Gravity.CENTER
+            textSize = 14f
+            setTextColor(if (page == currentPage) Color.WHITE else Color.BLACK)
+            if (page == currentPage) {
+                setBackgroundResource(R.drawable.bg_page_active)
+            }
+            setOnClickListener {
+                if (currentPage != page) {
+                    currentPage = page
+                    loadKuesionerList()
+                }
+            }
+        }
+        layoutPageNumbers.addView(textView)
+    }
+
+    private fun addEllipsis() {
+        val layoutPageNumbers = view?.findViewById<LinearLayout>(R.id.layout_page_numbers) ?: return
+        if (layoutPageNumbers.childCount > 0) {
+            val lastChild = layoutPageNumbers.getChildAt(layoutPageNumbers.childCount - 1) as? TextView
+            if (lastChild?.text == "...") return
+        }
+        
+        val textView = TextView(requireContext()).apply {
+            text = "..."
+            val padding = (8 * resources.displayMetrics.density).toInt()
+            setPadding(padding, padding, padding, padding)
+            gravity = Gravity.CENTER
+            textSize = 14f
+            setTextColor(Color.BLACK)
+        }
+        layoutPageNumbers.addView(textView)
+    }
+
     private fun loadKelasAndData() {
         val token = "Bearer ${sessionManager.getToken()}"
         
@@ -97,19 +221,32 @@ class DaftarKuesionerBkFragment : Fragment() {
         val token = "Bearer ${sessionManager.getToken()}"
         val idUser = sessionManager.getUserId()
         
-        Aktor.kuesioner.getKuesionerBk(token, idUser).enqueue(object : Callback<List<KuesionerSummary>> {
-            override fun onResponse(call: Call<List<KuesionerSummary>>, response: Response<List<KuesionerSummary>>) {
+        Aktor.kuesioner.getKuesionerBkPaged(token, idUser, currentPage, pageSize).enqueue(object : Callback<PaginatedResponse<KuesionerSummary>> {
+            override fun onResponse(call: Call<PaginatedResponse<KuesionerSummary>>, response: Response<PaginatedResponse<KuesionerSummary>>) {
                 if (isAdded) {
                     swipeRefresh.isRefreshing = false
                     if (response.isSuccessful) {
-                        response.body()?.let { 
-                            adapter.updateData(it)
-                            rv.scheduleLayoutAnimation()
+                        val paginatedResponse = response.body()
+                        val items = paginatedResponse?.data ?: emptyList()
+                        totalPages = paginatedResponse?.totalPages ?: 1
+                        
+                        listKuesionerFull = items
+                        listKuesionerFiltered = if (searchQuery.isNullOrEmpty()) {
+                            items
+                        } else {
+                            items.filter {
+                                it.judul.contains(searchQuery!!, ignoreCase = true) || 
+                                it.kelas.contains(searchQuery!!, ignoreCase = true)
+                            }
                         }
+                        
+                        adapter.updateData(listKuesionerFiltered)
+                        rv.scrollToPosition(0)
+                        updatePaginationUI()
                     }
                 }
             }
-            override fun onFailure(call: Call<List<KuesionerSummary>>, t: Throwable) {
+            override fun onFailure(call: Call<PaginatedResponse<KuesionerSummary>>, t: Throwable) {
                 if (isAdded) {
                     swipeRefresh.isRefreshing = false
                     Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()

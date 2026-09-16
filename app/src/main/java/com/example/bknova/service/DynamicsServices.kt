@@ -2,6 +2,7 @@ package com.example.bknova.service
 
 import com.example.bknova.model.RiwayatKelas
 import com.example.bknova.model.Siswa
+import com.example.bknova.model.PaginatedResponse
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.http.*
@@ -10,6 +11,13 @@ interface DynamicsServices {
     // Siswa
     @GET("/api/v1/siswa")
     fun getSiswa(): Call<List<Siswa>>
+
+    @GET("/api/v1/siswa/paged")
+    fun getSiswaPaged(
+        @Header("Authorization") token: String,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): Call<PaginatedResponse<Siswa>>
 
     @POST("/api/v1/siswa")
     fun createSiswa(@Header("Authorization") token: String, @Body siswa: Siswa): Call<Siswa>
@@ -32,6 +40,14 @@ interface DynamicsServices {
         @Header("Authorization") token: String,
         @Path("id_kelas") idKelas: Int
     ): Call<List<Siswa>>
+
+    @GET("/api/v1/siswa/kelas/{id_kelas}/paged")
+    fun getSiswaByKelasPaged(
+        @Header("Authorization") token: String,
+        @Path("id_kelas") idKelas: Int,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): Call<PaginatedResponse<Siswa>>
 
     // Riwayat Kelas Siswa (Aligned with Swagger: /api/v1/riwayat-kelas-siswa)
     @POST("/api/v1/riwayat-kelas-siswa")

@@ -13,6 +13,14 @@ interface TiketServices {
         @Path("IdUser") idUser: Int
     ): Call<List<Tiket>>
 
+    @GET("/api/v1/tiket/bk/{IdUser}/paged")
+    fun getTiketBkPaged(
+        @Header("Authorization") token: String,
+        @Path("IdUser") idUser: Int,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): Call<PaginatedResponse<Tiket>>
+
     @PATCH("/api/v1/tiket/bk/setujui/{IdTiket}")
     fun setujuiTiket(
         @Header("Authorization") token: String,
@@ -72,6 +80,14 @@ interface TiketServices {
         @Header("Authorization") token: String,
         @Path("IdUser") idUser: Int
     ): Call<List<Tiket>>
+
+    @GET("/api/v1/tiket/{IdUser}/paged")
+    fun getTiketSiswaPaged(
+        @Header("Authorization") token: String,
+        @Path("IdUser") idUser: Int,
+        @Query("page") page: Int,
+        @Query("pageSize") pageSize: Int
+    ): Call<PaginatedResponse<Tiket>>
 
     @GET("/api/v1/status-tiket")
     fun getStatusTiket(

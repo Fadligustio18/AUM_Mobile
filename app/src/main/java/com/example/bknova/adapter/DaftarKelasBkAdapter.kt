@@ -10,9 +10,14 @@ import com.example.bknova.R
 import com.example.bknova.model.BkTask
 
 class DaftarKelasBkAdapter(
-    private val tasks: List<BkTask>,
+    private var tasks: List<BkTask>,
     private val onClick: (View, BkTask) -> Unit
 ) : RecyclerView.Adapter<DaftarKelasBkAdapter.ViewHolder>() {
+
+    fun updateData(newTasks: List<BkTask>) {
+        tasks = newTasks
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvNamaKelas: TextView = view.findViewById(R.id.tv_nama_kelas)
