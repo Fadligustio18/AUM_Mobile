@@ -38,7 +38,8 @@ data class OpsiKuesioner(
 data class KuesionerCreateRequest(
     @SerializedName("judul") val judul: String,
     @SerializedName("deskripsi") val deskripsi: String,
-    @SerializedName("id_Kelas", alternate = ["Id_Kelas", "id_kelas"]) val idKelas: Int,
+    @SerializedName("id_Kelas", alternate = ["Id_Kelas", "id_kelas"]) val idKelas: Int? = null,
+    @SerializedName("KelasIds") val kelasIds: List<Int>? = null,
     @SerializedName("id_Tahun_Ajaran", alternate = ["Id_Tahun_Ajaran", "id_tahun_ajaran"]) val idTahunAjaran: Int,
     @SerializedName("soal") val soal: List<SoalKuesioner>
 )

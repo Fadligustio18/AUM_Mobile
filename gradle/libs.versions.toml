@@ -14,6 +14,8 @@ retrofit = "3.0.0"
 okhttp = "5.4.0"
 mpandroidchart = "v3.1.0"
 swiperefreshlayout = "1.1.0"
+firebaseBom = "34.19.0"
+googleServices = "4.5.0"
 
 [libraries]
 lottie = { group = "com.airbnb.android", name = "lottie", version.ref = "lottie" }
@@ -31,6 +33,9 @@ retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-
 okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
 mpandroidchart = { group = "com.github.PhilJay", name = "MPAndroidChart", version.ref = "mpandroidchart" }
 androidx-swiperefreshlayout = { group = "androidx.swiperefreshlayout", name = "swiperefreshlayout", version.ref = "swiperefreshlayout" }
+firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
+google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }

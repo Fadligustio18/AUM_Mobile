@@ -49,6 +49,14 @@
 
     <style name="Theme.BkNova" parent="Base.Theme.BkNova" />
 
+    <!-- Theme khusus untuk Splash Screen agar Status Bar & Navigation Bar berwarna biru senada background splash -->
+    <style name="Theme.BkNova.Splash" parent="Base.Theme.BkNova">
+        <item name="android:statusBarColor">@color/brand_primary</item>
+        <item name="android:navigationBarColor">@color/brand_primary</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
+    </style>
+
     <!-- Custom Dialog Style -->
     <style name="CustomMaterialDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
         <item name="shapeAppearance">@style/CustomDialogShape</item>

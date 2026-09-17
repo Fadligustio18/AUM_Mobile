@@ -252,6 +252,7 @@ class DaftarSiswaBkFragment : Fragment() {
                             setupRecyclerView(listSiswaFiltered)
                         } else {
                             adapter?.updateData(listSiswaFiltered)
+                            rvSiswa.adapter = adapter
                         }
                         
                         rvSiswa.scrollToPosition(0)
@@ -274,7 +275,7 @@ class DaftarSiswaBkFragment : Fragment() {
     }
 
     private fun setupRecyclerView(listSiswa: List<Siswa>) {
-        adapter = DaftarSiswaBkAdapter(emptyList(), isAumMode) { siswa ->
+        adapter = DaftarSiswaBkAdapter(listSiswa, isAumMode) { siswa ->
             if (isAumMode) {
                 // Gunakan idSiswa untuk memanggil API AUM per siswa
                 siswa.idSiswa?.let { id ->

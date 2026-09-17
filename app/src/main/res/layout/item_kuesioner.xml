@@ -55,13 +55,15 @@
                 android:text="Kelas: 12 PPLG 1"
                 android:textSize="12sp"
                 android:textColor="@color/brand_primary"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone" />
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:orientation="vertical"
-                android:gravity="end">
+                android:gravity="start">
 
                 <TextView
                     android:id="@+id/tv_info_tahun"
@@ -71,15 +73,15 @@
                     android:textSize="12sp"
                     android:textColor="@color/brand_primary"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/tv_tanggal_kuesioner"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="09/05/2026"
-                    android:textSize="12sp"
-                    android:textColor="@color/text_color_secondary" />
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_tanggal_kuesioner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="09/05/2026"
+                android:textSize="12sp"
+                android:textColor="@color/text_color_secondary" />
 
         </LinearLayout>
 

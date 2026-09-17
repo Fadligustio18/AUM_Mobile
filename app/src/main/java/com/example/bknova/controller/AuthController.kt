@@ -177,4 +177,32 @@ class AuthController(private val context: Context) {
             }
         })
     }
+
+    fun updateFcmToken(fcmToken: String, onComplete: ((Boolean) -> Unit)? = null) {
+        val token = getToken()
+        if (token == null) {
+            onComplete?.invoke(false)
+            return
+        }
+
+        val bearerToken = if (token.startsWith("Bearer ")) token else "Bearer $token"
+        val request = com.example.bknova.model.FcmTokenRequest(fcmToken)
+
+        Aktor.auth.updateFcmToken(bearerToken, request).enqueue(object : Callback<okhttp3.ResponseBody> {
+            override fun onResponse(call: Call<okhttp3.ResponseBody>, response: Response<okhttp3.ResponseBody>) {
+                if (response.isSuccessful) {
+                    android.util.Log.d("AuthController", "FCM Token updated successfully to server")
+                    onComplete?.invoke(true)
+                } else {
+                    android.util.Log.e("AuthController", "Failed to update FCM Token: ${response.code()}")
+                    onComplete?.invoke(false)
+                }
+            }
+
+            override fun onFailure(call: Call<okhttp3.ResponseBody>, t: Throwable) {
+                android.util.Log.e("AuthController", "Error updating FCM Token: ${t.message}")
+                onComplete?.invoke(false)
+            }
+        })
+    }
 }

@@ -228,6 +228,7 @@ class DaftarKelasAumBkFragment : Fragment() {
                             setupRecyclerView(listKelasFiltered)
                         } else {
                             adapter?.updateData(listKelasFiltered)
+                            rvKelas.adapter = adapter
                         }
                         
                         rvKelas.scrollToPosition(0)
@@ -250,7 +251,7 @@ class DaftarKelasAumBkFragment : Fragment() {
     }
 
     private fun setupRecyclerView(tasks: List<BkTask>) {
-        adapter = DaftarKelasBkAdapter(emptyList()) { _, task ->
+        adapter = DaftarKelasBkAdapter(tasks) { _, task ->
             showOptionsBottomSheet(task)
         }
         rvKelas.adapter = adapter

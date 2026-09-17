@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:background="@color/brand_primary">
 
     <!-- Container Logo -->
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/logo_container"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        app:cardBackgroundColor="#EEF1FF"
+        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="32dp"
         android:text="©Tefa Company"
-        android:textColor="@android:color/black"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

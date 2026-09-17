@@ -16,6 +16,7 @@ import com.example.bknova.service.Aktor
 import com.example.bknova.ui.WaveTransitionHelper
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.textfield.TextInputLayout
+import com.google.firebase.messaging.FirebaseMessaging
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var authController: AuthController
@@ -62,6 +63,15 @@ class LoginActivity : AppCompatActivity() {
                     authController.getUserProfile(object : AuthController.UserCallback {
                         override fun onSuccess(userResponse: UserResponse) {
                             authController.saveUserProfile(userResponse)
+                            
+                            // Fetch FCM Token and send to server
+                            FirebaseMessaging.getInstance().token.addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    val fcmToken = task.result
+                                    authController.updateFcmToken(fcmToken)
+                                }
+                            }
+
                             val role = userResponse.role
                             Toast.makeText(this@LoginActivity, "Selamat datang ${userResponse.nama}", Toast.LENGTH_SHORT).show()
 

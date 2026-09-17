@@ -60,6 +60,33 @@ class halaman_siswa_Activity : AppCompatActivity() {
         if (intent.getBooleanExtra("FROM_WAVE_TRANSITION", false)) {
             WaveTransitionHelper.finishTransition(this)
         }
+
+        // Handle notification routing
+        handleNotificationIntent()
+    }
+
+    override fun onNewIntent(intent: android.content.Intent) {
+        super.onNewIntent(intent)
+        setIntent(intent)
+        handleNotificationIntent()
+    }
+
+    private fun handleNotificationIntent() {
+        val type = intent.getStringExtra("NOTIFICATION_TYPE")
+        if (type != null) {
+            when (type) {
+                "KUESIONER_BARU" -> {
+                    replaceFragment(com.example.bknova.fragment.DaftarKuesionerSiswaFragment())
+                    updateNavUI(isHome = true)
+                }
+                "TIKET_BARU", "TIKET_STATUS" -> {
+                    replaceFragment(com.example.bknova.fragment.DaftarTiketSiswaFragment())
+                    updateNavUI(isHome = true)
+                }
+            }
+            // Clear extras so it won't trigger again on configuration change
+            intent.removeExtra("NOTIFICATION_TYPE")
+        }
     }
 
     private fun updateNavUI(isHome: Boolean) {

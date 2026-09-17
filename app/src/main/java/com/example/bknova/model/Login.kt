@@ -43,3 +43,7 @@ data class ChangePasswordRequest(
 data class ChangePasswordResponse(
     @SerializedName("message") val message: String
 )
+
+data class FcmTokenRequest(
+    @SerializedName("FcmToken") val fcmToken: String
+)

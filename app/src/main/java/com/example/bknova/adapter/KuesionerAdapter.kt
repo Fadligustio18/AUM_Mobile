@@ -32,7 +32,7 @@ class KuesionerAdapter(
         val item = list[position]
         holder.tvJudul.text = item.judul
         holder.tvDeskripsi.text = item.deskripsi
-        holder.tvKelas.text = "Kelas: ${item.kelas}"
+        holder.tvKelas.visibility = View.GONE // Sembunyikan text kelas agar menyesuaikan masing-masing siswa
         holder.tvTahun.text = item.tahunAjaran
         holder.tvTanggal.text = item.createdAt
 

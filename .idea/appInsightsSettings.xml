@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="com.example.bknova" />
+                  <option name="mobileSdkAppId" value="1:174095959694:android:e6c7a6bdcaa739c7ff2bdf" />
+                  <option name="projectId" value="bk-nova-1f0fd" />
+                  <option name="projectNumber" value="174095959694" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

@@ -26,7 +26,7 @@ class CreateKuesionerFragment : Fragment() {
     
     private var listKelas = listOf<BkTask>()
     private var listTahun = listOf<TahunAjaran>()
-    private var selectedKelasId: Int = -1
+    private var selectedKelasIds = mutableListOf<Int>()
     private var selectedTahunId: Int = -1
 
     override fun onCreateView(
@@ -56,9 +56,14 @@ class CreateKuesionerFragment : Fragment() {
                     listKelas = response.body() ?: emptyList()
                     binding.tilPilihKelas.editText?.setOnClickListener {
                         val names = listKelas.map { "${it.tingkat} ${it.namaKelas}" }
-                        showSelectionBottomSheet("Pilih Kelas Sasaran", names) { index ->
-                            selectedKelasId = listKelas[index].idKelas
-                            binding.tilPilihKelas.editText?.setText(names[index])
+                        showMultiSelectKelasBottomSheet("Pilih Kelas Sasaran", names) { selectedIndices ->
+                            selectedKelasIds.clear()
+                            val selectedNames = mutableListOf<String>()
+                            for (index in selectedIndices) {
+                                selectedKelasIds.add(listKelas[index].idKelas)
+                                selectedNames.add(names[index])
+                            }
+                            binding.tilPilihKelas.editText?.setText(selectedNames.joinToString(", "))
                         }
                     }
                 }
@@ -66,13 +71,21 @@ class CreateKuesionerFragment : Fragment() {
             override fun onFailure(call: Call<List<BkTask>>, t: Throwable) {}
         })
 
-        // Load Tahun Ajaran
+        // Load Tahun Ajaran kembali
         Aktor.academic.getTahunAjaran().enqueue(object : Callback<List<TahunAjaran>> {
             override fun onResponse(call: Call<List<TahunAjaran>>, response: Response<List<TahunAjaran>>) {
                 if (response.isSuccessful) {
                     listTahun = response.body() ?: emptyList()
+                    
+                    // Backup/smart mapping jika field tahun bernilai null akibat penamaan dinamis di backend
+                    // Kita bisa mengekstrak tahun aktif langsung dari data listKelas (BkTask.tahunAjaran) sebagai solusi mutakhir
+                    val defaultTahunDariKelas = listKelas.firstOrNull()?.tahunAjaran
+                    
                     binding.tilPilihTahun.editText?.setOnClickListener {
-                        val years = listTahun.map { "${it.tahun ?: "Tahun -"} (${it.semester ?: "-"})" }
+                        val years = listTahun.map { 
+                            val labelTahun = if (!it.tahun.isNullOrEmpty()) it.tahun else defaultTahunDariKelas ?: "2025/2026"
+                            "$labelTahun (${it.semester ?: "-"})" 
+                        }
                         showSelectionBottomSheet("Pilih Tahun Ajaran", years) { index ->
                             selectedTahunId = listTahun[index].id
                             binding.tilPilihTahun.editText?.setText(years[index])
@@ -100,6 +113,63 @@ class CreateKuesionerFragment : Fragment() {
         
         listView.setOnItemClickListener { _, _, position, _ ->
             onSelected(position)
+            bottomSheet.dismiss()
+        }
+        
+        bottomSheet.setContentView(view)
+        bottomSheet.show()
+    }
+
+    private fun showMultiSelectKelasBottomSheet(title: String, items: List<String>, onSelected: (List<Int>) -> Unit) {
+        val bottomSheet = BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.layout_popup_selection, null)
+        
+        val tvTitle = view.findViewById<TextView>(R.id.tv_selection_title)
+        val listView = view.findViewById<ListView>(R.id.lv_selection)
+        
+        tvTitle.text = title
+        
+        // Use multiple choice layout
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_multiple_choice, items)
+        listView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+        listView.adapter = adapter
+        
+        // Restore previously selected classes if any
+        for (i in items.indices) {
+            if (selectedKelasIds.contains(listKelas[i].idKelas)) {
+                listView.setItemChecked(i, true)
+            }
+        }
+        
+        // Add a confirm button inside the layout dynamically or handle dismissal
+        val container = view as LinearLayout
+        val btnConfirm = com.google.android.material.button.MaterialButton(requireContext()).apply {
+            text = "Konfirmasi Pilihan"
+            // Use project primary theme colors and styling
+            setBackgroundColor(androidx.core.content.ContextCompat.getColor(context, R.color.brand_primary))
+            setTextColor(androidx.core.content.ContextCompat.getColor(context, android.R.color.white))
+            cornerRadius = (12 * resources.displayMetrics.density).toInt()
+            insetTop = 0
+            insetBottom = 0
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            ).apply {
+                topMargin = (16 * resources.displayMetrics.density).toInt()
+            }
+        }
+        container.addView(btnConfirm)
+        
+        btnConfirm.setOnClickListener {
+            val selectedIndices = mutableListOf<Int>()
+            val checkedItemPositions = listView.checkedItemPositions
+            for (i in 0 until checkedItemPositions.size()) {
+                val position = checkedItemPositions.keyAt(i)
+                if (checkedItemPositions.valueAt(i)) {
+                    selectedIndices.add(position)
+                }
+            }
+            onSelected(selectedIndices)
             bottomSheet.dismiss()
         }
         
@@ -140,8 +210,8 @@ class CreateKuesionerFragment : Fragment() {
         val judul = binding.tilJudul.editText?.text.toString()
         val deskripsi = binding.tilDeskripsi.editText?.text.toString()
 
-        if (selectedKelasId == -1 || selectedTahunId == -1) {
-            Toast.makeText(context, "Pilih Kelas dan Tahun Ajaran terlebih dahulu", Toast.LENGTH_SHORT).show()
+        if (selectedKelasIds.isEmpty() || selectedTahunId == -1) {
+            Toast.makeText(context, "Pilih Kelas Sasaran dan Tahun Ajaran terlebih dahulu", Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -180,7 +250,16 @@ class CreateKuesionerFragment : Fragment() {
 
         val token = "Bearer ${sessionManager.getToken()}"
         val idUser = sessionManager.getUserId()
-        val request = KuesionerCreateRequest(judul, deskripsi, selectedKelasId, selectedTahunId, listSoal)
+        
+        // Pass both single idKelas (legacy compatibility if server requires) and KelasIds array
+        val request = KuesionerCreateRequest(
+            judul = judul,
+            deskripsi = deskripsi,
+            idKelas = selectedKelasIds.firstOrNull() ?: 0,
+            kelasIds = selectedKelasIds,
+            idTahunAjaran = selectedTahunId,
+            soal = listSoal
+        )
 
         Aktor.kuesioner.createKuesioner(token, idUser, request).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {

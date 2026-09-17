@@ -230,6 +230,7 @@ class DaftarKelasBkFragment : Fragment() {
                             setupRecyclerView(listKelasFiltered)
                         } else {
                             adapter?.updateData(listKelasFiltered)
+                            rvKelas.adapter = adapter
                         }
                         
                         rvKelas.scrollToPosition(0)
@@ -251,7 +252,7 @@ class DaftarKelasBkFragment : Fragment() {
     }
 
     private fun setupRecyclerView(tasks: List<BkTask>) {
-        adapter = DaftarKelasBkAdapter(emptyList()) { _, task ->
+        adapter = DaftarKelasBkAdapter(tasks) { _, task ->
             // Navigate to student list for this class
             val fullClassName = "${task.tingkat} ${task.namaKelas}"
             val fragment = DaftarSiswaBkFragment.newInstance(task.idKelas, fullClassName)
