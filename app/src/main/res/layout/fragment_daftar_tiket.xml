@@ -71,12 +71,92 @@
             app:queryHint="Cari tiket..." />
     </com.google.android.material.card.MaterialCardView>
 
+    <HorizontalScrollView
+        android:id="@+id/hsv_filter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/cv_search_tiket">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_status_filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            app:singleSelection="true"
+            app:selectionRequired="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_semua"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semua"
+                android:checked="true"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_dikirim"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dikirim"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_disetujui"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disetujui"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_ditunda"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ditunda"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_selesai"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selesai"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_dibatalkan"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dibatalkan"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_tiket"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/pagination_bar"
-        app:layout_constraintTop_toBottomOf="@id/cv_search_tiket">
+        app:layout_constraintTop_toBottomOf="@id/hsv_filter">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tiket"

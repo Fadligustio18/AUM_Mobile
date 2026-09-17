@@ -370,15 +370,25 @@ class DetailTiketFragment : Fragment() {
     private fun performDeleteTiket() {
         val token = "Bearer ${sessionManager.getToken()}"
         val id = tiket?.id ?: return
+        
+        // Langsung gunakan endpoint DELETE untuk kedua role (Siswa & Guru BK)
+        // Jika backend memperbolehkan, tiket akan terhapus permanen dari database dan hilang di kedua sisi.
         Aktor.tiket.deleteTiket(token, id).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                if (response.isSuccessful) {
-                    Toast.makeText(context, "Tiket berhasil dihapus", Toast.LENGTH_SHORT).show()
+                if (response.isSuccessful || response.code() == 200 || response.code() == 204) {
+                    Toast.makeText(context, "Tiket berhasil dihapus permanen", Toast.LENGTH_SHORT).show()
                     parentFragmentManager.popBackStack()
+                } else {
+                    val errorMsg = when(response.code()) {
+                        403 -> "Anda tidak memiliki izin untuk menghapus tiket ini"
+                        404 -> "Tiket tidak ditemukan"
+                        else -> "Gagal menghapus tiket: ${response.code()}"
+                    }
+                    Toast.makeText(context, errorMsg, Toast.LENGTH_LONG).show()
                 }
             }
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(context, "Error: ${t.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Kesalahan jaringan: ${t.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }

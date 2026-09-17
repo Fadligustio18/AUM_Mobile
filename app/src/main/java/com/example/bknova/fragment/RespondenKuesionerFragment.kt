@@ -237,6 +237,7 @@ class RespondenKuesionerFragment : Fragment() {
                             setupRecyclerView(listSiswaFiltered)
                         } else {
                             adapter?.updateData(listSiswaFiltered)
+                            rv.adapter = adapter
                         }
                         
                         rv.scrollToPosition(0)
@@ -257,7 +258,7 @@ class RespondenKuesionerFragment : Fragment() {
     }
 
     private fun setupRecyclerView(listSiswa: List<Siswa>) {
-        adapter = DaftarSiswaBkAdapter(emptyList(), false) { siswa ->
+        adapter = DaftarSiswaBkAdapter(listSiswa, false) { siswa ->
             // Gunakan 'idSiswa' (ID Tabel Siswa) sesuai spesifikasi API monitoring Guru BK
             val idTarget = siswa.idSiswa ?: -1 
             

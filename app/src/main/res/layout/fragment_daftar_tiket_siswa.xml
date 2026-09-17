@@ -70,12 +70,92 @@
             app:queryHint="Cari tiket..." />
     </com.google.android.material.card.MaterialCardView>
 
+    <HorizontalScrollView
+        android:id="@+id/hsv_filter_siswa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:scrollbars="none"
+        app:layout_constraintTop_toBottomOf="@id/cv_search_tiket_siswa">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_status_filter_siswa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="20dp"
+            app:singleSelection="true"
+            app:selectionRequired="true">
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_semua_siswa"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Semua"
+                android:checked="true"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_dikirim_siswa"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dikirim"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_disetujui_siswa"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Disetujui"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_ditunda_siswa"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ditunda"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_selesai_siswa"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Selesai"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chip_dibatalkan_siswa"
+                style="@style/Widget.Material3.Chip.Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Dibatalkan"
+                android:textColor="@color/text_chip_state"
+                app:chipBackgroundColor="@color/bg_chip_state"
+                app:chipStrokeWidth="0dp" />
+
+        </com.google.android.material.chip.ChipGroup>
+    </HorizontalScrollView>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_tiket_siswa"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@id/pagination_bar"
-        app:layout_constraintTop_toBottomOf="@id/cv_search_tiket_siswa">
+        app:layout_constraintTop_toBottomOf="@id/hsv_filter_siswa">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_tiket_siswa"

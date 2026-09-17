@@ -256,23 +256,43 @@ class DaftarKuesionerBkFragment : Fragment() {
     }
 
     private fun handleKuesionerClick(kuesioner: KuesionerSummary) {
-        var classId = kuesioner.idKelas ?: -1
-        
-        // Fallback: Jika ID Kelas kosong, cari berdasarkan nama kelas (misal: "12 PPLG 1")
-        if (classId == -1) {
-            val match = listKelasBk.find { "${it.tingkat} ${it.namaKelas}".equals(kuesioner.kelas, ignoreCase = true) }
-            if (match != null) {
-                classId = match.idKelas
-            }
+        if (listKelasBk.isEmpty()) {
+            Toast.makeText(context, "Data kelas tugas belum siap, silakan refresh.", Toast.LENGTH_SHORT).show()
+            return
         }
 
-        if (classId != -1) {
+        // Tampilkan bottom sheet untuk memilih salah satu kelas dari daftar kelas tugas Guru BK
+        val bottomSheet = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
+        val view = layoutInflater.inflate(R.layout.layout_popup_selection, null)
+        
+        val tvTitle = view.findViewById<TextView>(R.id.tv_selection_title)
+        val listView = android.widget.ListView(requireContext()).apply {
+            dividerHeight = (1 * resources.displayMetrics.density).toInt()
+        }
+        
+        // Ganti list view bawaan atau susun ulang layout
+        val container = view as LinearLayout
+        container.removeView(view.findViewById(R.id.lv_selection))
+        
+        tvTitle.text = "Pilih Kelas untuk Lihat Hasil"
+        
+        val names = listKelasBk.map { "${it.tingkat} ${it.namaKelas}" }
+        val adapterSelection = android.widget.ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, names)
+        listView.adapter = adapterSelection
+        
+        listView.setOnItemClickListener { _, _, position, _ ->
+            val targetTask = listKelasBk[position]
+            bottomSheet.dismiss()
+            
+            // Berpindah ke halaman responden berdasarkan kuesioner dan kelas yang dipilih spesifik
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_bk, RespondenKuesionerFragment.newInstance(kuesioner.id, classId))
+                .replace(R.id.fragment_container_bk, RespondenKuesionerFragment.newInstance(kuesioner.id, targetTask.idKelas))
                 .addToBackStack(null)
                 .commit()
-        } else {
-            Toast.makeText(context, "ID Kelas untuk '${kuesioner.kelas}' tidak ditemukan di data tugas Anda", Toast.LENGTH_LONG).show()
         }
+        
+        container.addView(listView)
+        bottomSheet.setContentView(view)
+        bottomSheet.show()
     }
 }

@@ -37,9 +37,11 @@ class DaftarTiketFragment : Fragment() {
     private lateinit var sessionManager: SessionManager
     private lateinit var btnBack: ImageView
     private lateinit var searchView: SearchView
+    private lateinit var chipGroup: com.google.android.material.chip.ChipGroup
     private var listTiketFull = listOf<Tiket>()
     private var listTiketFiltered = listOf<Tiket>()
     private var searchQuery: String? = null
+    private var selectedStatus: String = "Semua"
     private var currentPage = 1
     private val pageSize = 10
     private var totalPages = 1
@@ -47,6 +49,8 @@ class DaftarTiketFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         (activity as? guruBkActivity)?.setBottomNavigationVisibility(false)
+        // Memuat ulang data tiket otomatis agar list langsung bersih setelah ada penghapusan di halaman detail
+        loadTiket()
     }
 
     override fun onCreateView(
@@ -60,6 +64,7 @@ class DaftarTiketFragment : Fragment() {
         swipeRefresh = view.findViewById(R.id.swipe_refresh_tiket)
         btnBack = view.findViewById(R.id.btn_back_daftar_tiket)
         searchView = view.findViewById(R.id.search_view_tiket)
+        chipGroup = view.findViewById(R.id.cg_status_filter)
         rvTiket.layoutManager = LinearLayoutManager(context)
         
         val paginationBar = view.findViewById<View>(R.id.pagination_bar)
@@ -70,6 +75,7 @@ class DaftarTiketFragment : Fragment() {
         }
 
         setupSearch()
+        setupStatusFilter()
 
         adapter = TiketAdapter(emptyList()) { tiket ->
             parentFragmentManager.beginTransaction()
@@ -92,18 +98,29 @@ class DaftarTiketFragment : Fragment() {
         return view
     }
 
+    private fun setupStatusFilter() {
+        chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+            val checkedId = checkedIds.firstOrNull()
+            if (checkedId != null) {
+                val chip = group.findViewById<com.google.android.material.chip.Chip>(checkedId)
+                selectedStatus = chip.text.toString()
+                applyFilters()
+            }
+        }
+    }
+
     private fun setupSearch() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean = false
             override fun onQueryTextChange(newText: String?): Boolean {
-                filterTiket(newText)
+                searchQuery = newText
+                applyFilters()
                 return true
             }
         })
     }
 
-    private fun filterTiket(query: String?) {
-        searchQuery = query
+    private fun applyFilters() {
         currentPage = 1
         loadTiket()
     }
@@ -204,17 +221,35 @@ class DaftarTiketFragment : Fragment() {
                     totalPages = paginatedResponse?.totalPages ?: 1
                     
                     listTiketFull = items
-                    listTiketFiltered = if (searchQuery.isNullOrEmpty()) {
-                        items
-                    } else {
-                        items.filter {
-                            (it.siswa?.contains(searchQuery!!, ignoreCase = true) ?: false) || 
-                            (it.bk?.contains(searchQuery!!, ignoreCase = true) ?: false) ||
-                            it.judul.contains(searchQuery!!, ignoreCase = true) ||
-                            it.status.contains(searchQuery!!, ignoreCase = true)
+                    listTiketFiltered = items.filter { tiket ->
+                        val matchesSearch = if (searchQuery.isNullOrEmpty()) {
+                            true
+                        } else {
+                            (tiket.siswa?.contains(searchQuery!!, ignoreCase = true) ?: false) || 
+                            (tiket.bk?.contains(searchQuery!!, ignoreCase = true) ?: false) ||
+                            tiket.judul.contains(searchQuery!!, ignoreCase = true)
                         }
+                        
+                        val matchesStatus = if (selectedStatus == "Semua") {
+                            true
+                        } else {
+                            tiket.status.equals(selectedStatus, ignoreCase = true)
+                        }
+                        
+                        matchesSearch && matchesStatus
                     }
-                    adapter.updateData(listTiketFiltered)
+                        if (adapter == null || rvTiket.adapter == null) {
+                            adapter = TiketAdapter(listTiketFiltered) { tiket ->
+                                parentFragmentManager.beginTransaction()
+                                    .replace(R.id.fragment_container_bk, DetailTiketFragment.newInstance(tiket))
+                                    .addToBackStack(null)
+                                    .commit()
+                            }
+                            rvTiket.adapter = adapter
+                        } else {
+                            adapter.updateData(listTiketFiltered)
+                            rvTiket.adapter = adapter
+                        }
                     rvTiket.scrollToPosition(0)
                     updatePaginationUI()
                 } else {
