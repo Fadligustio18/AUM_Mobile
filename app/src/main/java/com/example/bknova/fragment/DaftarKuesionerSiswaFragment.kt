@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -81,9 +82,18 @@ class DaftarKuesionerSiswaFragment : Fragment() {
                 if (isAdded) {
                     swipeRefresh.isRefreshing = false
                     if (response.isSuccessful) {
-                        response.body()?.let { 
-                            adapter.updateData(it)
-                            rv.scheduleLayoutAnimation()
+                        val items = response.body() ?: emptyList()
+                        adapter.updateData(items)
+                        rv.scheduleLayoutAnimation()
+
+                        // Mengontrol visibilitas Empty State View untuk halaman siswa
+                        val emptyStateLayout = view?.findViewById<LinearLayout>(R.id.layout_empty_state_kuesioner)
+                        if (items.isEmpty()) {
+                            rv.visibility = View.GONE
+                            emptyStateLayout?.visibility = View.VISIBLE
+                        } else {
+                            rv.visibility = View.VISIBLE
+                            emptyStateLayout?.visibility = View.GONE
                         }
                     }
                 }

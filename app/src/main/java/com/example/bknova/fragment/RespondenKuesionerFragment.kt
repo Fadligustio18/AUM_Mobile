@@ -47,12 +47,14 @@ class RespondenKuesionerFragment : Fragment() {
     private var totalPages = 1
     private var kuesionerId: Int = -1
     private var idKelas: Int = -1
+    private var namaKelas: String = "-"
 
     companion object {
-        fun newInstance(kuesionerId: Int, idKelas: Int) = RespondenKuesionerFragment().apply {
+        fun newInstance(kuesionerId: Int, idKelas: Int, namaKelas: String) = RespondenKuesionerFragment().apply {
             arguments = Bundle().apply {
                 putInt("kuesioner_id", kuesionerId)
                 putInt("id_kelas", idKelas)
+                putString("nama_kelas", namaKelas)
             }
         }
     }
@@ -61,6 +63,7 @@ class RespondenKuesionerFragment : Fragment() {
         super.onCreate(savedInstanceState)
         kuesionerId = arguments?.getInt("kuesioner_id") ?: -1
         idKelas = arguments?.getInt("id_kelas") ?: -1
+        namaKelas = arguments?.getString("nama_kelas") ?: "-"
     }
 
     override fun onResume() {
@@ -81,6 +84,7 @@ class RespondenKuesionerFragment : Fragment() {
         tvEmpty = view.findViewById(R.id.tv_empty_responden)
         searchView = view.findViewById(R.id.search_view_responden)
         val btnBack = view.findViewById<ImageView>(R.id.btn_back_responden)
+        val btnReport = view.findViewById<ImageView>(R.id.btn_report_responden)
         
         rv.layoutManager = LinearLayoutManager(context)
 
@@ -98,6 +102,13 @@ class RespondenKuesionerFragment : Fragment() {
         }
         
         btnBack.setOnClickListener { parentFragmentManager.popBackStack() }
+        
+        btnReport.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_bk, ReportKuesionerFragment.newInstance(kuesionerId, idKelas, namaKelas))
+                .addToBackStack(null)
+                .commit()
+        }
         
         if (idKelas != -1) {
             loadStudents()

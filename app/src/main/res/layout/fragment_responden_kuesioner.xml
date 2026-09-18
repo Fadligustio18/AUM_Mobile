@@ -42,6 +42,21 @@
             app:layout_constraintStart_toEndOf="@id/btn_back_responden"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <ImageView
+            android:id="@+id/btn_report_responden"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:src="@drawable/img_11"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/brand_primary"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/bg_rounded_8"
+            android:contentDescription="Lihat Laporan" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <View

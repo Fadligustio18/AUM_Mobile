@@ -17,7 +17,7 @@
             android:id="@+id/toolbar_kelas_aum"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="Data AUM Siswa"
+            app:title="Daftar Kelas"
             app:titleTextAppearance="@style/ToolbarTitleBold"
             app:titleTextColor="@color/brand_primary"
             app:navigationIcon="@drawable/ic_arrow_back"

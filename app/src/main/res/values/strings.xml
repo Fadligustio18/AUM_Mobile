@@ -64,6 +64,18 @@
     <string name="gaya_belajar_q3_opt1">Membayangkan bentuk, warna, atau letaknya di buku</string>
     <string name="gaya_belajar_q3_opt2">Mengingat suara penjelasan guru atau suara sendiri</string>
     <string name="gaya_belajar_q3_opt3">Mengingat apa yang kamu lakukan atau praktekkan</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Empty State Tiket -->
+    <string name="cd_belum_ada_tiket">Belum ada tiket</string>
+    <string name="title_belum_ada_tiket">Belum Ada Tiket Konseling</string>
+    <string name="desc_belum_ada_tiket">Buat Tiket Konseling Anda, Dengan Menekan Tombol Dibawah.</string>
+
+    <!-- Empty State Kuesioner -->
+    <string name="cd_belum_ada_kuesioner">Belum ada kuesioner</string>
+    <string name="title_belum_ada_kuesioner">Belum Ada Kuesioner</string>
+    <string name="desc_belum_ada_kuesioner">Belum ada kuesioner yang dibuat oleh Guru BK saat ini.</string>
+
+    <!-- Empty State Tiket Guru BK -->
+    <string name="cd_belum_ada_tiket_masuk">Belum ada tiket masuk</string>
+    <string name="title_belum_ada_tiket_masuk">Tidak Ada Tiket Konseling</string>
+    <string name="desc_belum_ada_tiket_masuk">Belum ada siswa yang mengirimkan tiket konseling saat ini.</string>
 </resources>

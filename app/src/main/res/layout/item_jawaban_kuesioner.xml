@@ -16,13 +16,17 @@
 
     <TextView
         android:id="@+id/tv_jawaban"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginEnd="40dp"
         android:text="Jawaban..."
-        android:textColor="@color/brand_primary"
+        android:textColor="@color/text_color_primary"
         android:textSize="14sp"
-        android:background="@drawable/bg_input_essay"
-        android:padding="12dp" />
+        android:background="@drawable/bg_speech_bubble"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="18dp"
+        android:paddingBottom="12dp"
+        android:lineSpacingExtra="2dp" />
 
 </LinearLayout>

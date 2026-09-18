@@ -168,6 +168,49 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <!-- Empty State View -->
+    <LinearLayout
+        android:id="@+id/layout_empty_state_tiket_bk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/hsv_filter"
+        app:layout_constraintBottom_toTopOf="@id/pagination_bar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:padding="20dp">
+
+        <ImageView
+            android:id="@+id/img_empty_state_tiket_bk"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:src="@drawable/thinking_face_amico"
+            android:contentDescription="@string/cd_belum_ada_tiket_masuk" />
+
+        <TextView
+            android:id="@+id/tv_empty_state_title_tiket_bk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/title_belum_ada_tiket_masuk"
+            android:textColor="@color/text_color_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center" />
+
+        <TextView
+            android:id="@+id/tv_empty_state_desc_tiket_bk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/desc_belum_ada_tiket_masuk"
+            android:textColor="@color/text_color_secondary"
+            android:textSize="14sp"
+            android:gravity="center" />
+    </LinearLayout>
+
     <include
         android:id="@+id/pagination_bar"
         layout="@layout/layout_pagination_bar"

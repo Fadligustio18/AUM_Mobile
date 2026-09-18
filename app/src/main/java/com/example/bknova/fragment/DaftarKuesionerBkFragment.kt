@@ -241,6 +241,17 @@ class DaftarKuesionerBkFragment : Fragment() {
                         }
                         
                         adapter.updateData(listKuesionerFiltered)
+
+                        // Mengontrol visibilitas Empty State View
+                        val emptyStateLayout = view?.findViewById<LinearLayout>(R.id.layout_empty_state_kuesioner)
+                        if (listKuesionerFiltered.isEmpty()) {
+                            rv.visibility = View.GONE
+                            emptyStateLayout?.visibility = View.VISIBLE
+                        } else {
+                            rv.visibility = View.VISIBLE
+                            emptyStateLayout?.visibility = View.GONE
+                        }
+
                         rv.scrollToPosition(0)
                         updatePaginationUI()
                     }
@@ -261,7 +272,21 @@ class DaftarKuesionerBkFragment : Fragment() {
             return
         }
 
-        // Tampilkan bottom sheet untuk memilih salah satu kelas dari daftar kelas tugas Guru BK
+        // Parsing daftar nama kelas sasaran dari string 'kelas' di kuesioner (misal: "XII PPLG 1, XII PPLG 2")
+        val targetClassNames = kuesioner.kelas.split(",").map { it.trim() }
+        
+        // Filter listKelasBk agar hanya menampilkan kelas yang memang menjadi sasaran kuesioner tersebut
+        val filteredKelas = listKelasBk.filter { task ->
+            val fullName = "${task.tingkat} ${task.namaKelas}"
+            targetClassNames.any { it.equals(fullName, ignoreCase = true) }
+        }
+
+        if (filteredKelas.isEmpty()) {
+            Toast.makeText(context, "Tidak ada data kelas sasaran yang cocok di tugas Anda.", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Tampilkan bottom sheet untuk memilih salah satu kelas sasaran
         val bottomSheet = com.google.android.material.bottomsheet.BottomSheetDialog(requireContext())
         val view = layoutInflater.inflate(R.layout.layout_popup_selection, null)
         
@@ -270,23 +295,23 @@ class DaftarKuesionerBkFragment : Fragment() {
             dividerHeight = (1 * resources.displayMetrics.density).toInt()
         }
         
-        // Ganti list view bawaan atau susun ulang layout
         val container = view as LinearLayout
         container.removeView(view.findViewById(R.id.lv_selection))
         
-        tvTitle.text = "Pilih Kelas untuk Lihat Hasil"
+        tvTitle.text = "Pilih Kelas Sasaran"
         
-        val names = listKelasBk.map { "${it.tingkat} ${it.namaKelas}" }
-        val adapterSelection = android.widget.ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, names)
+        val displayNames = filteredKelas.map { "${it.tingkat} ${it.namaKelas}" }
+        val adapterSelection = android.widget.ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, displayNames)
         listView.adapter = adapterSelection
         
         listView.setOnItemClickListener { _, _, position, _ ->
-            val targetTask = listKelasBk[position]
+            val selectedTask = filteredKelas[position]
+            val namaKelasSelected = "${selectedTask.tingkat} ${selectedTask.namaKelas}"
             bottomSheet.dismiss()
             
-            // Berpindah ke halaman responden berdasarkan kuesioner dan kelas yang dipilih spesifik
+            // Berpindah ke halaman responden berdasarkan kuesioner dan kelas yang dipilih secara spesifik
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_bk, RespondenKuesionerFragment.newInstance(kuesioner.id, targetTask.idKelas))
+                .replace(R.id.fragment_container_bk, RespondenKuesionerFragment.newInstance(kuesioner.id, selectedTask.idKelas, namaKelasSelected))
                 .addToBackStack(null)
                 .commit()
         }

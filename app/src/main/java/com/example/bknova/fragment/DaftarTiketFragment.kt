@@ -250,6 +250,17 @@ class DaftarTiketFragment : Fragment() {
                             adapter.updateData(listTiketFiltered)
                             rvTiket.adapter = adapter
                         }
+
+                        // Mengontrol visibilitas Empty State View untuk Guru BK
+                        val emptyStateLayout = view?.findViewById<LinearLayout>(R.id.layout_empty_state_tiket_bk)
+                        if (listTiketFiltered.isEmpty()) {
+                            rvTiket.visibility = View.GONE
+                            emptyStateLayout?.visibility = View.VISIBLE
+                        } else {
+                            rvTiket.visibility = View.VISIBLE
+                            emptyStateLayout?.visibility = View.GONE
+                        }
+
                     rvTiket.scrollToPosition(0)
                     updatePaginationUI()
                 } else {
